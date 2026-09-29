@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4338CA">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PTE Official Collocation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+html,:root{color-scheme:light only}
+:root{
+  --bg:#F6F7FB; --panel:#FFFFFF; --ink:#111827; --ink-2:#374151; --ink-3:#4B5563; --line:#CBD5E1;
+  --accent:#4338CA; --accent-soft:#E7E8FB; --head:#111827; --tile:#FFFFFF; --tile-edge:#94A3B8;
+  --good:#1F7A45; --good-soft:#DDF2E5; --bad:#B42318; --bad-soft:#FDE4E1; --warm:#F2B544;
+  --display:"Bricolage Grotesque","Segoe UI",Arial,sans-serif;
+  --body:"Atkinson Hyperlegible","Segoe UI",Verdana,Arial,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:800px;margin:0 auto;padding:20px 18px 60px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1.05;margin:0;letter-spacing:-0.02em;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+h1 .a{background:var(--ink);color:#fff;border-radius:8px 0 0 8px;padding:2px 10px 5px}
+h1 .b{background:var(--accent);color:#fff;border-radius:0 8px 8px 0;padding:2px 10px 5px;margin-left:-6px}
+.stats{display:flex;gap:16px;font-size:14px;color:var(--ink-2)}
+.stats b{font-family:var(--display);font-size:20px;color:var(--ink);display:block;line-height:1.1}
+nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav button{font:inherit;font-size:15px;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+label.small{font-size:14px;color:var(--ink-2)}
+select,input[type=text],input[type=search]{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+select{padding:8px 10px;max-width:100%}
+input[type=text]{width:100%;font-size:22px}
+input[type=search]{width:100%}
+.btn{font:inherit;font-weight:700;border:none;border-radius:10px;padding:11px 18px;cursor:pointer;background:var(--accent);color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:400}
+.muted{color:var(--ink-2)} .tiny{font-size:14px;color:var(--ink-3)}
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 16px}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.chip{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);padding:5px 11px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:8px}
+.card .hd{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.card .hw{font-family:var(--display);font-weight:700;font-size:20px}
+.pos{font-size:12px;color:var(--ink-3);border:1px solid var(--line);border-radius:6px;padding:0 6px}
+.meter{flex:1;height:5px;background:var(--line);border-radius:5px;overflow:hidden;max-width:120px;margin-left:auto;align-self:center}
+.meter i{display:block;height:100%;background:var(--good)}
+.pw{display:inline-block;font:inherit;font-size:15px;background:var(--accent-soft);color:#2B2694;border:none;border-radius:8px;padding:4px 10px;margin:0 6px 6px 0;cursor:pointer}
+.pw.m{background:var(--good-soft);color:var(--good)}
+.prep{color:var(--ink-3);font-size:.9em}
+.q{text-align:center;padding:10px 0 4px}
+.phrase{font-family:var(--display);font-weight:500;font-size:clamp(28px,7.5vw,46px);line-height:1.25;word-break:break-word}
+.phrase .art{color:var(--ink-3)}
+.gap{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--accent);color:var(--accent);padding:0 .2em}
+.gap.ok{border-color:var(--good);color:var(--good);background:var(--good-soft);border-radius:6px 6px 0 0}
+.gap.no{border-color:var(--bad);color:var(--bad);background:var(--bad-soft);border-radius:6px 6px 0 0}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:24px 0 10px}
+.tile{font-family:var(--display);font-weight:700;font-size:20px;padding:12px 14px 14px;border:1px solid var(--tile-edge);border-radius:12px;background:var(--tile);color:var(--ink);box-shadow:0 3px 0 var(--tile-edge);cursor:pointer;transition:transform .06s}
+.tile:active{transform:translateY(2px);box-shadow:0 1px 0 var(--tile-edge)}
+.tile.right{background:var(--good-soft);border-color:var(--good);box-shadow:0 3px 0 var(--good);color:var(--good)}
+.tile.wrong{background:var(--bad-soft);border-color:var(--bad);box-shadow:0 3px 0 var(--bad);color:var(--bad)}
+.tile.dim{opacity:.4}
+.fb{border-radius:10px;padding:12px 14px;margin-top:14px;font-size:15px;text-align:left}
+.fb.ok{background:var(--good-soft)} .fb.no{background:var(--bad-soft)}
+.speak{width:84px;height:84px;border-radius:50%;border:none;background:var(--ink);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin:6px auto 14px}
+.speak svg{width:36px;height:36px}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.match .col{display:flex;flex-direction:column;gap:10px}
+.match .tile{font-size:18px;width:100%}
+.match .tile.sel{border-color:var(--accent);box-shadow:0 3px 0 var(--accent);background:var(--accent-soft)}
+.match .tile.done{visibility:hidden}
+.match .tile.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.summary{text-align:center}
+.summary .big{font-family:var(--display);font-weight:700;font-size:64px;line-height:1}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.hidden{display:none!important}
+.panel{display:flex;flex-direction:column}
+.gnav{order:99;position:sticky;bottom:0;z-index:5;display:flex;gap:8px;margin:18px -20px -20px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--line);border-radius:0 0 14px 14px}
+.gnav .btn{flex:1;padding:12px 8px;font-size:15px}
+#nx{display:none}
+.btn.sm{padding:6px 12px;font-size:14px}
+.btn:disabled{opacity:.4;cursor:default}
+.histview .gnav{display:none}
+body.locked nav,body.locked .stats,body.locked .foot{display:none}
+.auth h2{font-family:var(--display);font-size:26px;margin:0 0 4px}
+.auth .fl{display:block;font-size:14px;color:var(--ink-2);margin:14px 0 4px;font-weight:700}
+.auth .fi{width:100%;font:inherit;font-size:17px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+.auth .two{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.auth .phone{display:flex;gap:8px}.auth .phone select{max-width:46%;font-size:15px}
+.auth .pwrap{position:relative}.auth .pwrap .fi{padding-right:70px}
+.auth .eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);font:inherit;font-size:14px;border:none;background:transparent;color:var(--accent);padding:6px 8px;cursor:pointer}
+.amsg{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--bad-soft);color:var(--bad);font-size:15px}
+.amsg.ok{background:var(--good-soft);color:var(--good)}
+.alinks{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px}
+.lnk{font:inherit;font-size:15px;border:none;background:none;color:var(--accent);padding:4px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.adiv{text-align:center;color:var(--ink-3);font-size:14px;margin:22px 0 8px}
+.azbar{position:sticky;top:0;z-index:4;background:var(--bg);display:flex;gap:4px;overflow-x:auto;padding:8px 0;margin:0 0 8px;border-bottom:1px solid var(--line)}
+.azbar button{font:inherit;font-weight:700;font-size:15px;min-width:36px;height:36px;border:1px solid var(--line);background:var(--panel);border-radius:8px;cursor:pointer;color:var(--ink)}
+.lt{font-family:var(--display);font-size:24px;margin:18px 0 8px;color:var(--accent);scroll-margin-top:60px}
+.compact .card{padding:10px 12px}.compact .card .hw{font-size:17px}.compact .pw{font-size:14px;padding:3px 8px;margin:0 4px 5px 0}
+@media (max-width:420px){.auth .two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1><span class="a">PTE</span><span class="b">Official Collocation</span></h1>
+  <div class="stats"><div><b id="stStreak">0</b>streak</div><div><b id="stToday">0</b>right today</div><div><b id="stMastered">0</b>mastered</div></div>
+</header>
+<nav id="nav" role="tablist">
+  <button role="tab" data-tab="learn" aria-selected="true">Learn</button>
+  <button role="tab" data-tab="pick" aria-selected="false">Pick the partner</button>
+  <button role="tab" data-tab="match" aria-selected="false">Match up</button>
+  <button role="tab" data-tab="type" aria-selected="false">Listen and type</button>
+  <button role="tab" data-tab="review" aria-selected="false">Mistakes <span id="revCount"></span></button>
+  <button role="tab" data-tab="settings" aria-selected="false">Voice &amp; account</button>
+</nav>
+<main id="main"></main>
+<p class="tiny foot" style="margin-top:28px">PTE Official Collocation is an independent study app based on Pearson's Academic Collocation List (version 2/2025); it is not made by Pearson. Wrong options in the quizzes are words that are not paired in the list, so always pick the partner the list gives.</p>
+</div>
+<script src="firebase-config.js" onerror="void 0"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@12.19.0/firebase-app-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@12.19.0/firebase-auth-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/firebase@12.19.0/firebase-firestore-compat.js"></script>
+<script>
+const DATA={"H":[["abstract","abstract","adj",[["concept","","n"]]],["academic","academic","adj",[["achievement","","n"],["career","","n"],["circles","","n"],["community","","n"],["debate","","n"],["discipline","","n"],["discourse","","n"],["institution","","n"],["journal","","n"],["life","","n"],["performance","","n"],["research","","n"],["skills","","n"],["study","","n"],["success","","n"],["work","","n"],["world","","n"],["writing","","n"],["year","","n"]]],["accept","accept","v",[["responsibility","","n"]]],["acceptable","acceptable","adj",[["behavior","","n"]]],["accurate","accurate","adj",[["assessment","","n"],["description","","n"],["information","","n"],["measurement","","n"],["picture","","n"],["record","","n"]]],["achieve a","achieve","v",[["goal","","n"]]],["achieve an","achieve","v",[["objective","","n"],["outcome","","n"]]],["acquire","acquire","v",[["knowledge","","n"]]],["active","active","adj",[["involvement","","n"],["participant","","n"],["participation","","n"],["role","","n"]]],["actively","actively","adv",[["involved","","vpp"]]],["acutely","acutely","adv",[["aware","","adj"]]],["add","add","v",[["information","","n"]]],["additional","additional","adj",[["cost","","n"],["information","","n"],["problem","","n"],["resources","","n"],["support","","n"]]],["address an","address","v",[["issue","","n"]]],["administrative","administrative","adj",[["practices","","n"]]],["adopt a","adopt","v",[["procedure","","n"]]],["adopt an","adopt","v",[["approach","","n"]]],["advanced","advanced","adj",[["economy","","n"],["technology","","n"]]],["adverse","adverse","adj",[["effect","","n"],["reaction","","n"]]],["adversely","adversely","adv",[["affect","","v"]]],["affect the","affect","v",[["outcome","","n"],["development","of","n"]]],["allocate","allocate","v",[["resources","","n"]]],["allow","allow","v",[["access","to","n"]]],["almost","almost","adv",[["identical","","adj"]]],["alternative","alternative","adj",[["approach","","n"],["explanation","","n"],["form","","n"],["interpretation","","n"],["means","","n"],["method","","n"],["model","","n"],["solution","","n"],["source","","n"],["strategy","","n"],["view","","n"],["way","","n"]]],["ample","ample","adj",[["evidence","","n"]]],["analytical","analytical","adj",[["approach","","n"],["tool","","n"]]],["anecdotal","anecdotal","adj",[["evidence","","n"]]],["annual","annual","adj",[["conference","","n"],["meeting","","n"],["rate","","n"],["report","","n"],["review","","n"]]],["apply","apply","v",[["equally","","adv"]]],["apply a","apply","v",[["method","","n"]]],["apply the","apply","v",[["theory","","n"]]],["appropriate","appropriate","adj",[["action","","n"],["behavior","","n"],["conditions","","n"],["data","","n"],["form","","n"],["language","","n"],["level","","n"],["point","","n"],["response","","n"],["skills","","n"],["treatment","","n"],["way","","n"]]],["armed","armed","adj",[["conflict","","n"]]],["artificial","artificial","adj",[["intelligence","","n"]]],["assess the","assess","v",[["impact","of","n"]]],["assessment","assessment","n",[["process","","n"]]],["associated","associated","adj",[["factors","","n"]]],["assume","assume","v",[["responsibility","","n"]]],["assume the","assume","v",[["role","of","n"]]],["atomic","atomic","adj",[["energy","","n"]]],["attend a","attend","v",[["conference","","n"]]],["available","available","adj",[["data","","n"],["evidence","","n"],["information","","n"],["resources","","n"]]],["average","average","adj",[["score","","n"]]],["background","background","n",[["knowledge","","n"]]],["basic","basic","adj",[["assumption","","n"],["component","","n"],["concept","","n"],["element","","n"],["function","","n"],["information","","n"],["premise","","n"],["principle","","n"],["research","","n"],["structure","","n"],["technique","","n"]]],["bear","bear","v",[["resemblance","to","n"]]],["become","become","v",[["apparent","","adj"],["available","","adj"],["aware","","adj"],["blurred","","adj"],["established","","adj"],["evident","","adj"],["independent","","adj"],["involved","with/in","adj"],["obvious","","adj"],["visible","","adj"],["widespread","","adj"]]],["become a","become","v",[["source","of","n"]]],["become the","become","v",[["focus","of","n"]]],["begin a","begin","v",[["process","","n"]]],["behave","behave","v",[["differently","","adv"]]],["beneficial","beneficial","adj",[["effect","","n"]]],["best","best","adv",[["described","as, in terms of","vpp"]]],["binary","binary","adj",[["opposition","","n"],["system","","n"]]],["biological","biological","adj",[["evolution","","n"],["science","","n"],["sex","","n"]]],["brief","brief","adj",[["account","","n"],["description","","n"],["discussion","","n"],["history","","n"],["introduction","","n"],["overview","","n"],["period","","n"],["review","","n"],["summary","","n"],["time","","n"]]],["briefly","briefly","adv",[["describe","","v"],["discuss","","v"]]],["broad","broad","adj",[["agreement","","n"],["category","","n"],["definition","","n"],["range","of","n"],["spectrum","","n"]]],["broader","broader","adj",[["context","","n"]]],["broadly","broadly","adv",[["defined","","vpp"],["similar","","adj"]]],["business","business","n",[["sector","","n"],["transaction","","n"]]],["capitalist","capitalist","adj",[["country","","n"],["economy","","n"],["society","","n"],["system","","n"],["world","","n"]]],["career","career","n",[["development","","n"],["opportunity","","n"]]],["careful","careful","adj",[["analysis","","n"],["attention","","n"],["consideration","","n"],["thought","","n"]]],["carefully","carefully","adv",[["controlled","","vpp"],["selected","","vpp"]]],["carry","carry","v",[["information","","n"]]],["carry out","carry out","v",[["research","of","n"]]],["carry out the","carry out","v",[["task","","n"]]],["cast","cast","v",[["doubt","on","n"]]],["causal","causal","adj",[["link","","n"],["relation","","n"],["relationship","","n"]]],["cause","cause","v",[["consequences","","n"],["stress","","n"]]],["central","central","adj",[["authority","","n"],["concept","","n"],["concern","","n"],["control","","n"],["core","","n"],["feature","","n"],["focus","","n"],["government","","n"],["importance","","n"],["issue","","n"],["part","","n"],["point","","n"],["position","","n"],["problem","","n"],["question","","n"],["role","","n"],["tenet","","n"],["theme","","n"],["aspect","","n"],["assumptions","","n"],["characteristics","","n"],["circumstances","","n"]]],["change","change","v",[["constantly","","adv"],["dramatically","","adv"],["rapidly","","adv"]]],["change an","change","v",[["attitude","","n"]]],["changing","changing","adj",[["attitudes","","n"],["circumstances","","n"],["nature","","n"],["needs","","n"],["pattern","","n"],["world","","n"]]],["characteristic","characteristic","adj",[["feature","","n"]]],["chemical","chemical","adj",[["reaction","","n"]]],["civil","civil","adj",[["case","","n"],["society","","n"]]],["class","class","n",[["consciousness","","n"]]],["classic","classic","adj",[["example","","n"],["study","","n"],["text","","n"],["work","","n"]]],["classical","classical","adj",[["theory","","n"]]],["clear","clear","adj",[["boundary","","n"],["distinction","","n"],["evidence","","n"],["focus","","n"],["indication","","n"],["relationship","","n"],["statement","","n"],["structure","","n"]]],["clearly","clearly","adv",[["defined","","vpp"],["demonstrated","","vpp"],["established","","vpp"],["evident","","adj"],["identified","","vpp"],["important","","adj"],["related","to","vpp"],["understand","","v"],["visible","","adj"]]],["climate","climate","n",[["change","","n"]]],["climatic","climatic","adj",[["conditions","","n"]]],["close","close","adj",[["contact","","n"],["proximity","","n"],["relationship","","n"],["scrutiny","","n"]]],["closely","closely","adv",[["allied","to, with","vpp"],["associated","with","vpp"],["connected","to, with","vpp"],["linked","to, with","vpp"],["related","to","vpp"],["resemble","","v"],["tied","","vpp"]]],["closer","closer","adj",[["examination","","n"],["inspection","","n"],["look","","n"]]],["cognitive","cognitive","adj",[["ability","","n"],["development","","n"],["skills","","n"]]],["collaborative","collaborative","adj",[["learning","","n"]]],["collect","collect","v",[["data","","n"],["information","","n"]]],["collective","collective","adj",[["action","","n"],["identity","","n"],["memory","","n"]]],["combined","combined","adj",[["effect","","n"]]],["come into","come into","v",[["conflict","with","n"],["contact","with","n"]]],["commercial","commercial","adj",[["activity","","n"],["transaction","","n"]]],["commit a","commit","v",[["crime","","n"]]],["commit an","commit","v",[["offence","","n"]]],["common","common","adj",[["ancestor","","n"],["approach","","n"],["assumption","","n"],["characteristic","","n"],["culture","","n"],["error","","n"],["feature","","n"],["goal","","n"],["method","","n"],["source","","n"],["theme","","n"],["usage","","n"]]],["commonly","commonly","adv",[["accepted","","vpp"],["associated","with","vpp"],["called","","vpp"],["encountered","","vpp"],["found","in","vpp"],["known","as","vpp"],["referred","to as","vpp"],["used","","vpp"]]],["communicate","communicate","v",[["effectively","","adv"]]],["comparative","comparative","adj",[["analysis","","n"],["research","","n"],["study","","n"]]],["compelling","compelling","adj",[["argument","","n"],["evidence","","n"],["reason","","n"]]],["competitive","competitive","adj",[["market","","n"],["pressure","","n"]]],["complete a","complete","v",[["task","","n"]]],["complex","complex","adj",[["area","","n"],["interaction","","n"],["issue","","n"],["pattern","","n"],["problem","","n"],["process","","n"],["question","","n"],["relationship","","n"],["set","","n"],["situation","","n"],["structure","","n"],["system","","n"]]],["comprehensive","comprehensive","adj",[["account","","n"],["approach","","n"],["overview","","n"],["review","","n"],["system","","n"]]],["conceptual","conceptual","adj",[["framework","","n"]]],["concerted","concerted","adj",[["effort","","n"]]],["concluding","concluding","adj",[["remarks","","n"],["section","","n"],["probability","","n"]]],["conduct","conduct","v",[["research","","n"]]],["conduct a","conduct","v",[["study","","n"],["survey","","n"]]],["conduct an","conduct","v",[["analysis","","n"],["interview","","n"]]],["conflict","conflict","n",[["resolution","","n"]]],["conflicting","conflicting","adj",[["interests","","n"]]],["consider","consider","v",[["appropriate","","adj"],["relevant","","adj"]]],["consider a","consider","v",[["possibility","","n"]]],["consider an","consider","v",[["aspect","","n"],["issue","","n"]]],["consider the","consider","v",[["impact","of","n"],["implications","","n"],["role","of","n"]]],["considerable","considerable","adj",[["amount","of","n"],["attention","","n"],["debate","","n"],["degree","of","n"],["detail","","n"],["effort","","n"],["evidence","","n"],["extent","","n"],["importance","","n"],["influence","","n"],["interest","","n"],["research","","n"],["support","","n"],["variation","","n"]]],["consistent","consistent","adj",[["pattern","","n"],["results","","n"]]],["constant","constant","adj",[["rate","","n"]]],["constituent","constituent","adj",[["elements","","n"],["parts","","n"]]],["contain","contain","v",[["information","","n"]]],["contain an","contain","v",[["element","","n"]]],["contemporary","contemporary","adj",[["debate","","n"],["issue","","n"],["life","","n"],["society","","n"],["world","","n"]]],["contextual","contextual","adj",[["factors","","n"]]],["continued","continued","adj",[["existence","","n"],["growth","","n"],["use","","n"]]],["continuous","continuous","adj",[["process","","n"]]],["contribute","contribute","v",[["significantly","","adv"]]],["contribute to the","contribute to","v",[["development","of","n"]]],["controversial","controversial","adj",[["issue","","n"]]],["conventional","conventional","adj",[["view","","n"],["wisdom","","n"]]],["convey","convey","v",[["information","","n"],["meaning","","n"]]],["convey a","convey","v",[["message","","n"]]],["convincing","convincing","adj",[["evidence","","n"]]],["coping","coping","adj",[["strategy","","n"]]],["core","core","adj",[["area","","n"],["element","","n"],["issue","","n"],["skills","","n"],["value","","n"]]],["correct","correct","adj",[["interpretation","","n"]]],["correct an","correct","v",[["error","","n"]]],["counter","counter","adj",[["argument","","n"]]],["cover a","cover","v",[["range","of","n"],["topic","","n"]]],["cover an","cover","v",[["area","","n"]]],["create","create","v",[["conditions","","n"],["opportunities","","n"],["problems","","n"]]],["create an","create","v",[["environment","","n"],["impression","","n"],["opportunity","","n"]]],["creative","creative","adj",[["process","","n"],["thinking","","n"],["work","","n"]]],["criminal","criminal","adj",[["offence","","n"]]],["critical","critical","adj",[["analysis","","n"],["approach","","n"],["attention","","n"],["essay","","n"],["evaluation","","n"],["examination","","n"],["factor","","n"],["importance","","n"],["inquiry","","n"],["introduction","","n"],["issue","","n"],["perspective","","n"],["point","","n"],["reflection","","n"],["review","","n"],["role","","n"],["scrutiny","","n"],["theory","","n"],["thinking","","n"],["writing","","n"]]],["critically","critically","adv",[["evaluate","","v"]]],["crucial","crucial","adj",[["difference","","n"],["factor","","n"],["importance","","n"],["part","","n"],["point","","n"],["question","","n"],["role","","n"]]],["cultural","cultural","adj",[["activity","","n"],["aspect","","n"],["attitudes","","n"],["background","","n"],["boundary","","n"],["change","","n"],["context","","n"],["differences","","n"],["dimension","","n"],["diversity","","n"],["factors","","n"],["heritage","","n"],["history","","n"],["identity","","n"],["influence","","n"],["institution","","n"],["issue","","n"],["life","","n"],["norm","","n"],["perspective","","n"],["phenomenon","","n"],["practice","","n"],["significance","","n"],["theory","","n"],["tradition","","n"],["values","","n"]]],["culturally","culturally","adv",[["specific","","adj"]]],["current","current","adj",[["climate","","n"],["issue","","n"],["policy","","n"],["research","","n"],["status","","n"],["technology","","n"],["trend","","n"]]],["currently","currently","adv",[["available","","adj"]]],["daily","daily","adj",[["living","","n"]]],["data","data","n",[["gathering","","n"],["set","","n"]]],["deal with an","deal","v",[["issue","","n"]]],["deem","deem","v",[["appropriate","","adj"],["necessary","","adj"]]],["deep","deep","adj",[["understanding","of","n"]]],["deeper","deeper","adj",[["level","","n"]]],["deeply","deeply","adv",[["embedded","","vpp"],["rooted","","vpp"]]],["defining","defining","adj",[["characteristic","","n"],["concept","","n"],["feature","","n"]]],["deliberate","deliberate","adj",[["attempt","","n"]]],["democratic","democratic","adj",[["institution","","n"],["process","","n"],["society","","n"],["state","","n"]]],["demographic","demographic","adj",[["change","","n"],["characteristics","","n"],["factor","","n"]]],["demonstrate","demonstrate","v",[["competence","","n"]]],["densely","densely","adv",[["populated","","vpp"]]],["deny","deny","v",[["access","to","n"]]],["dependent","dependent","adj",[["variable","","n"]]],["describe a","describe","v",[["method","","n"],["process","","n"],["procedure","","n"]]],["descriptive","descriptive","adj",[["statistics","","n"]]],["desired","desired","adj",[["outcome","","n"]]],["detailed","detailed","adj",[["analysis","","n"],["examination","","n"],["information","","n"],["study","","n"]]],["develop a","develop","v",[["method","","n"],["strategy","","n"],["technique","","n"],["theory","","n"]]],["develop an","develop","v",[["approach","","n"],["argument","","n"]]],["developmental","developmental","adj",[["process","","n"],["stage","","n"]]],["diagnostic","diagnostic","adj",[["test","","n"]]],["differ","differ","v",[["considerably","","adv"],["significantly","","adv"],["widely","","adv"]]],["digital","digital","adj",[["information","","n"],["media","","n"],["technology","","n"]]],["direct","direct","adj",[["access","","n"],["communication","","n"],["consequences","","n"],["contact","","n"],["evidence","","n"],["impact","","n"],["involvement","","n"],["link","","n"],["observation","","n"],["relationship","","n"],["role","","n"]]],["directly","directly","adv",[["affect","","v"],["affected","","vpp"],["connected","to, with","vpp"],["involved","in","vpp"],["linked","to, with","vpp"],["proportional","to","adj"],["related","to","vpp"],["relevant","to","adj"],["responsible","for","adj"]]],["disclose","disclose","v",[["information","","n"]]],["discuss a","discuss","v",[["topic","","n"]]],["discuss an","discuss","v",[["issue","","n"]]],["disposable","disposable","adj",[["income","","n"]]],["distinct","distinct","adj",[["group","","n"],["type","","n"]]],["distinctive","distinctive","adj",[["feature","","n"]]],["distinguishing","distinguishing","adj",[["feature","","n"]]],["diverse","diverse","adj",[["background","","n"],["group","","n"],["range","of","n"]]],["dividing","dividing","adj",[["line","","n"]]],["documentary","documentary","adj",[["evidence","","n"]]],["domestic","domestic","adj",[["market","","n"],["sphere","","n"],["violence","","n"]]],["dominant","dominant","adj",[["culture","","n"],["discourse","","n"],["form","","n"],["group","","n"],["ideology","","n"],["paradigm","","n"],["position","","n"],["role","","n"]]],["dramatic","dramatic","adj",[["change","","n"],["effect","","n"],["increase","","n"]]],["draw","draw","v",[["attention","to","n"]]],["draw a","draw","v",[["conclusion","","n"],["distinction","","n"],["line","","n"]]],["driving","driving","adj",[["force","","n"]]],["due","due","adj",[["process","","n"]]],["dynamic","dynamic","adj",[["equilibrium","","n"],["nature","","n"],["process","","n"],["system","","n"]]],["earlier","earlier","adj",[["discussion","","n"],["period","","n"],["research","","n"],["stage","","n"],["study","","n"],["times","","n"],["version","","n"],["work","","n"]]],["early","early","adj",[["decades","","n"],["study","","n"]]],["easily","easily","adv",[["accessible","","adj"],["identified","","vpp"],["understood","","vpp"]]],["easy","easy","adj",[["access","","n"]]],["economic","economic","adj",[["activity","","n"],["affairs","","n"],["analysis","","n"],["benefits","","n"],["change","","n"],["conditions","","n"],["consequences","","n"],["context","","n"],["crisis","","n"],["exploitation","","n"],["factors","","n"],["forces","","n"],["goal","","n"],["growth","","n"],["inequality","","n"],["integration","","n"],["interests","","n"],["policy","","n"],["power","","n"],["prosperity","","n"],["reform","","n"],["relations","","n"],["relationships","","n"],["resources","","n"],["sector","","n"],["stability","","n"],["status","","n"],["structure","","n"],["success","","n"],["system","","n"],["theory","","n"],["value","","n"],["welfare","","n"]]],["educational","educational","adj",[["institution","","n"],["opportunity","","n"],["policy","","n"],["program","","n"],["provision","","n"],["qualification","","n"],["research","","n"],["setting","","n"],["system","","n"]]],["effective","effective","adj",[["communication","","n"],["implementation","","n"],["intervention","","n"],["management","","n"],["method","","n"],["participation","","n"],["policy","","n"],["treatment","","n"]]],["electronic","electronic","adj",[["access","","n"],["communication","","n"],["media","","n"],["resources","","n"],["version","","n"]]],["emotional","emotional","adj",[["impact","","n"],["intelligence","","n"],["reaction","","n"],["response","","n"],["support","","n"]]],["empirical","empirical","adj",[["data","","n"],["evidence","","n"],["investigation","","n"],["research","","n"],["study","","n"],["support","","n"],["work","","n"]]],["employ a","employ","v",[["method","","n"],["technique","","n"]]],["employment","employment","n",[["opportunities","","n"]]],["encounter","encounter","v",[["difficulties","","n"],["problems","","n"]]],["encourage the","encourage","v",[["development","of","n"]]],["engage in an","engage in","v",[["activity","","n"]]],["enhance","enhance","v",[["learning","","n"],["performance","","n"]]],["enormous","enormous","adj",[["amount","of","n"],["impact","","n"]]],["entire","entire","adj",[["period","","n"],["range","of","n"]]],["entirely","entirely","adv",[["clear","","adj"],["different","","adj"],["new","","adj"]]],["environmental","environmental","adj",[["changes","","n"],["concern","","n"],["consequences","","n"],["damage","","n"],["degradation","","n"],["effects","","n"],["factors","","n"],["impact","","n"],["issues","","n"],["policy","","n"],["pollution","","n"],["protection","","n"]]],["equal","equal","adj",[["access","","n"],["opportunity","","n"],["status","","n"],["treatment","","n"]]],["equally","equally","adv",[["important","","adj"],["likely","","adj"],["true","","adj"],["valid","","adj"]]],["essential","essential","adj",[["component","","n"],["element","","n"],["feature","","n"],["function","","n"],["information","","n"],["role","","n"]]],["establish a","establish","v",[["relationship","","n"]]],["established","established","adj",[["order","","n"],["practice","","n"],["principle","","n"]]],["ethical","ethical","adj",[["consideration","","n"],["dilemma","","n"],["issue","","n"],["principle","","n"],["problem","","n"],["question","","n"]]],["ethnic","ethnic","adj",[["community","","n"],["differences","","n"],["diversity","","n"],["group","","n"],["identity","","n"],["minority","","n"],["origin","","n"]]],["ever","ever","adv",[["changing","","adj"],["increasing","","adj"]]],["evolutionary","evolutionary","adj",[["process","","n"],["theory","","n"]]],["examine the","examine","v",[["role","of","n"]]],["exceptional","exceptional","adj",[["case","","n"],["circumstances","","n"]]],["exercise","exercise","v",[["authority","","n"]]],["existing","existing","adj",[["data","","n"],["research","","n"],["structure","","n"]]],["expand","expand","v",[["rapidly","","adv"]]],["experience","experience","v",[["difficulties","","n"],["problems","","n"]]],["experiential","experiential","adj",[["learning","","n"]]],["experimental","experimental","adj",[["conditions","","n"],["data","","n"],["design","","n"],["evidence","","n"],["method","","n"],["research","","n"],["results","","n"],["study","","n"],["work","","n"]]],["expert","expert","n",[["opinion","","n"]]],["explanatory","explanatory","adj",[["power","","n"]]],["explore","explore","v",[["further","","adv"]]],["explore an","explore","v",[["issue","","n"]]],["extended","extended","adj",[["period","","n"]]],["extensive","extensive","adj",[["research","","n"]]],["extensively","extensively","adv",[["used","","vpp"]]],["external","external","adj",[["environment","","n"],["factors","","n"],["forces","","n"],["influences","","n"],["source","","n"],["threat","","n"],["world","","n"]]],["extract","extract","v",[["data","","n"],["information","","n"]]],["extremely","extremely","adv",[["complex","","adj"],["powerful","","adj"],["sensitive","","adj"],["useful","","adj"],["valuable","","adj"]]],["face","face","v",[["difficulties","","n"],["discrimination","","n"]]],["face a","face","v",[["challenge","","n"],["dilemma","","n"],["problem","","n"]]],["facial","facial","adj",[["expression","","n"]]],["facilitate the","facilitate","v",[["development","of","n"]]],["factual","factual","adj",[["information","","n"]]],["fair","fair","adj",[["treatment","","n"]]],["fairly","fairly","adv",[["clear","","adj"],["common","","adj"],["obvious","","adj"],["straightforward","","adj"]]],["fall into the","fall into","v",[["category","of","n"]]],["far","far","adv",[["removed","from","vpp"]]],["federal","federal","adj",[["agency","","n"],["government","","n"],["state","","n"]]],["feminist","feminist","adj",[["movement","","n"]]],["field","field","n",[["research","","n"]]],["final","final","adj",[["analysis","","n"],["answer","","n"],["chapter","","n"],["decision","","n"],["outcome","","n"],["phase","","n"],["point","","n"],["position","","n"],["product","","n"],["result","","n"],["section","","n"],["stage","","n"],["step","","n"],["version","","n"]]],["financial","financial","adj",[["affairs","","n"],["assistance","","n"],["institution","","n"],["management","","n"],["market","","n"],["problem","","n"],["resources","","n"],["support","","n"]]],["find","find","v",[["evidence","","n"],["information","","n"]]],["finite","finite","adj",[["number","","n"]]],["firmly","firmly","adv",[["established","","vpp"]]],["first","first","adj",[["author","","n"],["contact","","n"],["draft","","n"],["encounter","","n"],["generation","","n"],["impression","","n"],["phase","","n"],["priority","","n"]]],["flexible","flexible","adj",[["approach","","n"]]],["focal","focal","adj",[["point","","n"]]],["focus","focus","v",[["attention","on","n"]]],["focus on an","focus on","v",[["aspect","","n"]]],["follow a","follow","v",[["format","","n"],["procedure","","n"]]],["follow","follow","v",[["instructions","","n"]]],["following","following","adj",[["chapter","","n"]]],["foreign","foreign","adj",[["currency","","n"],["investment","","n"],["investor","","n"],["policy","","n"]]],["formal","formal","adj",[["structure","","n"]]],["free","free","adj",[["access","","n"],["movement","","n"]]],["freely","freely","adv",[["available","","adj"]]],["frequently","frequently","adv",[["cited","","vpp"],["found","","vpp"],["referred","to","vpp"],["used","","vpp"]]],["fulfil an","fulfil","v",[["obligation","","n"]]],["full","full","adj",[["analysis","","n"],["employment","","n"],["information","","n"],["participation","","n"],["potential","","n"],["range","of","n"]]],["fuller","fuller","adj",[["discussion","","n"]]],["fully","fully","adv",[["aware","","adj"],["developed","","vpp"],["informed","","vpp"],["integrated","","vpp"],["realized","","vpp"],["understand","","v"]]],["functional","functional","adj",[["requirement","","n"]]],["fundamental","fundamental","adj",[["aspect","","n"],["assumption","","n"],["change","","n"],["component","","n"],["difference","","n"],["importance","","n"],["principle","","n"],["problem","","n"],["question","","n"]]],["fundamentally","fundamentally","adv",[["different","","adj"]]],["further","further","adj",[["analysis","","n"],["consideration","","n"],["development","","n"],["evidence","","n"],["explanation","","n"],["information","","n"],["investigation","","n"],["research","","n"],["study","","n"]]],["further","further","adv",[["divided","into","vpp"]]],["future","future","adj",[["development","","n"],["prospects","","n"],["research","","n"],["study","","n"]]],["gain","gain","v",[["access","to","n"],["information","","n"],["insight","into","n"]]],["gather","gather","v",[["data","","n"],["information","","n"]]],["gender","gender","n",[["equality","","n"],["stereotype","","n"]]],["general","general","adj",[["agreement","","n"],["approach","","n"],["argument","","n"],["aspect","","n"],["category","","n"],["conclusion","","n"],["consensus","","n"],["definition","","n"],["feature","","n"],["formula","","n"],["overview","","n"],["principle","","n"],["statement","","n"],["tendency","","n"],["theory","","n"],["trend","","n"]]],["generally","generally","adv",[["accepted","","vpp"],["agree","","v"],["assumed","","vpp"],["considered","","vpp"],["found","","vpp"],["known","as, by","vpp"]]],["genetic","genetic","adj",[["variation","","n"]]],["geographic(al)","geographic(al)","adj",[["area","","n"],["distribution","","n"],["location","","n"]]],["get","get","v",[["involved","with/in","adj"]]],["give","give","v",[["access","to","n"],["consent","","n"],["consideration","","n"],["emphasis","","n"],["evidence","","n"],["feedback","","n"],["priority","to","n"],["guidance","","n"],["information","","n"],["insight","into","n"]]],["give a","give","v",[["presentation","","n"]]],["give an","give","v",[["explanation","","n"],["indication","of","n"],["overview","of","n"]]],["give somebody an","give","v",[["impression","","n"]]],["give somebody","give","v",[["treatment","","n"]]],["given","given","adj",[["information","","n"],["period","","n"]]],["global","global","adj",[["capitalism","","n"],["context","","n"],["culture","","n"],["economy","","n"],["issue","","n"],["market","","n"],["marketplace","","n"],["media","","n"],["network","","n"],["perspective","","n"],["shift","","n"],["structure","","n"],["trade","","n"],["village","","n"]]],["government","government","n",[["control","","n"],["department","","n"],["expenditure","","n"],["intervention","","n"],["policy","","n"]]],["graphical","graphical","adj",[["representation","","n"]]],["great","great","adj",[["accuracy","","n"],["diversity","","n"],["impact","","n"],["majority","","n"],["potential","","n"],["proportion","of","n"],["range","of","n"],["significance","","n"]]],["greater","greater","adj",[["autonomy","","n"],["awareness","","n"],["emphasis","","n"],["equality","","n"],["flexibility","","n"],["likelihood","","n"]]],["greatly","greatly","adv",[["enhance","","v"],["increase","","v"],["influenced","by","vpp"],["reduced","","vpp"]]],["grow","grow","v",[["rapidly","","adv"]]],["growing","growing","adj",[["awareness","","n"],["trend","","n"]]],["guiding","guiding","adj",[["principle","","n"]]],["hardly","hardly","adv",[["surprising","","adj"]]],["have","have","v",[["access","to","n"],["consequences","","n"],["limitations","","n"],["potential","","n"]]],["have a","have","v",[["strategy","","n"],["tendency","to","n"]]],["have an","have","v",[["obligation","","n"]]],["heated","heated","adj",[["debate","","n"]]],["heavily","heavily","adv",[["influenced","by","vpp"]]],["hierarchical","hierarchical","adj",[["structure","","n"]]],["high","high","adj",[["concentration","","n"],["correlation","","n"],["expectations","","n"],["incidence","","n"],["intensity","","n"],["level","","n"],["order","","n"],["percentage","","n"],["priority","","n"],["probability","","n"],["profile","","n"],["proportion","of","n"],["quality","","n"],["rate","","n"],["score","","n"],["standard","","n"],["status","","n"],["turnover","","n"],["unemployment","","n"],["value","","n"]]],["high/er","high/er","adj",[["frequency","","n"]]],["higher","higher","adj",[["degree","of","n"],["education","","n"]]],["highly","highly","adv",[["charged","","vpp"],["competitive","","adj"],["complex","","adj"],["controversial","","adj"],["correlated","with","vpp"],["critical","","adj"],["dependent","","adj"],["desirable","","adj"],["developed","","vpp"],["educated","","vpp"],["effective","","adj"],["efficient","","adj"],["influential","","adj"],["likely","","adj"],["problematic","","adj"],["relevant","","adj"],["selective","","adj"],["sensitive","","adj"],["significant","","adj"],["skilled","","adj"],["sophisticated","","adj"],["structured","","vpp"],["successful","","adj"],["unlikely","","adj"],["valued","","vpp"],["variable","","adj"]]],["historical","historical","adj",[["account","","n"],["analysis","","n"],["background","","n"],["change","","n"],["circumstances","","n"],["context","","n"],["data","","n"],["development","","n"],["event","","n"],["evidence","","n"],["factors","","n"],["interpretation","","n"],["knowledge","","n"],["period","","n"],["perspective","","n"],["reality","","n"],["record","","n"],["roots","","n"],["study","","n"],["writing","","n"]]],["historically","historically","adv",[["specific","","adj"]]],["hold a","hold","v",[["conference","","n"]]],["holistic","holistic","adj",[["approach","","n"]]],["homogeneous","homogeneous","adj",[["group","","n"]]],["huge","huge","adj",[["amount","of","n"]]],["human","human","adj",[["activity","","n"],["behavior","","n"],["interaction","","n"],["society","","n"],["species","","n"]]],["ideally","ideally","adv",[["suited","","vpp"]]],["identify","identify","v",[["factors","","n"],["features","","n"]]],["identify a","identify","v",[["problem","","n"],["way","","n"]]],["identify an","identify","v",[["area","","n"],["issue","","n"]]],["immediate","immediate","adj",[["environment","","n"]]],["immediately","immediately","adv",[["apparent","","adj"],["following","","adj"],["obvious","","adj"],["preceding","","adj"]]],["imported","imported","adj",[["goods","","n"],["products","","n"]]],["impose","impose","v",[["constraints","","n"],["limitations","","n"],["restrictions","","n"]]],["improved","improved","adj",[["performance","","n"]]],["increase","increase","v",[["awareness","","n"],["dramatically","","adv"],["likelihood","","n"]]],["increased","increased","adj",[["awareness","","n"],["competition","","n"],["demand","","n"],["importance","","n"],["interest","","n"],["level","","n"],["number","","n"],["pressure","","n"],["production","","n"],["productivity","","n"],["risk","","n"]]],["increasing","increasing","adj",[["awareness","","n"],["complexity","","n"],["demand","","n"],["emphasis","","n"],["importance","","n"],["interest","","n"],["pressure","","n"],["proportion","of","n"],["tendency","","n"],["trend","","n"]]],["increasingly","increasingly","adv",[["aware","","adj"],["common","","adj"],["complex","","adj"],["difficult","","adj"],["important","","adj"],["popular","","adj"],["sophisticated","","adj"],["linked","to, with","vpp"]]],["independent","independent","adj",[["state","","n"],["variable","","n"]]],["indigenous","indigenous","adj",[["people","","n"],["population","","n"]]],["individual","individual","adj",[["behavior","","n"],["case","","n"],["characteristics","","n"],["choice","","n"],["component","","n"],["differences","","n"],["element","","n"],["experience","","n"],["interests","","n"],["item","","n"],["needs","","n"],["response","","n"],["responsibility","","n"],["rights","","n"],["variable","","n"],["variation","","n"]]],["industrial","industrial","adj",[["capitalism","","n"],["country","","n"],["development","","n"],["production","","n"],["society","","n"]]],["industrialized","industrialized","adj",[["country","","n"],["nation","","n"]]],["infinite","infinite","adj",[["number","","n"]]],["information","information","n",[["flow","","n"],["gathering","","n"],["processing","","n"],["retrieval","","n"],["sharing","","n"]]],["informed","informed","adj",[["consent","","n"]]],["initial","initial","adj",[["period","","n"],["phase","","n"],["position","","n"],["research","","n"],["stage","","n"]]],["institutional","institutional","adj",[["arrangement","","n"],["context","","n"],["framework","","n"],["structure","","n"],["support","","n"]]],["integral","integral","adj",[["part","","n"]]],["integrated","integrated","adj",[["approach","","n"],["system","","n"]]],["intellectual","intellectual","adj",[["property","","n"],["work","","n"]]],["intensive","intensive","adj",[["study","","n"]]],["interested","interested","adj",[["party","","n"]]],["internal","internal","adj",[["affairs","","n"],["conflict","","n"],["control","","n"],["market","","n"],["organ","","n"],["structure","","n"]]],["international","international","adj",[["agreement","","n"],["body","","n"],["community","","n"],["conference","","n"],["context","","n"],["journal","","n"],["organization","","n"],["treaty","","n"]]],["internet","internet","n",[["access","","n"]]],["interpersonal","interpersonal","adj",[["relationships","","n"],["skills","","n"]]],["interpret","interpret","v",[["data","","n"]]],["intimate","intimate","adj",[["relationship","","n"]]],["intimately","intimately","adv",[["connected","to, with","vpp"]]],["intrinsic","intrinsic","adj",[["value","","n"]]],["introduce","introduce","v",[["legislation","","n"]]],["introductory","introductory","adj",[["chapter","","n"],["section","","n"],["text","","n"]]],["keenly","keenly","adv",[["aware","","adj"]]],["key","key","adj",[["area","","n"],["aspect","","n"],["characteristic","","n"],["component","","n"],["concept","","n"],["element","","n"],["factor","","n"],["feature","","n"],["findings","","n"],["issue","","n"],["objective","","n"],["player","","n"],["policy","","n"],["principle","","n"],["role","","n"],["source","","n"],["text","","n"],["theme","","n"],["topic","","n"]]],["large","large","adj",[["majority","","n"],["percentage","","n"],["portion","","n"],["proportion","of","n"],["quantities","of","n"],["range","of","n"]]],["largely","largely","adv",[["based","on","vpp"],["confined","to","vpp"],["determined","by","vpp"],["ignored","","vpp"],["responsible","for","adj"]]],["later","later","adj",[["work","","n"],["writings","","n"]]],["lead to the","lead to","v",[["conclusion","","n"]]],["leading","leading","adj",[["role","","n"]]],["learning","learning","adj",[["activity","","n"]]],["learning","learning","n",[["difficulties","","n"],["environment","","n"],["objective","","n"],["outcome","","n"],["process","","n"],["resources","","n"],["strategy","","n"]]],["legal","legal","adj",[["action","","n"],["basis","","n"],["framework","","n"],["issue","","n"],["obligation","","n"],["position","","n"],["proceedings","","n"],["protection","","n"],["requirement","","n"],["right","","n"],["rule","","n"],["status","","n"],["system","","n"]]],["legislative","legislative","adj",[["measures","","n"],["power","","n"]]],["liberal","liberal","adj",[["democracy","","n"]]],["lifelong","lifelong","adj",[["learning","","n"]]],["likely","likely","adj",[["impact","","n"],["outcome","","n"]]],["limited","limited","adj",[["access","","n"],["capacity","","n"],["information","","n"],["opportunity","","n"],["range","of","n"],["resources","","n"]]],["linear","linear","adj",[["relationship","","n"]]],["literal","literal","adj",[["interpretation","","n"],["meaning","","n"],["sense","","n"]]],["literary","literary","adj",[["text","","n"],["tradition","","n"]]],["little","little","adj",[["evidence","","n"],["impact","","n"],["information","","n"],["research","","n"],["significance","","n"]]],["living","living","adj",[["conditions","","n"],["organism","","n"],["standard","","n"]]],["local","local","adj",[["area","","n"],["authority","","n"],["circumstances","","n"],["community","","n"],["culture","","n"],["economy","","n"],["government","","n"]]],["logical","logical","adj",[["approach","","n"],["argument","","n"],["conclusion","","n"]]],["long","long","adj",[["duration","","n"]]],["long","long","adv",[["established","","adj"]]],["longitudinal","longitudinal","adj",[["study","","n"]]],["low","low","adj",[["income","","n"],["intensity","","n"],["level","","n"],["percentage","","n"],["priority","","n"],["probability","","n"],["profile","","n"],["quality","","n"],["status","","n"],["turnover","","n"],["unemployment","","n"]]],["low/er","low/er","adj",[["frequency","","n"]]],["lower","lower","adj",[["class","","n"]]],["main","main","adj",[["area","","n"],["argument","","n"],["category","","n"],["characteristics","","n"],["component","","n"],["element","","n"],["factor","","n"],["feature","","n"],["findings","","n"],["focus","","n"],["function","","n"],["issue","","n"],["principle","","n"],["source","","n"],["task","","n"],["theme","","n"]]],["mainly","mainly","adv",[["concerned","with","vpp"]]],["maintain","maintain","v",[["contact","","n"]]],["major","major","adj",[["advantage","","n"],["area","","n"],["cause","","n"],["challenge","","n"],["change","","n"],["component","","n"],["concern","","n"],["contribution","","n"],["decision","","n"],["difference","","n"],["factor","","n"],["feature","","n"],["focus","","n"],["impact","","n"],["implications","","n"],["influence","","n"],["issue","","n"],["part","","n"],["problem","","n"],["reason","","n"],["role","","n"],["shift","","n"],["source","","n"],["theme","","n"]]],["make","make","v",[["adjustments","","n"],["arrangements","","n"],["available","","adj"],["aware","","adj"],["contact","","n"],["explicit","","adj"],["policy","","n"],["provision","","n"],["visible","","adj"]]],["make a","make","v",[["contribution","","n"],["comment","","n"],["distinction","","n"],["judgement","","n"],["living","","n"],["prediction","","n"],["recommendation","","n"],["statement","","n"],["transition","","n"]]],["make an","make","v",[["argument","","n"],["assessment","","n"],["assumption","","n"],["impact","","n"],["impression","","n"],["observation","","n"]]],["male","male","adj",[["dominance","","n"]]],["manual","manual","adj",[["worker","","n"]]],["manufacturing","manufacturing","adj",[["sector","","n"]]],["marked","marked","adj",[["contrast","","n"]]],["markedly","markedly","adv",[["different","","adj"]]],["maximum","maximum","adj",[["duration","","n"]]],["mean","mean","adj",[["score","","n"]]],["meaningful","meaningful","adj",[["way","","n"]]],["media","media","n",[["coverage","","n"]]],["medical","medical","adj",[["assistance","","n"],["treatment","","n"]]],["meet","meet","v",[["criteria","","n"],["expectations","","n"]]],["meet a","meet","v",[["requirement","","n"],["target","","n"]]],["meet an","meet","v",[["objective","","n"]]],["mental","mental","adj",[["health","","n"],["illness","","n"],["state","","n"]]],["methodological","methodological","adj",[["approach","","n"],["issue","","n"],["problem","","n"]]],["metropolitan","metropolitan","adj",[["area","","n"]]],["middle","middle","adj",[["income","","n"],["management","","n"]]],["migrant","migrant","adj",[["worker","","n"]]],["military","military","adj",[["action","","n"],["force","","n"],["power","","n"],["service","","n"]]],["minimum","minimum","adj",[["level","","n"],["requirement","","n"],["standard","","n"],["value","","n"],["wage","","n"]]],["minor","minor","adj",[["change","","n"],["role","","n"]]],["minority","minority","n",[["group","","n"]]],["missing","missing","adj",[["data","","n"]]],["modern","modern","adj",[["culture","","n"],["method","","n"],["society","","n"],["technology","","n"]]],["modified","modified","adj",[["form","","n"],["version","","n"]]],["moral","moral","adj",[["dilemma","","n"],["philosophy","","n"],["principle","","n"]]],["multiple","multiple","adj",[["identities","","n"],["sources","","n"]]],["municipal","municipal","adj",[["government","","n"]]],["mutual","mutual","adj",[["recognition","","n"],["support","","n"],["trust","","n"],["understanding","","n"]]],["mutually","mutually","adv",[["exclusive","","adj"]]],["narrow","narrow","adj",[["definition","","n"],["range","of","n"]]],["national","national","adj",[["average","","n"],["boundary","","n"],["conference","","n"],["culture","","n"],["economy","","n"],["government","","n"],["identity","","n"],["income","","n"],["institution","","n"],["interest","","n"],["language","","n"],["legislation","","n"],["market","","n"],["media","","n"],["movement","","n"],["policy","","n"],["press","","n"],["security","","n"],["survey","","n"]]],["native","native","adj",[["speaker","","n"]]],["natural","natural","adj",[["conditions","","n"],["disaster","","n"],["environment","","n"],["history","","n"],["language","","n"],["law","","n"],["order","","n"],["philosophy","","n"],["process","","n"],["resources","","n"],["right","","n"],["science","","n"],["tendency","","n"],["world","","n"]]],["naturally","naturally","adv",[["occurring","","adj"]]],["necessary","necessary","adj",[["information","","n"]]],["negative","negative","adj",[["aspect","","n"],["attitude","","n"],["connotation","","n"],["consequences","","n"],["correlation","","n"],["effect","","n"],["feedback","","n"],["impact","","n"],["outcome","","n"],["side","","n"],["stereotype","","n"],["value","","n"],["view","","n"]]],["negatively","negatively","adv",[["correlated","with","vpp"]]],["new","new","adj",[["initiative","","n"],["insight","","n"],["perspective","","n"]]],["newly","newly","adv",[["acquired","","vpp"],["created","","vpp"],["discovered","","vpp"],["emerging","","adj"],["established","","adj"],["formed","","vpp"]]],["next","next","adj",[["decade","","n"],["generation","","n"],["phase","","n"]]],["normal","normal","adj",[["conditions","","n"],["development","","n"],["distribution","","n"],["practice","","n"]]],["notable","notable","adj",[["exception","","n"]]],["nuclear","nuclear","adj",[["energy","","n"],["family","","n"],["power","","n"],["war","","n"],["weapon","","n"]]],["numerical","numerical","adj",[["data","","n"],["value","","n"]]],["numerous","numerous","adj",[["studies","","n"]]],["objective","objective","adj",[["criteria","","n"],["reality","","n"]]],["obtain","obtain","v",[["data","","n"],["information","","n"]]],["obtain a","obtain","v",[["result","","n"]]],["obvious","obvious","adj",[["difference","","n"],["example","","n"],["point","","n"],["reason","","n"]]],["occur","occur","v",[["frequently","","adv"],["naturally","","adv"]]],["offer","offer","v",[["insight","into","n"]]],["offer an","offer","v",[["opportunity","","n"]]],["official","official","adj",[["statistics","","n"]]],["once","once","adv",[["established","","vpp"]]],["ongoing","ongoing","adj",[["debate","","n"],["process","","n"]]],["online","online","adj",[["access","","n"],["database","","n"],["journal","","n"],["version","","n"]]],["open","open","adj",[["access","","n"]]],["opening","opening","adj",[["chapter","","n"],["section","","n"]]],["opinion","opinion","n",[["leader","","n"]]],["optimal","optimal","adj",[["solution","","n"]]],["oral","oral","adj",[["history","","n"],["presentation","","n"]]],["organizing","organizing","adj",[["principle","","n"]]],["organizational","organizational","adj",[["structure","","n"]]],["original","original","adj",[["author","","n"],["context","","n"],["data","","n"],["intent","","n"],["meaning","","n"],["model","","n"],["position","","n"],["research","","n"],["source","","n"],["text","","n"],["version","","n"],["work","","n"]]],["originally","originally","adv",[["developed","","vpp"],["intended","","vpp"]]],["overall","overall","adj",[["aim","","n"],["effect","","n"],["level","","n"],["performance","","n"],["picture","","n"],["rate","","n"],["structure","","n"]]],["overwhelming","overwhelming","adj",[["majority","","n"]]],["paid","paid","adj",[["employment","","n"]]],["paramount","paramount","adj",[["importance","","n"]]],["particular","particular","adj",[["area","","n"],["aspect","","n"],["emphasis","","n"],["feature","","n"],["focus","","n"],["individual","","n"],["meaning","","n"]]],["particularly","particularly","adv",[["acute","","adj"],["apparent","","adj"],["appropriate","","adj"],["concerned","with","vpp"],["effective","","adj"],["evident","","adj"],["influential","","adj"],["relevant","","adj"],["sensitive","","adj"],["significant","","adj"],["striking","","adj"],["successful","","adj"],["suited","to","vpp"],["useful","","adj"],["valuable","","adj"]]],["partly","partly","adv",[["responsible","for","adj"]]],["party","party","n",[["leader","","n"]]],["past","past","adj",[["research","","n"]]],["peace","peace","n",[["treaty","","n"]]],["perceived","perceived","adj",[["importance","","n"],["need","","n"],["threat","","n"]]],["perform a","perform","v",[["function","","n"],["study","","n"],["task","","n"]]],["personal","personal","adj",[["choice","","n"],["circumstances","","n"],["communication","","n"],["contact","","n"],["control","","n"],["experience","","n"],["information","","n"],["interest","","n"],["knowledge","","n"],["quality","","n"],["relationship","","n"],["responsibility","","n"],["safety","","n"],["space","","n"]]],["physical","physical","adj",[["activity","","n"],["appearance","","n"],["characteristics","","n"],["contact","","n"],["development","","n"],["environment","","n"],["features","","n"],["health","","n"],["needs","","n"],["presence","","n"],["properties","","n"],["proximity","","n"],["science","","n"],["space","","n"],["symptom","","n"],["world","","n"]]],["pilot","pilot","n",[["study","","n"]]],["pioneering","pioneering","adj",[["work","","n"]]],["pivotal","pivotal","adj",[["role","","n"]]],["place","place","v",[["emphasis","","n"]]],["planning","planning","n",[["stage","","n"]]],["plausible","plausible","adj",[["explanation","","n"]]],["play a","play","v",[["role","in","n"]]],["political","political","adj",[["activism","","n"],["activity","","n"],["agenda","","n"],["arena","","n"],["authority","","n"],["circumstances","","n"],["climate","","n"],["conflict","","n"],["consciousness","","n"],["consensus","","n"],["consequences","","n"],["consideration","","n"],["context","","n"],["culture","","n"],["debate","","n"],["dimension","","n"],["economy","","n"],["environment","","n"],["factors","","n"],["identity","","n"],["ideology","","n"],["implications","","n"],["instability","","n"],["institution","","n"],["leader","","n"],["mobilization","","n"],["movement","","n"],["organization","","n"],["participation","","n"],["party","","n"],["philosophy","","n"],["reality","","n"],["reform","","n"],["representation","","n"],["significance","","n"],["spectrum","","n"],["stability","","n"],["status","","n"],["structure","","n"]]],["politically","politically","adv",[["correct","","adj"],["motivated","","vpp"]]],["poorly","poorly","adv",[["understood","","vpp"]]],["popular","popular","adj",[["culture","","n"],["media","","n"]]],["pose a","pose","v",[["challenge","","n"],["problem","","n"],["question","","n"],["threat","to","n"]]],["positive","positive","adj",[["action","","n"],["aspect","","n"],["attitude","","n"],["connotation","","n"],["correlation","","n"],["discrimination","","n"],["effect","","n"],["feature","","n"],["feedback","","n"],["image","","n"],["impact","","n"],["influence","","n"],["outcome","","n"],["relationship","","n"],["result","","n"],["value","","n"],["view","","n"]]],["positively","positively","adv",[["associated","with","vpp"],["correlated","with","vpp"]]],["possible","possible","adj",[["consequences","","n"],["explanation","","n"],["outcome","","n"],["source","","n"]]],["potential","potential","adj",[["benefits","","n"],["conflict","","n"],["customer","","n"],["harm","","n"],["impact","","n"],["problem","","n"],["risk","","n"],["source","","n"],["value","","n"]]],["potentially","potentially","adv",[["dangerous","","adj"]]],["powerful","powerful","adj",[["force","","n"],["group","","n"],["influence","","n"],["tool","","n"]]],["practical","practical","adj",[["consideration","","n"],["difficulties","","n"],["issue","","n"],["significance","","n"]]],["preceding","preceding","adj",[["chapter","","n"],["discussion","","n"],["section","","n"]]],["precise","precise","adj",[["definition","","n"],["nature","","n"]]],["predictive","predictive","adj",[["power","","n"]]],["preferential","preferential","adj",[["treatment","","n"]]],["preliminary","preliminary","adj",[["data","","n"],["findings","","n"],["result","","n"]]],["premature","premature","adj",[["death","","n"]]],["present","present","adj",[["context","","n"]]],["present","present","v",[["data","","n"],["difficulties","","n"],["evidence","","n"]]],["present a","present","v",[["challenge","","n"],["summary","","n"]]],["present an","present","v",[["argument","","n"]]],["presidential","presidential","adj",[["election","","n"]]],["previous","previous","adj",[["chapter","","n"],["decade","","n"],["discussion","","n"],["experience","","n"],["generation","","n"],["knowledge","","n"],["paragraph","","n"],["part","","n"],["research","","n"],["section","","n"],["study","","n"],["work","","n"]]],["previously","previously","adv",[["described","","vpp"],["discussed","","vpp"],["known","","vpp"],["mentioned","","vpp"],["thought","","vpp"]]],["primarily","primarily","adv",[["concerned","with","vpp"],["responsible","for","adj"]]],["primary","primary","adj",[["aim","","n"],["care","","n"],["concern","","n"],["data","","n"],["education","","n"],["focus","","n"],["function","","n"],["objective","","n"],["purpose","","n"],["reason","","n"],["research","","n"],["responsibility","","n"],["source","","n"],["task","","n"]]],["prime","prime","adj",[["example","","n"],["time","","n"]]],["principal","principal","adj",[["source","","n"]]],["prior","prior","adj",[["experience","","n"],["knowledge","","n"]]],["private","private","adj",[["individual","","n"],["investment","","n"],["sector","","n"],["sphere","","n"]]],["privileged","privileged","adj",[["position","","n"]]],["problem","problem","n",[["area","","n"]]],["process","process","v",[["data","","n"],["information","","n"]]],["professional","professional","adj",[["activity","","n"],["body","","n"],["colleague","","n"],["development","","n"],["experience","","n"],["knowledge","","n"],["practice","","n"],["qualification","","n"],["staff","","n"],["standard","","n"],["status","","n"],["support","","n"],["training","","n"],["work","","n"]]],["profound","profound","adj",[["effect","","n"],["impact","","n"]]],["prominent","prominent","adj",[["feature","","n"],["member","","n"],["role","","n"]]],["promote","promote","v",[["equality","","n"]]],["promote the","promote","v",[["development","of","n"]]],["properly","properly","adv",[["understood","","vpp"]]],["proposed","proposed","adj",[["legislation","","n"]]],["prove","prove","v",[["successful","","adj"],["useful","","adj"]]],["provide","provide","v",[["access","to","n"],["assistance","","n"],["care","","n"],["context","","n"],["coverage","","n"],["data","","n"],["details","","n"],["evidence","","n"],["feedback","","n"],["guidance","","n"],["information","","n"],["insight","into","n"],["material","","n"],["resources","","n"],["support","","n"]]],["provide a","provide","v",[["benefit","","n"],["clue","","n"],["focus","","n"],["foundation","for","n"],["service","","n"],["source","","n"],["summary","","n"]]],["provide an","provide","v",[["alternative","","n"],["example","","n"],["explanation","","n"],["illustration","","n"],["indication","of","n"],["opportunity","","n"],["overview","of","n"]]],["public","public","adj",[["access","","n"],["administration","","n"],["attitudes","","n"],["authority","","n"],["awareness","","n"],["debate","","n"],["discourse","","n"],["display","","n"],["domain","","n"],["expenditure","","n"],["funds","","n"],["image","","n"],["institution","","n"],["perception","","n"],["policy","","n"],["sector","","n"],["sphere","","n"],["transport","","n"],["welfare","","n"]]],["publicly","publicly","adv",[["available","","adj"]]],["publish","publish","v",[["research","","n"]]],["publish a","publish","v",[["journal","","n"],["report","","n"]]],["publish an","publish","v",[["article","","n"]]],["published","published","adj",[["literature","","n"],["material","","n"],["research","","n"],["work","","n"]]],["purchasing","purchasing","adj",[["power","","n"]]],["qualitative","qualitative","adj",[["analysis","","n"],["approach","","n"],["data","","n"],["method","","n"],["research","","n"],["study","","n"]]],["qualitatively","qualitatively","adv",[["different","","adj"]]],["quantitative","quantitative","adj",[["analysis","","n"],["approach","","n"],["data","","n"],["method","","n"],["research","","n"],["result","","n"],["study","","n"]]],["racial","racial","adj",[["differences","","n"],["discrimination","","n"],["equality","","n"],["group","","n"],["stereotype","","n"]]],["radical","radical","adj",[["change","","n"],["critique","","n"],["differences","","n"],["transformation","","n"]]],["radically","radically","adv",[["different","","adj"]]],["raise","raise","v",[["awareness","","n"]]],["raise a","raise","v",[["question","","n"]]],["raise an","raise","v",[["issue","","n"]]],["random","random","adj",[["error","","n"],["sample","","n"],["variable","","n"]]],["randomly","randomly","adv",[["assigned","to","vpp"],["chosen","","vpp"],["selected","","vpp"]]],["rapid","rapid","adj",[["expansion","","n"]]],["rapidly","rapidly","adv",[["changing","","adj"],["growing","","adj"]]],["raw","raw","adj",[["data","","n"]]],["reach a","reach","v",[["consensus","","n"],["peak","","n"]]],["reach an","reach","v",[["agreement","","n"]]],["readily","readily","adv",[["accessible","","adj"],["available","","adj"],["understood","","vpp"]]],["ready","ready","adj",[["access","","n"]]],["real","real","adj",[["issue","","n"]]],["receive","receive","v",[["feedback","","n"],["information","","n"],["treatment","","n"]]],["recent","recent","adj",[["decades","","n"],["evidence","","n"],["research","","n"],["study","","n"],["survey","","n"]]],["reciprocal","reciprocal","adj",[["relationship","","n"]]],["record","record","v",[["data","","n"]]],["recurrent","recurrent","adj",[["theme","","n"]]],["reduce","reduce","v",[["emissions","","n"],["stress","","n"]]],["reduce the","reduce","v",[["likelihood","","n"]]],["reflective","reflective","adj",[["practice","","n"],["question","","n"]]],["regional","regional","adj",[["development","","n"],["differences","","n"],["variation","","n"]]],["regulatory","regulatory","adj",[["agency","","n"],["framework","","n"]]],["related","related","adj",[["activity","","n"],["area","","n"],["aspect","","n"],["factor","","n"],["information","","n"],["issue","","n"],["problem","","n"],["question","","n"],["topic","","n"]]],["relative","relative","adj",[["autonomy","","n"],["merits","","n"],["status","","n"]]],["relatively","relatively","adv",[["common","","adj"],["constant","","adj"],["few","","adj"],["high","","adj"],["little","","adj"],["low","","adj"],["minor","","adj"],["rare","","adj"],["recent","","adj"],["simple","","adj"],["stable","","adj"],["straightforward","","adj"]]],["relevant","relevant","adj",[["data","","n"],["factors","","n"],["information","","n"],["issue","","n"],["literature","","n"],["material","","n"]]],["reliable","reliable","adj",[["data","","n"],["information","","n"]]],["religious","religious","adj",[["belief","","n"],["faith","","n"],["freedom","","n"],["group","","n"],["identity","","n"],["movement","","n"],["practice","","n"]]],["rely","rely","v",[["heavily","on","adv"]]],["remain","remain","v",[["constant","","adj"],["stable","","adj"],["unchanged","","adj"],["unclear","","adj"]]],["remarkably","remarkably","adv",[["similar","","adj"]]],["renewable","renewable","adj",[["energy","","n"]]],["renewed","renewed","adj",[["interest","","n"]]],["report","report","v",[["data","","n"],["findings","","n"]]],["representative","representative","adj",[["government","","n"]]],["require","require","v",[["consideration","","n"],["knowledge","","n"],["resources","","n"]]],["research","research","n",[["effort","","n"],["evidence","","n"],["findings","","n"],["methodology","","n"],["purposes","","n"],["topic","","n"]]],["resolve a","resolve","v",[["conflict","","n"],["dispute","","n"]]],["respond","respond","v",[["appropriately","","adv"]]],["review a","review","v",[["study","","n"]]],["revised","revised","adj",[["edition","","n"],["version","","n"]]],["rich","rich","adj",[["source","","n"]]],["rising","rising","adj",[["cost","","n"]]],["risk","risk","n",[["assessment","","n"]]],["roughly","roughly","adv",[["equal","","adj"]]],["roughly","roughly","adj",[["equivalent","","n"]]],["ruling","ruling","adj",[["class","","n"],["party","","n"]]],["rural","rural","adj",[["area","","n"],["community","","n"],["economy","","n"],["population","","n"],["society","","n"]]],["safe","safe","adj",[["sex","","n"]]],["salient","salient","adj",[["characteristic","","n"],["feature","","n"]]],["scarce","scarce","adj",[["resources","","n"]]],["schematic","schematic","adj",[["representation","","n"]]],["scholarly","scholarly","adj",[["journal","","n"],["literature","","n"],["research","","n"],["work","","n"]]],["scientific","scientific","adj",[["community","","n"],["discourse","","n"],["evidence","","n"],["investigation","","n"],["method","","n"],["objectivity","","n"],["research","","n"],["theory","","n"]]],["secondary","secondary","adj",[["data","","n"],["education","","n"],["source","","n"]]],["security","security","n",[["policy","","n"]]],["seek","seek","v",[["help","","n"],["information","","n"]]],["seem","seem","v",[["appropriate","","adj"],["obvious","","adj"],["plausible","","adj"],["unlikely","","adj"]]],["seminal","seminal","adj",[["study","","n"],["work","","n"]]],["senior","senior","adj",[["management","","n"]]],["separate","separate","adj",[["entity","","n"]]],["serious","serious","adj",[["challenge","","n"],["consequences","","n"],["offence","","n"]]],["serve a","serve","v",[["function","","n"]]],["service","service","n",[["sector","","n"]]],["set a","set","v",[["goal","","n"],["target","","n"]]],["set an","set","v",[["objective","","n"]]],["set the","set","v",[["agenda","","n"],["parameters","","n"]]],["severely","severely","adv",[["affect","","v"]]],["sexual","sexual","adj",[["abuse","","n"],["act","","n"],["behavior","","n"],["contact","","n"],["difference","","n"],["exploitation","","n"],["identity","","n"],["intercourse","","n"],["orientation","","n"],["violence","","n"]]],["share","share","v",[["information","","n"]]],["shared","shared","adj",[["experience","","n"],["meaning","","n"],["values","","n"]]],["sharp","sharp","adj",[["contrast","","n"],["distinction","","n"]]],["shift","shift","v",[["emphasis","","n"]]],["short","short","adj",[["duration","","n"],["period","","n"]]],["show","show","v",[["evidence","","n"],["variation","","n"]]],["show a","show","v",[["tendency","","n"],["trend","","n"]]],["sign a","sign","v",[["treaty","","n"]]],["significant","significant","adj",[["amount","of","n"],["change","","n"],["contribution","","n"],["correlation","","n"],["degree","of","n"],["development","","n"],["difference","","n"],["effect","","n"],["factor","","n"],["feature","","n"],["figures","","n"],["growth","","n"],["impact","","n"],["improvement","","n"],["increase","","n"],["influence","","n"],["interaction","","n"],["number","","n"],["part","","n"],["portion","","n"],["proportion","of","n"],["reduction","","n"],["relationship","","n"],["role","","n"],["shift","","n"],["variation","","n"]]],["significantly","significantly","adv",[["affect","","v"],["correlated","with","vpp"],["higher","","adj"],["increase","","v"],["reduced","","vpp"]]],["similar","similar","adj",[["approach","","n"],["argument","","n"],["characteristics","","n"],["effect","","n"],["issue","","n"],["pattern","","n"],["properties","","n"],["result","","n"],["situation","","n"]]],["simple","simple","adj",[["majority","","n"]]],["simplified","simplified","adj",[["version","","n"]]],["single","single","adj",[["currency","","n"],["element","","n"],["entity","","n"],["individual","","n"],["issue","","n"],["source","","n"],["variable","","n"]]],["skilled","skilled","adj",[["worker","","n"]]],["slightly","slightly","adv",[["different","","adj"],["higher","","adj"]]],["slow","slow","adj",[["process","","n"]]],["small","small","adj",[["fraction","","n"],["minority","","n"],["percentage","","n"],["portion","","n"],["proportion","of","n"],["quantities","of","n"]]],["social","social","adj",[["activity","","n"],["aspect","","n"],["attitudes","","n"],["background","","n"],["behavior","","n"],["circumstances","","n"],["conflict","","n"],["consequences","","n"],["construct","","n"],["contact","","n"],["context","","n"],["democracy","","n"],["dimension","","n"],["environment","","n"],["equality","","n"],["exclusion","","n"],["expectations","","n"],["factors","","n"],["function","","n"],["identity","","n"],["implications","","n"],["inequality","","n"],["institution","","n"],["integration","","n"],["interaction","","n"],["isolation","","n"],["mobility","","n"],["movement","","n"],["norm","","n"],["organization","","n"],["phenomenon","","n"],["policy","","n"],["reform","","n"],["relationship","","n"],["responsibility","","n"],["setting","","n"],["significance","","n"],["status","","n"],["structure","","n"],["theory","","n"],["transformation","","n"],["trend","","n"],["welfare","","n"]]],["socially","socially","adv",[["acceptable","","adj"],["constructed","","vpp"],["desirable","","adj"],["responsible","","adj"]]],["socioeconomic","socioeconomic","adj",[["status","","n"]]],["solar","solar","adj",[["energy","","n"],["panel","","n"],["power","","n"],["system","","n"]]],["source","source","n",[["material","","n"]]],["sovereign","sovereign","adj",[["state","","n"]]],["sparsely","sparsely","adv",[["populated","","vpp"]]],["special","special","adj",[["circumstances","","n"],["emphasis","","n"],["issue","","n"],["relationship","","n"],["status","","n"]]],["specific","specific","adj",[["area","","n"],["aspect","","n"],["case","","n"],["characteristic","","n"],["context","","n"],["example","","n"],["factor","","n"],["feature","","n"],["focus","","n"],["form","","n"],["function","","n"],["information","","n"],["issue","","n"],["knowledge","","n"],["meaning","","n"],["needs","","n"],["problem","","n"],["purpose","","n"],["question","","n"],["reference","","n"],["sense","","n"],["type","","n"]]],["specifically","specifically","adv",[["designed","to, for","vpp"]]],["standard","standard","adj",[["approach","","n"],["error","","n"],["format","","n"],["method","","n"]]],["stark","stark","adj",[["contrast","","n"]]],["start a","start","v",[["process","","n"]]],["state","state","v",[["explicitly","","adv"]]],["state","state","n",[["sector","","n"]]],["statistical","statistical","adj",[["analysis","","n"],["data","","n"],["information","","n"],["method","","n"],["significance","","n"],["technique","","n"],["test","","n"]]],["statistically","statistically","adv",[["significant","","adj"]]],["store","store","v",[["data","","n"],["information","","n"]]],["strategic","strategic","adj",[["decision","","n"],["importance","","n"],["management","","n"],["objective","","n"],["planning","","n"]]],["stress","stress","n",[["level","","n"]]],["striking","striking","adj",[["contrast","","n"],["example","","n"],["feature","","n"]]],["strong","strong","adj",[["bond","","n"],["correlation","","n"],["emphasis","","n"],["evidence","","n"],["link","","n"],["reaction","","n"],["relationship","","n"],["tendency","","n"]]],["strongly","strongly","adv",[["agree","","v"],["associated","with","vpp"],["correlated","with","vpp"],["disagree","","v"],["influenced","by","vpp"],["linked","","vpp"],["opposed","","vpp"],["related","to","vpp"],["suggest","","v"]]],["structural","structural","adj",[["adjustment","","n"],["change","","n"],["element","","n"],["feature","","n"],["properties","","n"]]],["subject","subject","adj",[["area","","n"]]],["subsequent","subsequent","adj",[["analysis","","n"],["chapter","","n"],["development","","n"],["study","","n"],["work","","n"]]],["substantial","substantial","adj",[["amount","of","n"],["difference","","n"],["evidence","","n"],["number","","n"],["part","","n"]]],["substantially","substantially","adv",[["different","","adj"]]],["successful","successful","adj",[["implementation","","n"]]],["sufficient","sufficient","adj",[["condition","","n"],["detail","","n"],["evidence","","n"],["information","","n"],["resources","","n"]]],["superior","superior","adj",[["performance","","n"]]],["support an","support","v",[["argument","","n"]]],["supporting","supporting","adj",[["evidence","","n"]]],["survey","survey","n",[["data","","n"]]],["symbiotic","symbiotic","adj",[["relationship","","n"]]],["systematic","systematic","adj",[["analysis","","n"],["approach","","n"],["study","","n"]]],["tacit","tacit","adj",[["knowledge","","n"]]],["take","take","v",[["initiative","","n"],["precedence","over","n"],["responsibility","","n"]]],["take a","take","v",[["role","in","n"]]],["take an","take","v",[["approach","","n"]]],["take into","take into","v",[["consideration","","n"]]],["take on the role","take on role","v",[["role","of, as","n"]]],["take up the","take up","v",[["role","of, as","n"]]],["target","target","n",[["audience","","n"]]],["teaching","teaching","n",[["strategy","","n"]]],["technical","technical","adj",[["aspect","","n"],["assistance","","n"],["detail","","n"],["expertise","","n"],["issue","","n"],["knowledge","","n"],["problem","","n"],["skill","","n"],["support","","n"],["term","","n"]]],["technological","technological","adj",[["advances","","n"],["change","","n"],["development","","n"],["innovation","","n"],["progress","","n"]]],["test","test","n",[["score","","n"]]],["test a","test","v",[["theory","","n"]]],["textual","textual","adj",[["analysis","","n"]]],["thematic","thematic","adj",[["analysis","","n"]]],["theoretical","theoretical","adj",[["analysis","","n"],["approach","","n"],["basis","","n"],["concept","","n"],["debate","","n"],["framework","","n"],["issue","","n"],["model","","n"],["perspective","","n"],["study","","n"],["understanding","","n"],["work","","n"]]],["think","think","v",[["differently","","adv"]]],["thinking","thinking","n",[["process","","n"]]],["third","third","adj",[["party","","n"]]],["thought","thought","n",[["process","","n"]]],["tightly","tightly","adv",[["controlled","","vpp"]]],["top","top","adj",[["management","","n"]]],["total","total","adj",[["income","","n"]]],["totally","totally","adv",[["different","","adj"]]],["traditional","traditional","adj",[["approach","","n"],["culture","","n"],["form","","n"],["method","","n"],["practice","","n"],["research","","n"],["society","","n"],["value","","n"],["view","","n"]]],["transferable","transferable","adj",[["skill","","n"]]],["transmit","transmit","v",[["data","","n"],["information","","n"]]],["transport","transport","n",[["system","","n"]]],["treat","treat","v",[["differently","","adv"],["equally","","adv"]]],["typical","typical","adj",[["example","","n"]]],["ultimate","ultimate","adj",[["goal","","n"]]],["undergo","undergo","adj",[["transformation","","n"]]],["underlying","underlying","adj",[["assumption","","n"],["cause","","n"],["principle","","n"],["process","","n"],["reason","","n"],["structure","","n"]]],["undertake","undertake","v",[["research","","n"],["work","","n"]]],["undertake an","undertake","v",[["activity","","n"]]],["unequal","unequal","adj",[["power","","n"]]],["unfair","unfair","adj",[["treatment","","n"]]],["unintended","unintended","adj",[["consequences","","n"]]],["unique","unique","adj",[["individual","","n"],["opportunity","","n"],["position","","n"]]],["universally","universally","adv",[["accepted","","vpp"]]],["unlimited","unlimited","adj",[["access","","n"]]],["unskilled","unskilled","adj",[["worker","","n"]]],["urban","urban","adj",[["area","","n"],["center","","n"],["design","","n"],["development","","n"],["environment","","n"]]],["use","use","v",[["criteria","","n"],["effectively","","adv"],["resources","","n"],["sparingly","","adv"],["statistics","","n"]]],["use a","use","v",[["format","","n"],["method","","n"],["methodology","","n"],["procedure","","n"],["source","","n"],["strategy","","n"],["technique","","n"],["theory","","n"]]],["use an","use","v",[["analysis","","n"],["approach","","n"],["definition","","n"]]],["use the concept","use concept","v",[["concept","","n"]]],["use the data","use data","v",[["data","","n"]]],["useful","useful","adj",[["information","","n"],["material","","n"],["means","","n"],["source","","n"],["summary","","n"],["tool","","n"]]],["valid","valid","adj",[["argument","","n"]]],["valuable","valuable","adj",[["information","","n"],["resources","","n"]]],["various","various","adj",[["aspects","","n"]]],["vary","vary","v",[["considerably","","adv"],["greatly","","adv"],["significantly","","adv"],["widely","","adv"]]],["varying","varying","adj",[["degree","","n"]]],["vast","vast","adj",[["amount","of","n"],["area","","n"],["array","of","n"],["majority","","n"],["number","","n"],["quantities","of","n"],["range","of","n"]]],["verbal","verbal","adj",[["communication","","n"],["language","","n"]]],["vested","vested","adj",[["interest","","n"]]],["virtual","virtual","adj",[["community","","n"]]],["virtually","virtually","adv",[["impossible","","adj"]]],["visual","visual","adj",[["image","","n"],["media","","n"],["perception","","n"],["representation","","n"]]],["vital","vital","adj",[["importance","","n"],["part","","n"],["role","","n"]]],["vulnerable","vulnerable","adj",[["group","","n"]]],["welfare","welfare","n",[["reform","","n"]]],["well","well","adv",[["aware","","adj"],["designed","","vpp"],["documented","","vpp"],["educated","","vpp"],["established","","vpp"],["received","","vpp"]]],["western","western","adj",[["democracy","","n"],["society","","n"],["tradition","","n"]]],["whole","whole","adj",[["area","","n"],["period","","n"],["range","of","n"]]],["wide","wide","adj",[["area","","n"],["array","of","n"],["range","of","n"],["variation","","n"]]],["widely","widely","adv",[["accepted","","vpp"],["adopted","","vpp"],["available","","adj"],["believed","","vpp"],["different","","adj"],["discussed","","vpp"],["dispersed","","vpp"],["distributed","","vpp"],["known","","vpp"],["read","","vpp"],["recognized","","vpp"],["regarded","as","vpp"],["shared","","vpp"],["used","","vpp"]]],["wider","wider","adj",[["audience","","n"],["community","","n"],["context","","n"],["implications","","n"],["issue","","n"],["public","","n"],["society","","n"]]],["widespread","widespread","adj",[["acceptance","","n"],["belief","","n"],["support","","n"],["use","","n"]]],["work","work","v",[["effectively","","adv"]]],["written","written","adj",[["comment","","n"],["communication","","n"],["statement","","n"]]],["younger","younger","adj",[["generation","","n"]]]],"P":{"Describe Image":["significant|growth","significant|increase","significant|reduction","significant|change","significant|difference","dramatic|increase","dramatic|change","rapid|expansion","reach|peak","remain|stable","remain|constant","remain|unchanged","slightly|higher","slightly|different","significantly|higher","sharp|contrast","stark|contrast","marked|contrast","striking|contrast","vast|majority","overwhelming|majority","large|majority","small|fraction","small|minority","small|percentage","small|proportion","large|proportion","large|percentage","high|percentage","low|percentage","relatively|high","relatively|low","relatively|stable","relatively|constant","increase|dramatically","change|dramatically","change|rapidly","grow|rapidly","expand|rapidly","vary|considerably","vary|widely","differ|significantly","roughly|equal","constant|rate","high|level","low|level","show|trend","growing|trend","clear|indication","overall|picture","overall|rate","increased|demand","rapidly|growing","consistent|pattern"],"Essay & opinions":["play|role","crucial|role","pivotal|role","key|role","vital|role","major|role","central|role","raise|awareness","increase|awareness","growing|awareness","take into|consideration","have|consequences","serious|consequences","negative|consequences","unintended|consequences","adverse|effect","negative|impact","positive|impact","significant|impact","profound|impact","have|potential","draw|conclusion","reach|consensus","reach|agreement","widely|accepted","generally|accepted","strongly|agree","strongly|disagree","compelling|argument","valid|argument","clear|evidence","strong|evidence","compelling|evidence","pose|threat","pose|challenge","face|challenge","major|challenge","serious|challenge","address|issue","controversial|issue","key|factor","crucial|factor","major|concern","vital|importance","paramount|importance","take|responsibility","accept|responsibility","take|initiative","make|contribution","significant|contribution","encounter|difficulties","face|difficulties","create|opportunities","offer|opportunity","equal|opportunity","younger|generation","mental|health","fundamental|difference","obvious|reason","major|advantage","prime|example","classic|example","heated|debate","ongoing|debate","considerable|debate","increasingly|important","equally|important"],"Research & data":["conduct|research","carry out|research","undertake|research","extensive|research","empirical|evidence","empirical|research","collect|data","gather|data","obtain|data","interpret|data","raw|data","reliable|data","statistical|analysis","detailed|analysis","critical|analysis","comparative|study","longitudinal|study","pilot|study","previous|research","recent|research","further|research","future|research","research|findings","key|findings","preliminary|findings","significant|correlation","strong|correlation","positively|correlated","negatively|correlated","statistically|significant","random|sample","dependent|variable","independent|variable","conduct|survey","conduct|interview","publish|research","publish|article","scholarly|journal","relevant|literature","theoretical|framework","conceptual|framework","test|theory","develop|theory","qualitative|research","quantitative|research","experimental|design","experimental|results","consistent|results","obtain|result","draw|conclusion","provide|evidence","find|evidence","present|evidence","supporting|evidence","little|evidence","ample|evidence"]}};
+/* ---------- build index ---------- */
+const TYPES={'adj+n':'Adjective + noun','v+n':'Verb + noun','n+n':'Noun + noun','adv+adj':'Adverb + adjective','v+adv':'Verb + adverb','adv+v':'Adverb + verb','v+adj':'Verb + adjective'};
+function typeOf(hp,pp){if(pp==='vpp')pp='adj';const k=hp+'+'+pp;return TYPES[k]?k:(hp==='adv'?'adv+adj':k);}
+const HEADS=DATA.H.map((h,i)=>({i,disp:h[0],bare:h[1],pos:h[2],ps:h[3].map(p=>({w:p[0],prep:p[1],pos:p[2]}))}));
+const ITEMS=[];const BARE={};const PWH={};
+HEADS.forEach(h=>{
+  const art=h.disp.startsWith(h.bare)?h.disp.slice(h.bare.length).trim():'';
+  h.art=art;
+  (BARE[h.bare]=BARE[h.bare]||new Set());
+  h.ps.forEach(p=>{
+    BARE[h.bare].add(p.w);(PWH[p.w]=PWH[p.w]||new Set()).add(h.bare);
+    const merged=h.disp.endsWith(' '+p.w);
+    const it={key:h.bare+'|'+p.w,h,p,type:typeOf(h.pos,p.pos),merged,
+      canHead:!merged&&!/[\/(]/.test(h.bare),canPart:!merged&&!/[\/(]/.test(p.w)};
+    it.text=(merged?h.disp:[h.disp,p.w].join(' '))+(p.prep?' ('+p.prep+')':'');
+    it.say=(merged?h.disp:[h.disp,p.w].join(' ')).replace(/\//g,' ');
+    ITEMS.push(it);
+  });
+});
+const BYKEY={};ITEMS.forEach(it=>{if(!BYKEY[it.key])BYKEY[it.key]=it;});
+const BAREPOS={};HEADS.forEach(h=>BAREPOS[h.bare]=h.pos);
+const PWPOS={};ITEMS.forEach(it=>PWPOS[it.p.w]=it.p.pos);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- storage ---------- */
+const KEY='pte-word-partners-v1';
+let ST={items:{},streak:0,today:{d:'',n:0},voice:'',rate:0.9};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s)ST=Object.assign(ST,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST));}catch(e){}if(typeof cloudSave==='function')cloudSave();}
+const todayStr=()=>new Date().toISOString().slice(0,10);
+function rec(key,ok){
+  const s=ST.items[key]||(ST.items[key]={box:0,wrong:0});
+  if(ok){s.box=Math.min(5,s.box+1);ST.streak++;if(ST.today.d!==todayStr())ST.today={d:todayStr(),n:0};ST.today.n++;}
+  else{s.box=0;s.wrong++;ST.streak=0;}
+  save();stats();
+}
+function reviewItems(){return Object.entries(ST.items).filter(([k,s])=>s.wrong>0&&s.box<3&&BYKEY[k]).map(([k])=>BYKEY[k]);}
+function stats(){
+  if(ST.today.d!==todayStr())ST.today={d:todayStr(),n:0};
+  document.getElementById('stStreak').textContent=ST.streak;
+  document.getElementById('stToday').textContent=ST.today.n;
+  document.getElementById('stMastered').textContent=Object.values(ST.items).filter(s=>s.box>=4).length;
+  const r=reviewItems().length;document.getElementById('revCount').textContent=r?`(${r})`:'';
+}
+
+/* ---------- speech ---------- */
+let VOICES=[];
+function loadVoices(){VOICES=(speechSynthesis.getVoices()||[]).filter(v=>/^en/i.test(v.lang));}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices();if(TAB==='settings')render();};}
+let UTT=null,UNLOCKED=false;
+function unlockSpeech(){
+  if(UNLOCKED||!('speechSynthesis' in window))return;
+  try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u);UNLOCKED=true;}catch(e){}
+}
+document.addEventListener('touchend',unlockSpeech,true);
+document.addEventListener('click',unlockSpeech,true);
+function speak(t,rate){
+  if(!('speechSynthesis' in window))return false;
+  if(!VOICES.length)loadVoices();
+  const go=()=>{
+    const u=new SpeechSynthesisUtterance(t);
+    const v=VOICES.find(v=>v.name===ST.voice)||VOICES.find(v=>/en[-_]GB/i.test(v.lang))||VOICES[0];
+    if(v){u.voice=v;u.lang=v.lang;}else{u.lang='en-GB';}
+    u.rate=rate||ST.rate;u.volume=1;UTT=u;
+    try{speechSynthesis.resume();}catch(e){}
+    speechSynthesis.speak(u);
+  };
+  if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(go,120);}else go();
+  return true;
+}
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
+function norm(s){
+  return s.toLowerCase().trim().replace(/\s+/g,' ')
+   .replace(/izations?$/,m=>m.replace('z','s')).replace(/iz(e|ed|es|ing)$/,'is$1').replace(/yz(e|ed|ing)$/,'ys$1')
+   .replace(/ell(ed|ing)$/,'el$1').replace(/(behavio|favo|labo|colo|neighbo)ur/,'$1r').replace(/^centre$/,'center')
+   .replace(/programme$/,'program').replace(/offense$/,'offence').replace(/judgment/,'judgement').replace(/^fulfill/,'fulfil');
+}
+
+/* ---------- filters ---------- */
+const LETTERS=[...new Set(HEADS.map(h=>h.bare[0].toUpperCase()))].sort();
+function poolFor(sel){
+  if(sel==='review')return reviewItems();
+  if(sel==='all')return ITEMS;
+  const [k,v]=sel.split(':');
+  if(k==='type')return ITEMS.filter(it=>it.type===v);
+  if(k==='pack')return (DATA.P[v]||[]).map(x=>BYKEY[x]).filter(Boolean);
+  if(k==='letter')return ITEMS.filter(it=>it.h.bare[0].toUpperCase()===v);
+  return ITEMS;
+}
+function poolSelect(){
+  const types=Object.entries(TYPES).filter(([k])=>ITEMS.some(i=>i.type===k));
+  let o=`<option value="all">All ${ITEMS.length.toLocaleString()} collocations</option><optgroup label="Exam topic packs">`;
+  Object.keys(DATA.P).forEach(p=>o+=`<option value="pack:${esc(p)}" ${SEL==='pack:'+p?'selected':''}>${esc(p)} (${DATA.P[p].length})</option>`);
+  o+='</optgroup><optgroup label="By pattern">';
+  types.forEach(([k,v])=>o+=`<option value="type:${k}" ${SEL==='type:'+k?'selected':''}>${v} (${ITEMS.filter(i=>i.type===k).length})</option>`);
+  o+='</optgroup><optgroup label="By first letter">';
+  LETTERS.forEach(l=>o+=`<option value="letter:${l}" ${SEL==='letter:'+l?'selected':''}>${l}</option>`);
+  return `<label class="small" for="psel">Practise</label> <select id="psel">${o}</optgroup></select>`;
+}
+
+/* ---------- distractors ---------- */
+function similar(a,b){const x=a.toLowerCase(),y=b.toLowerCase();if(x===y)return true;const n=Math.min(x.length,y.length,5);return x.slice(0,n)===y.slice(0,n)&&Math.abs(x.length-y.length)<=3;}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function pickTop(cands,n){shuffle(cands);cands.sort((a,b)=>b.s-a.s);const top=cands.slice(0,Math.max(n*4,10));return shuffle(top).slice(0,n).map(c=>c.w);}
+function distractPart(it){
+  const valid=BARE[it.h.bare], mine=PWH[it.p.w];const out=[];
+  for(const w in PWH){ if(valid.has(w)||PWPOS[w]!==it.p.pos||/[\/(]/.test(w)||similar(w,it.p.w))continue;
+    let s=0;PWH[w].forEach(b=>{if(mine.has(b))s++;});out.push({w,s});}
+  return pickTop(out,3);
+}
+function distractHead(it){
+  const mine=BARE[it.h.bare];const out=[];
+  for(const b in BARE){ if(b===it.h.bare||BARE[b].has(it.p.w)||BAREPOS[b]!==it.h.pos||/[\/(]/.test(b)||similar(b,it.h.bare))continue;
+    let s=0;BARE[b].forEach(w=>{if(mine.has(w))s++;});out.push({w:b,s});}
+  return pickTop(out,3);
+}
+function phraseHtml(it,blank,fill,cls){
+  const g=`<span class="gap ${cls||''}" id="gp">${fill?esc(fill):'?'}</span>`;
+  const prep=it.p.prep?` <span class="art">${esc(it.p.prep)}</span>`:'';
+  const art=it.h.art?` <span class="art">${esc(it.h.art)}</span>`:'';
+  if(blank==='head')return `${g}${art} ${esc(it.p.w)}${prep}`;
+  if(blank==='part')return `${esc(it.h.bare)}${art} ${g}${prep}`;
+  return `${esc(it.h.bare)}${art} ${esc(it.p.w)}${prep}`;
+}
+
+/* ---------- UI ---------- */
+let TAB='learn',SEL='all',G=null,keyHandler=null;
+const main=document.getElementById('main');
+document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setTab(b.dataset.tab);});
+function setTab(t,sel){TAB=t;if(sel!==undefined)SEL=sel;G=null;keyHandler=null;resetNav();
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));render();window.scrollTo(0,0);}
+document.addEventListener('keydown',e=>{if(keyHandler)keyHandler(e);});
+/* ---------- home / previous navigation ---------- */
+const NAV={hist:[],live:null,vi:-1,liveAnswered:false,savedKey:null};
+function resetNav(){NAV.hist=[];NAV.live=null;NAV.vi=-1;NAV.liveAnswered=false;}
+function navBar(nextOn){return `<div class="gnav"><button class="btn ghost sm" data-home>⌂ Home</button><button class="btn ghost sm" data-prev ${NAV.hist.length?'':'disabled'}>‹ Previous</button><button class="btn sm" data-gnext ${nextOn?'':'disabled'}>Next ›</button></div>`;}
+function snapshot(){
+  main.querySelectorAll('input[type=text]').forEach(i=>i.setAttribute('value',i.value));
+  main.querySelectorAll('textarea').forEach(t=>t.textContent=t.value);
+  NAV.hist.push(main.innerHTML);NAV.liveAnswered=true;
+  const p=main.querySelector('[data-prev]');if(p)p.disabled=false;
+  const n=main.querySelector('[data-gnext]');if(n)n.disabled=false;
+}
+function lastHist(){return NAV.hist.length-1-(NAV.liveAnswered?1:0);}
+function showPrev(){
+  if(NAV.vi===-1){
+    const start=lastHist();if(start<0)return;
+    NAV.live=document.createDocumentFragment();while(main.firstChild)NAV.live.appendChild(main.firstChild);
+    NAV.savedKey=keyHandler;keyHandler=null;NAV.vi=start;
+  } else NAV.vi=Math.max(0,NAV.vi-1);
+  drawHist();
+}
+function drawHist(){
+  main.innerHTML=`<div class="panel"><p class="tiny" style="margin:0 0 8px">Looking back at answered item ${NAV.vi+1} of ${NAV.hist.length}. <button class="btn ghost sm" data-back>Back to current</button></p><div inert class="histview">${NAV.hist[NAV.vi]}</div>
+  <div class="gnav"><button class="btn ghost sm" data-home>⌂ Home</button><button class="btn ghost sm" data-prev ${NAV.vi>0?'':'disabled'}>‹ Previous</button><button class="btn sm" data-hnext>Next ›</button></div></div>`;
+  window.scrollTo(0,0);
+}
+function histNext(){NAV.vi++;if(NAV.vi>lastHist())backToLive();else drawHist();}
+function backToLive(){
+  if(!NAV.live)return;main.innerHTML='';main.appendChild(NAV.live);NAV.live=null;NAV.vi=-1;keyHandler=NAV.savedKey;
+  const p=main.querySelector('[data-prev]');if(p)p.disabled=lastHist()<0;
+}
+function goHome(){try{speechSynthesis.cancel();}catch(e){}resetNav();setTab('learn');}
+main.addEventListener('click',e=>{
+  if(e.target.closest('[data-home]'))return goHome();
+  if(e.target.closest('[data-prev]'))return showPrev();
+  if(e.target.closest('[data-hnext]'))return histNext();
+  if(e.target.closest('[data-gnext]')){const t=main.querySelector('#nx')||main.querySelector('#again')||main.querySelector('#chk');if(t)t.click();return;}
+  if(e.target.closest('[data-back]'))return backToLive();
+});
+
+
+function render(){
+  stats();
+  if(TAB==='learn')return renderLearn();
+  if(TAB==='settings')return renderSettings();
+  if(TAB==='review'){if(!reviewItems().length){main.innerHTML='<div class="panel">No mistakes to review yet. Collocations you miss in any game land here until you get them right three times in a row.</div>';return;}
+    return startGame('pick','review');}
+  renderSetup();
+}
+
+/* Learn */
+let LQ='',LF='all',LSHOW=40,LALL=false;
+function renderLearn(){
+  const filters=[['all','All'],...Object.keys(DATA.P).map(p=>['pack:'+p,p]),...Object.entries(TYPES).map(([k,v])=>['type:'+k,v])];
+  main.innerHTML=`<input type="search" id="q" placeholder="Search a word, e.g. evidence, role, significant" value="${esc(LQ)}" aria-label="Search collocations">
+   <div class="chips">${filters.map(([k,v])=>`<button class="chip" data-f="${esc(k)}" aria-pressed="${LF===k}">${esc(v)}</button>`).join('')}</div>
+   <div id="res"></div>`;
+  const q=document.getElementById('q');
+  q.oninput=()=>{LQ=q.value;LSHOW=40;LALL=false;drawRes();};
+  main.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{LF=c.dataset.f;LSHOW=40;main.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));drawRes();});
+  drawRes();
+}
+function drawRes(){
+  const q=LQ.trim().toLowerCase();
+  let items=poolFor(LF);
+  if(q)items=items.filter(it=>it.h.bare.toLowerCase().includes(q)||it.p.w.toLowerCase().includes(q));
+  // group by head
+  const groups=new Map();
+  items.forEach(it=>{const k=it.h.i;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(it);});
+  // when searching a partner word, show the partner-centred view first
+  let h='';
+  if(q&&PWH[q]){h+=`<div class="card"><div class="hd"><span class="hw">…${esc(q)}</span><span class="tiny">words that go before it</span></div>${[...PWH[q]].sort().map(b=>{const it=BYKEY[b+'|'+q];return it?chipFor(it,'head'):'';}).join('')}</div>`;}
+  const arr=[...groups.values()].sort((a,b)=>a[0].h.bare.localeCompare(b[0].h.bare));
+  const lim=LALL?Infinity:LSHOW;
+  h+=`<p class="tiny" style="margin-bottom:6px">${items.length} collocations${!LALL&&arr.length>LSHOW?`, showing ${LSHOW} of ${arr.length} headwords`:`, ${arr.length} headwords`}. Tap a pair to hear it.</p>`;
+  if(arr.length>1)h+=`<button class="btn ${LALL?'ghost':''}" id="az" style="width:100%;margin-bottom:10px">${LALL?'Show fewer':'Show all A–Z'}</button>`;
+  const letters=[...new Set(arr.map(l=>l[0].h.bare[0].toUpperCase()))];
+  if(LALL&&letters.length>1)h+=`<div class="azbar" aria-label="Jump to letter">${letters.map(l=>`<button data-jump="${l}">${l}</button>`).join('')}</div>`;
+  let lastL='';
+  arr.slice(0,lim).forEach(list=>{
+    const hd=list[0].h;
+    const L=hd.bare[0].toUpperCase();if(LALL&&L!==lastL){h+=`<h3 class="lt" id="L-${L}">${L}</h3>`;lastL=L;}const m=Math.round(list.reduce((a,it)=>a+((ST.items[it.key]||{}).box||0),0)/(list.length*5)*100);
+    h+=`<div class="card"><div class="hd"><span class="hw">${esc(hd.disp)}</span><span class="pos">${hd.pos}</span><span class="meter" title="${m}% mastered"><i style="width:${m}%"></i></span></div>${list.map(it=>chipFor(it,'part')).join('')}</div>`;
+  });
+  if(!LALL&&arr.length>LSHOW)h+=`<button class="btn ghost" id="more" style="width:100%">Show more</button>`;
+  if(!items.length)h+=`<div class="panel">No collocations match "${esc(LQ)}". Try a shorter word.</div>`;
+  const res=document.getElementById('res');res.classList.toggle('compact',LALL);res.innerHTML=h;
+  const az=document.getElementById('az');if(az)az.onclick=()=>{LALL=!LALL;drawRes();if(!LALL)az.scrollIntoView();};
+  res.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{const t=document.getElementById('L-'+b.dataset.jump);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});
+  res.querySelectorAll('.pw').forEach(b=>b.onclick=()=>speak(BYKEY[b.dataset.k].say));
+  const more=document.getElementById('more');if(more)more.onclick=()=>{LSHOW+=40;drawRes();};
+}
+function chipFor(it,show){
+  const m=(ST.items[it.key]||{}).box>=4?' m':'';
+  const label=show==='head'?`${esc(it.h.disp)} <b>${esc(it.p.w)}</b>`:`${esc(it.p.w)}`;
+  return `<button class="pw${m}" data-k="${esc(it.key)}">${label}${it.p.prep?` <span class="prep">${esc(it.p.prep)}</span>`:''}</button>`;
+}
+
+/* Setup */
+function renderSetup(){
+  const d={pick:'A collocation appears with one word missing. Pick the word that really goes with it, the same skill as Fill in the Blanks.',
+    match:'Five words on the left, five partners on the right. Tap a word, then its partner. Clear the board as fast as you can.',
+    type:'You hear a collocation and one word is missing. Type it. This trains your ear and spelling for Write From Dictation and Repeat Sentence.'}[TAB];
+  main.innerHTML=`<div class="panel"><p style="margin-top:0">${d}</p><div class="row">${poolSelect()}<button class="btn" id="go">${TAB==='match'?'Start':'Start 10'}</button></div>
+  <p class="tiny" style="margin-bottom:0">Start with a topic pack. Describe Image and Essay collocations are the ones you can reuse in your own speaking and writing.</p></div>`;
+  document.getElementById('psel').onchange=e=>SEL=e.target.value;
+  document.getElementById('go').onclick=()=>startGame(TAB,SEL);
+}
+function pickItems(pool,n,filter){
+  pool=pool.filter(filter||(()=>true));
+  return pool.map(x=>({x,k:Math.random()*(6-((ST.items[x.key]||{}).box||0))})).sort((a,b)=>b.k-a.k).slice(0,n).map(o=>o.x);
+}
+function startGame(mode,sel){
+  SEL=sel;resetNav();
+  if(mode==='match')return startMatch(sel);
+  const items=pickItems(poolFor(sel),10,it=>it.canHead||it.canPart);
+  if(!items.length){main.innerHTML='<div class="panel">No collocations in this set.</div>';return;}
+  G={mode,sel,items,i:0,score:0,missed:[]};nextQ();
+}
+function bar(){NAV.liveAnswered=false;return navBar()+`<div class="row" style="justify-content:space-between"><span class="tiny">${G.i+1} of ${G.items.length}</span><span class="tiny">${G.score} right</span></div><div class="progress"><i style="width:${G.i/G.items.length*100}%"></i></div>`;}
+function nextQ(){if(G.i>=G.items.length)return summary();const it=G.items[G.i];G.mode==='type'?qType(it):qPick(it);}
+function chooseBlank(it){if(it.canHead&&it.canPart)return Math.random()<0.5?'head':'part';return it.canHead?'head':'part';}
+
+function alsoLine(it){
+  const others=[...BARE[it.h.bare]].filter(w=>w!==it.p.w);
+  const before=[...PWH[it.p.w]].filter(b=>b!==it.h.bare);
+  let s='';
+  if(others.length)s+=`<div style="margin-top:6px"><b>${esc(it.h.bare)}</b> also goes with: ${others.slice(0,14).map(esc).join(', ')}${others.length>14?' …':''}</div>`;
+  if(before.length)s+=`<div style="margin-top:4px">Other words before <b>${esc(it.p.w)}</b>: ${before.slice(0,14).map(esc).join(', ')}${before.length>14?' …':''}</div>`;
+  return s;
+}
+function qPick(it){
+  const blank=chooseBlank(it);const ans=blank==='head'?it.h.bare:it.p.w;
+  const opts=shuffle([ans,...(blank==='head'?distractHead(it):distractPart(it))]);
+  main.innerHTML=`<div class="panel">${bar()}<div class="q"><div class="phrase" id="ph">${phraseHtml(it,blank)}</div>
+   <div class="tiny" style="margin-top:6px">${esc(TYPES[it.type]||'')}</div></div>
+   <div class="opts">${opts.map((o,n)=>`<button class="tile" data-o="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+   <p class="tiny" style="text-align:center;margin:0">Keys 1 to ${opts.length} work too.</p><div id="fb"></div></div>`;
+  let done=false;
+  const choose=o=>{
+    if(done)return;done=true;const ok=o===ans;G.score+=ok;rec(it.key,ok);if(!ok)G.missed.push(it);
+    document.getElementById('ph').innerHTML=phraseHtml(it,blank,ans,ok?'ok':'no');
+    document.querySelectorAll('.tile').forEach(t=>{t.disabled=true;if(t.dataset.o===ans)t.classList.add('right');else if(t.dataset.o===o)t.classList.add('wrong');else t.classList.add('dim');});
+    speak(it.say);
+    document.getElementById('fb').innerHTML=`<div class="fb ${ok?'ok':'no'}"><div style="font-size:18px"><b>${esc(it.text)}</b></div>${!ok?`<div>"${esc(blank==='head'?o+' '+it.p.w:it.h.bare+' '+o)}" is not a pair in the list.</div>`:''}${alsoLine(it)}</div>
+     <div class="row" style="justify-content:center;margin-top:14px"><button class="btn" id="nx">Next</button></div>`;
+    const nx=document.getElementById('nx');nx.onclick=()=>{G.i++;nextQ();};snapshot();keyHandler=e=>{if(e.key==='Enter'){e.preventDefault();nx.click();}};
+  };
+  document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>choose(t.dataset.o));
+  keyHandler=e=>{const n=+e.key;if(!done&&n>=1&&n<=opts.length)choose(opts[n-1]);};
+}
+
+function qType(it){
+  const blank=chooseBlank(it);const ans=blank==='head'?it.h.bare:it.p.w;
+  main.innerHTML=`<div class="panel">${bar()}<div class="q"><button class="speak" id="sp" aria-label="Play the collocation">${SPK}</button><p class="tiny" style="margin:0 0 10px">No sound? Turn the volume up. On iPhone, switch off silent mode.</p>
+   <div class="phrase" id="ph" style="font-size:clamp(24px,6vw,36px)">${phraseHtml(it,blank)}</div>
+   <div class="tiny" style="margin:6px 0 14px">${ans.length} letters${ans.includes(' ')?', two words':''} · <button class="btn ghost" id="slow" style="padding:4px 10px;font-size:14px">Play slowly</button></div>
+   <input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" autocorrect="off" aria-label="Type the missing word">
+   <div class="err hidden" id="er">Type the missing word first.</div>
+   <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="chk">Check</button></div></div><div id="fb"></div></div>`;
+  const inp=document.getElementById('ans');
+  document.getElementById('sp').onclick=()=>{speak(it.say);inp.focus();};
+  document.getElementById('slow').onclick=()=>{speak(it.say,0.6);inp.focus();};
+  inp.oninput=()=>document.getElementById('er').classList.add('hidden');
+  let done=false;
+  const check=()=>{
+    if(done){G.i++;return nextQ();}
+    const v=inp.value.trim();if(!v){document.getElementById('er').classList.remove('hidden');return;}
+    done=true;const ok=norm(v)===norm(ans);G.score+=ok;rec(it.key,ok);if(!ok)G.missed.push(it);
+    inp.disabled=true;document.getElementById('chk').textContent='Next';document.getElementById('chk').classList.add('hidden');
+    document.getElementById('ph').innerHTML=phraseHtml(it,blank,ans,ok?'ok':'no');
+    document.getElementById('fb').innerHTML=`<div class="fb ${ok?'ok':'no'}">${ok?'':`You wrote <b>${esc(v)}</b>. `}<b>${esc(it.text)}</b>${alsoLine(it)}</div>`;snapshot();
+  };
+  document.getElementById('chk').onclick=check;
+  keyHandler=e=>{if(e.key==='Enter'){e.preventDefault();check();}};
+  setTimeout(()=>{if(!speak(it.say))document.getElementById('fb').innerHTML='<div class="fb no">This browser has no speech voice. Try Pick the partner instead.</div>';inp.focus();},250);
+}
+
+/* Match */
+function startMatch(sel){
+  const pool=shuffle(poolFor(sel).filter(it=>!it.merged).slice());
+  let set=[];
+  for(const it of pool){
+    if(set.length===5)break;
+    if(set.some(s=>s.h.bare===it.h.bare||s.p.w===it.p.w))continue;
+    if(set.some(s=>BARE[s.h.bare].has(it.p.w)||BARE[it.h.bare].has(s.p.w)))continue;
+    set.push(it);
+  }
+  if(set.length<3){main.innerHTML='<div class="panel">This set is too small for Match up. Pick a bigger set.</div>';return;}
+  const L=shuffle(set.slice()),R=shuffle(set.slice());
+  let sel1=null,left=set.length,miss=0;const t0=Date.now();const missed=new Set();
+  NAV.liveAnswered=false;main.innerHTML=`<div class="panel">${navBar()}<div class="row" style="justify-content:space-between"><span class="tiny">Tap a word, then its partner</span><span class="tiny" id="mm">0 misses</span></div>
+   <div class="match"><div class="col">${L.map(it=>`<button class="tile" data-side="L" data-k="${esc(it.key)}">${esc(it.h.disp)}</button>`).join('')}</div>
+   <div class="col">${R.map(it=>`<button class="tile" data-side="R" data-k="${esc(it.key)}">${esc(it.p.w)}${it.p.prep?` <span class="prep">${esc(it.p.prep)}</span>`:''}</button>`).join('')}</div></div><div id="fb"></div></div>`;
+  main.querySelectorAll('.match .tile').forEach(b=>b.onclick=()=>{
+    if(!sel1||sel1.dataset.side===b.dataset.side){if(sel1)sel1.classList.remove('sel');sel1=b;b.classList.add('sel');return;}
+    const a=sel1;sel1=null;a.classList.remove('sel');
+    if(a.dataset.k===b.dataset.k){
+      const it=BYKEY[a.dataset.k];speak(it.say);if(!missed.has(it.key))rec(it.key,true);
+      a.classList.add('done');b.classList.add('done');left--;
+      if(!left){const s=Math.round((Date.now()-t0)/1000);
+        document.getElementById('fb').innerHTML=`<div class="summary" style="margin-top:10px"><div class="big">${s}s</div><p>${miss?miss+' wrong tap'+(miss>1?'s':''):'No wrong taps.'}</p>
+        <div class="fb ok">${set.map(it=>`<div><b>${esc(it.text)}</b></div>`).join('')}</div>
+        <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="again">Play again</button></div></div>`;
+        document.getElementById('again').onclick=()=>startMatch(sel);snapshot();}
+    } else {
+      miss++;document.getElementById('mm').textContent=miss+' miss'+(miss>1?'es':'');
+      [a,b].forEach(x=>{x.classList.remove('shake');void x.offsetWidth;x.classList.add('shake');});
+      const L1=a.dataset.side==='L'?a:b;const it=BYKEY[L1.dataset.k];if(!missed.has(it.key)){missed.add(it.key);rec(it.key,false);}
+    }
+  });
+}
+
+function summary(){
+  keyHandler=null;const pct=Math.round(G.score/G.items.length*100);
+  const msg=pct===100?'Perfect round.':pct>=70?'Good work. Misses go to your Mistakes tab.':'Open these in Learn and read each headword\'s full list of partners, then try again.';
+  NAV.liveAnswered=false;main.innerHTML=`<div class="panel summary">${navBar(true)}<div class="big">${G.score}/${G.items.length}</div><p>${msg}</p>
+   ${G.missed.length?`<div class="fb no" style="text-align:left">${G.missed.map(it=>`<div><b>${esc(it.text)}</b></div>`).join('')}</div>`:''}
+   <div class="row" style="justify-content:center;margin-top:14px"><button class="btn" id="again">Another 10</button><button class="btn ghost" id="sw">${G.mode==='pick'?'Now type them by ear':'Try Pick the partner'}</button></div></div>`;
+  const mode=G.mode,sel=G.sel;
+  document.getElementById('again').onclick=()=>startGame(mode,sel);
+  document.getElementById('sw').onclick=()=>{const t=mode==='pick'?'type':'pick';const s=sel==='review'?'all':sel;setTab(t,s);startGame(t,s);};
+}
+
+/* Settings */
+function accountBox(){return USER?`<div class="panel" style="margin-bottom:12px"><p style="margin:0"><b>Logged in as ${esc(firstName())}</b><br><span class="tiny">User ID: ${esc(USER.email)}. Your progress is saved to your account.</span></p><button class="btn ghost" id="logout" style="margin-top:10px">Log out</button></div>`:'';}
+function renderSettings(){
+  if(!('speechSynthesis' in window)){main.innerHTML=accountBox()+'<div class="panel">This browser does not support speech. Learn, Pick the partner and Match up still work.</div>';const lo=document.getElementById('logout');if(lo)lo.onclick=logOut;return;}
+  main.innerHTML=accountBox()+`<div class="panel"><p style="margin-top:0">PTE uses British, American and Australian speakers. Switch voices now and then.</p>
+   <div class="row" style="margin-bottom:14px"><label class="small" for="vs">Voice</label><select id="vs"><option value="">Automatic (British if available)</option>${VOICES.map(v=>`<option value="${esc(v.name)}" ${v.name===ST.voice?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('')}</select></div>
+   <div class="row" style="margin-bottom:14px"><label class="small" for="rt">Speed</label><input type="range" id="rt" min="0.6" max="1.2" step="0.05" value="${ST.rate}" style="flex:1"><span id="rv" class="tiny">${ST.rate}</span></div>
+   <button class="btn" id="test">Test voice</button>
+   <hr style="border:none;border-top:1px solid var(--line);margin:22px 0"><p class="tiny">${USER?'Progress is saved to your account and this browser.':'Progress is saved in this browser only.'}</p><button class="btn ghost" id="reset">Reset progress</button></div>`;
+  document.getElementById('vs').onchange=e=>{ST.voice=e.target.value;save();};
+  document.getElementById('rt').oninput=e=>{ST.rate=+e.target.value;document.getElementById('rv').textContent=ST.rate;save();};
+  document.getElementById('test').onclick=()=>speak('compelling evidence, play a pivotal role');
+  const lo=document.getElementById('logout');if(lo)lo.onclick=logOut;
+  document.getElementById('reset').onclick=()=>{if(confirm('Clear all progress?')){ST.items={};ST.streak=0;save();render();}};
+}
+/* ---------- accounts (Firebase) ---------- */
+const FB_CFG=(window.FIREBASE_CONFIG&&window.FIREBASE_CONFIG.apiKey&&!/PASTE/.test(window.FIREBASE_CONFIG.apiKey))?window.FIREBASE_CONFIG:null;
+let AUTH=null,DB=null,USER=null,PROFILE=null,cloudTimer=null;
+const COUNTRIES=[['India','+91'],['Canada','+1'],['United States','+1'],['Australia','+61'],['United Kingdom','+44'],['New Zealand','+64'],['United Arab Emirates','+971'],['Nepal','+977'],['Pakistan','+92'],['Bangladesh','+880'],['Sri Lanka','+94'],['Philippines','+63'],['China','+86'],['Hong Kong','+852'],['Singapore','+65'],['Malaysia','+60'],['Vietnam','+84'],['Indonesia','+62'],['Saudi Arabia','+966'],['Qatar','+974'],['Kuwait','+965'],['Oman','+968'],['Nigeria','+234'],['Kenya','+254'],['Ghana','+233'],['South Africa','+27'],['Zimbabwe','+263'],['Ireland','+353'],['Germany','+49'],['France','+33'],['Italy','+39'],['Spain','+34'],['Brazil','+55'],['Mexico','+52'],['Colombia','+57'],['Iran','+98'],['Turkey','+90'],['Egypt','+20'],['South Korea','+82'],['Japan','+81']];
+function authErr(e){
+  const c=(e&&e.code)||'';
+  return ({'auth/email-already-in-use':'An account with this email already exists. Log in instead, or use Forgot password.',
+   'auth/invalid-email':'That email address doesn\'t look right. Check it and try again.',
+   'auth/weak-password':'Choose a stronger password: at least 8 characters with letters and numbers.',
+   'auth/invalid-credential':'The user ID or password is wrong. Check both and try again.',
+   'auth/wrong-password':'The user ID or password is wrong. Check both and try again.',
+   'auth/user-not-found':'The user ID or password is wrong. Check both and try again.',
+   'auth/too-many-requests':'Too many attempts. Wait a few minutes, then try again.',
+   'auth/network-request-failed':'No internet connection. Connect and try again.',
+   'auth/unauthorized-domain':'This website isn\'t allowed to sign in yet. Add it under Firebase, Authentication, Settings, Authorized domains.'}[c])||('Something went wrong. Try again. ('+(c||e.message||'error')+')');
+}
+function lock(on){document.body.classList.toggle('locked',on);}
+function authShell(inner){lock(true);main.innerHTML=`<div class="panel auth">${inner}</div>`;window.scrollTo(0,0);}
+function field(id,label,type,extra){return `<label class="fl" for="${id}">${label}</label><input class="fi" id="${id}" type="${type}" ${extra||''}>`;}
+function pwField(id,label,auto){return `<label class="fl" for="${id}">${label}</label><div class="pwrap"><input class="fi" id="${id}" type="password" autocomplete="${auto}"><button type="button" class="eye" data-eye="${id}" aria-label="Show password">Show</button></div>`;}
+function wireEyes(){main.querySelectorAll('[data-eye]').forEach(b=>b.onclick=()=>{const i=document.getElementById(b.dataset.eye);const s=i.type==='password';i.type=s?'text':'password';b.textContent=s?'Hide':'Show';b.setAttribute('aria-label',s?'Hide password':'Show password');});}
+function msg(id,text,ok){const m=document.getElementById(id);m.className=ok?'amsg ok':'amsg';m.textContent=text;m.classList.toggle('hidden',!text);}
+function busy(btn,on,label){btn.disabled=on;if(label)btn.textContent=label;}
+const val=id=>document.getElementById(id).value.trim();
+
+function showLogin(note){
+  authShell(`<h2>Log in</h2><p class="muted">Welcome to PTE Official Collocation. Log in to keep your progress on every device.</p>
+   ${!FB_CFG?`<div class="amsg">Accounts aren't connected yet, so you can't log in on this copy of the app. You can still use everything without an account.</div><button class="btn" id="guest" style="width:100%;margin-top:10px">Continue without an account</button>`:''}
+   ${field('lid','User ID (your email)','email','autocomplete="username" inputmode="email"')}
+   ${pwField('lpw','Password','current-password')}
+   <div id="lm" class="amsg hidden"></div>
+   <button class="btn" id="lgo" style="width:100%;margin-top:14px">Log in</button>
+   <div class="alinks"><button class="lnk" id="fpw">Forgot password?</button><button class="lnk" id="fid">Forgot user ID?</button></div>
+   <div class="adiv">New here?</div><button class="btn ghost" id="toSign" style="width:100%">Create an account</button>`);
+  wireEyes();if(note)msg('lm',note,true);
+  const g=document.getElementById('guest');if(g)g.onclick=()=>enterApp();
+  document.getElementById('fpw').onclick=showForgotPw;document.getElementById('fid').onclick=showForgotId;document.getElementById('toSign').onclick=showSignup;
+  const go=async()=>{
+    const b=document.getElementById('lgo');const e=val('lid'),p=document.getElementById('lpw').value;
+    if(!FB_CFG)return msg('lm','Accounts aren\'t connected yet. Tap Continue without an account.');
+    if(!e||!p)return msg('lm','Enter your user ID and password.');
+    busy(b,true,'Logging in…');
+    try{await AUTH.signInWithEmailAndPassword(e,p);}catch(err){msg('lm',authErr(err));busy(b,false,'Log in');}
+  };
+  document.getElementById('lgo').onclick=go;
+  document.getElementById('lpw').onkeydown=e=>{if(e.key==='Enter')go();};
+}
+function showSignup(){
+  const opts=COUNTRIES.map(([n,c])=>`<option value="${c}">${esc(n)} (${c})</option>`).join('');
+  authShell(`<h2>Create an account</h2><p class="muted">It takes one minute. We'll send a verification link to your email before you can log in.</p>
+   <div class="two">${field('sfn','First name','text','autocomplete="given-name"')}${field('sln','Last name','text','autocomplete="family-name"')}</div>
+   ${field('sem','Email (this is your user ID)','email','autocomplete="email" inputmode="email"')}
+   <label class="fl" for="sph">Mobile number</label><div class="phone"><select id="scc" aria-label="Country code">${opts}<option value="other">Other…</option></select><input class="fi" id="scx" type="text" placeholder="+code" aria-label="Other country code" style="display:none;max-width:90px"><input class="fi" id="sph" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Phone number"></div>
+   ${pwField('spw','Set password','new-password')}
+   <p class="tiny" style="margin:4px 0 0">At least 8 characters, with letters and numbers.</p>
+   ${pwField('spw2','Confirm password','new-password')}
+   <div id="sm" class="amsg hidden"></div>
+   <button class="btn" id="sgo" style="width:100%;margin-top:14px">Create account</button>
+   <div class="alinks"><button class="lnk" id="toLog">I already have an account</button></div>`);
+  wireEyes();
+  document.getElementById('scc').onchange=e=>{document.getElementById('scx').style.display=e.target.value==='other'?'':'none';};
+  document.getElementById('toLog').onclick=()=>showLogin();
+  document.getElementById('sgo').onclick=async()=>{
+    const b=document.getElementById('sgo');
+    const fn=val('sfn'),ln=val('sln'),em=val('sem'),ph=val('sph').replace(/[\s\-()]/g,''),p1=document.getElementById('spw').value,p2=document.getElementById('spw2').value;
+    let cc=document.getElementById('scc').value;if(cc==='other')cc=val('scx');
+    if(!fn||!ln)return msg('sm','Enter your first and last name.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return msg('sm','Enter a valid email address.');
+    if(!/^\+\d{1,4}$/.test(cc))return msg('sm','Choose your country code, like +91 or +1.');
+    if(!/^\d{6,14}$/.test(ph))return msg('sm','Enter your mobile number using digits only.');
+    if(p1.length<8||!/[A-Za-z]/.test(p1)||!/\d/.test(p1))return msg('sm','Your password needs at least 8 characters, with letters and numbers.');
+    if(p1!==p2)return msg('sm','The two passwords don\'t match.');
+    if(!FB_CFG)return msg('sm','Accounts aren\'t connected yet on this copy of the app.');
+    busy(b,true,'Creating account…');
+    try{
+      const cred=await AUTH.createUserWithEmailAndPassword(em,p1);
+      await cred.user.updateProfile({displayName:fn+' '+ln});
+      try{await DB.collection('users').doc(cred.user.uid).set({firstName:fn,lastName:ln,email:em,countryCode:cc,phone:ph,createdAt:new Date().toISOString()},{merge:true});}catch(e){}
+      await cred.user.sendEmailVerification();
+      showVerify(em);
+    }catch(err){msg('sm',authErr(err));busy(b,false,'Create account');}
+  };
+}
+function showVerify(em){
+  authShell(`<h2>Check your email</h2><p>We sent a verification link to <b>${esc(em||'')}</b>. Open that email and tap the link. It can take a minute, so check your Spam or Junk folder too.</p>
+   <p class="muted">When you've tapped the link, come back here.</p>
+   <div id="vm" class="amsg hidden"></div>
+   <button class="btn" id="vdone" style="width:100%;margin-top:10px">I've verified, log me in</button>
+   <button class="btn ghost" id="vre" style="width:100%;margin-top:10px">Send the email again</button>
+   <div class="alinks"><button class="lnk" id="vout">Use a different account</button></div>`);
+  document.getElementById('vdone').onclick=async()=>{
+    const b=document.getElementById('vdone');busy(b,true,'Checking…');
+    try{await AUTH.currentUser.reload();if(AUTH.currentUser.emailVerified){await afterLogin(AUTH.currentUser);}else{msg('vm','Your email isn\'t verified yet. Tap the link in the email first.');busy(b,false,'I\'ve verified, log me in');}}
+    catch(err){msg('vm',authErr(err));busy(b,false,'I\'ve verified, log me in');}
+  };
+  let wait=0;
+  document.getElementById('vre').onclick=async()=>{
+    const b=document.getElementById('vre');if(wait)return;
+    try{await AUTH.currentUser.sendEmailVerification();msg('vm','Sent again. Check your inbox and Spam folder.',true);}catch(err){msg('vm',authErr(err));}
+    wait=60;const t=setInterval(()=>{wait--;b.textContent=wait?`Send again in ${wait}s`:'Send the email again';if(!wait)clearInterval(t);},1000);
+  };
+  document.getElementById('vout').onclick=async()=>{await AUTH.signOut();showLogin();};
+}
+function showForgotPw(){
+  authShell(`<h2>Reset your password</h2><p class="muted">Enter your user ID (the email you signed up with). We'll email you a link to set a new password.</p>
+   ${field('fem','User ID (your email)','email','autocomplete="username" inputmode="email"')}
+   <div id="fm" class="amsg hidden"></div>
+   <button class="btn" id="fgo" style="width:100%;margin-top:14px">Send reset link</button>
+   <div class="alinks"><button class="lnk" id="back">Back to log in</button><button class="lnk" id="fid2">Forgot user ID?</button></div>`);
+  document.getElementById('back').onclick=()=>showLogin();document.getElementById('fid2').onclick=showForgotId;
+  document.getElementById('fgo').onclick=async()=>{
+    const em=val('fem');if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))return msg('fm','Enter a valid email address.');
+    if(!FB_CFG)return msg('fm','Accounts aren\'t connected yet on this copy of the app.');
+    const b=document.getElementById('fgo');busy(b,true,'Sending…');
+    try{await AUTH.sendPasswordResetEmail(em);}catch(err){if(err.code==='auth/network-request-failed'||err.code==='auth/too-many-requests'){msg('fm',authErr(err));busy(b,false,'Send reset link');return;}}
+    msg('fm','If an account uses that email, a reset link is on its way. Check your inbox and Spam folder, then log in with your new password.',true);busy(b,false,'Send again');
+  };
+}
+function showForgotId(){
+  authShell(`<h2>Forgot your user ID?</h2><p>Your user ID is the <b>email address</b> you used when you signed up.</p>
+   <p class="muted">Not sure which email that was? Search each of your inboxes for an email about verifying your account for this app. The inbox that has it is your user ID.</p>
+   <p class="muted">If you remember the email but not the password, use Forgot password.</p>
+   <button class="btn" id="tofp" style="width:100%;margin-top:6px">Forgot password</button>
+   <div class="alinks"><button class="lnk" id="back">Back to log in</button><button class="lnk" id="toSign">Create a new account</button></div>`);
+  document.getElementById('tofp').onclick=showForgotPw;document.getElementById('back').onclick=()=>showLogin();document.getElementById('toSign').onclick=showSignup;
+}
+async function afterLogin(u){
+  USER=u;PROFILE=null;
+  try{const d=await DB.collection('users').doc(u.uid).get();if(d.exists){PROFILE=d.data();
+    if(PROFILE.progress&&PROFILE.progress.items){const mine=Object.keys(ST.items).length,theirs=Object.keys(PROFILE.progress.items).length;
+      if(theirs>=mine){ST=Object.assign(ST,PROFILE.progress);try{localStorage.setItem(KEY,JSON.stringify(ST));}catch(e){}}}}}catch(e){}
+  enterApp();
+}
+function cloudSave(){
+  if(!USER||!DB)return;clearTimeout(cloudTimer);
+  cloudTimer=setTimeout(()=>{DB.collection('users').doc(USER.uid).set({progress:{items:ST.items,streak:ST.streak,today:ST.today},progressUpdated:new Date().toISOString()},{merge:true}).catch(()=>{});},2500);
+}
+function enterApp(){lock(false);TAB='learn';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='learn'));render();}
+function firstName(){return (PROFILE&&PROFILE.firstName)||(USER&&USER.displayName||'').split(' ')[0]||'';}
+async function logOut(){if(AUTH){clearTimeout(cloudTimer);await AUTH.signOut();}USER=null;PROFILE=null;showLogin('You have logged out.');}
+function bootAuth(){
+  if(!FB_CFG||!window.firebase){showLogin();return;}
+  try{firebase.initializeApp(FB_CFG);AUTH=firebase.auth();DB=firebase.firestore();}catch(e){showLogin();return;}
+  main.innerHTML='<div class="panel">Loading…</div>';lock(true);
+  let first=true;
+  AUTH.onAuthStateChanged(async u=>{
+    if(u&&u.emailVerified){if(first||!USER)await afterLogin(u);}
+    else if(u&&!u.emailVerified){showVerify(u.email);}
+    else if(first){showLogin();}
+    first=false;
+  });
+}
+
+bootAuth();
+</script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</body>
+</html>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0B6E6D">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Pattern Lab: PTE spelling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
+<style>
+html,:root{color-scheme:light only}
+:root{
+  --bg:#F7F9FC; --panel:#FFFFFF; --ink:#111827; --ink-2:#374151; --ink-3:#4B5563;
+  --line:#CBD5E1; --accent:#0B6E6D; --accent-soft:#D6EEEC; --tile:#F2B544; --tile-ink:#3A2600; --tile-edge:#C98E1F;
+  --good:#1F8A4C; --good-soft:#DDF2E5; --bad:#C8433A; --bad-soft:#F9E0DD;
+  --display:"Bricolage Grotesque", "Segoe UI", Arial, sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", Verdana, Arial, sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+.wrap{max-width:780px;margin:0 auto;padding:20px 18px 60px}
+header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,6vw,40px);line-height:1;margin:0;letter-spacing:-0.02em}
+h1 .t{display:inline-block;background:var(--tile);color:var(--tile-ink);border-radius:6px;padding:2px 8px 4px;box-shadow:0 3px 0 var(--tile-edge);margin-left:2px}
+.stats{display:flex;gap:16px;font-size:14px;color:var(--ink-2)}
+.stats b{font-family:var(--display);font-size:20px;color:var(--ink);display:block;line-height:1.1}
+nav{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav button{font:inherit;font-size:15px;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+label.small{font-size:14px;color:var(--ink-2)}
+select,input[type=text],textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+select{padding:8px 10px;max-width:100%}
+input[type=text]{width:100%;font-size:22px;letter-spacing:0.02em}
+textarea{width:100%;min-height:90px;font-size:18px;resize:vertical}
+.btn{font:inherit;font-weight:700;border:none;border-radius:10px;padding:11px 18px;cursor:pointer;background:var(--accent);color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:400}
+.btn:disabled{opacity:.5;cursor:default}
+.muted{color:var(--ink-2)} .tiny{font-size:14px;color:var(--ink-3)}
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0 16px}
+.progress i{display:block;height:100%;background:var(--accent);transition:width .3s}
+/* learn */
+.sec{font-family:var(--display);font-weight:700;font-size:20px;margin:26px 0 10px}
+.sec:first-child{margin-top:0}
+.grp{border:1px solid var(--line);background:var(--panel);border-radius:12px;margin-bottom:8px}
+.grp summary{list-style:none;cursor:pointer;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.grp summary::-webkit-details-marker{display:none}
+.grp .pt{font-family:var(--display);font-weight:700;font-size:19px;color:var(--accent);min-width:110px}
+.grp .meter{flex:1;height:5px;background:var(--line);border-radius:5px;overflow:hidden;max-width:160px;margin-left:auto}
+.grp .meter i{display:block;height:100%;background:var(--good)}
+.grp .body{padding:0 16px 16px}
+.rule{background:var(--accent-soft);border-radius:8px;padding:10px 12px;margin:0 0 12px;font-size:15px}
+.words{display:flex;flex-wrap:wrap;gap:6px 14px}
+.words span{font-size:16px}
+.hl{color:var(--accent);font-weight:700;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.note{color:var(--ink-3);font-size:13px}
+.grp .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+/* game */
+.q{text-align:center;padding:10px 0 4px}
+.word{font-family:var(--display);font-weight:500;font-size:clamp(34px,9vw,54px);letter-spacing:0.01em;line-height:1.2;word-break:break-word}
+.gap{display:inline-block;min-width:1.4em;border:2px dashed var(--accent);border-radius:8px;padding:0 .15em;color:var(--accent);vertical-align:baseline}
+.gap.filled.ok{border-style:solid;background:var(--good-soft);border-color:var(--good);color:var(--good)}
+.gap.filled.no{border-style:solid;background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.opts{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:24px 0 10px}
+.tile{font-family:var(--display);font-weight:700;font-size:26px;min-width:74px;padding:10px 16px 12px;border:none;border-radius:10px;background:var(--tile);color:var(--tile-ink);box-shadow:0 4px 0 var(--tile-edge);cursor:pointer;transition:transform .06s}
+.tile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--tile-edge)}
+.tile.dim{opacity:.35}
+.tile.right{outline:3px solid var(--good);outline-offset:3px}
+.fb{border-radius:10px;padding:12px 14px;margin-top:14px;font-size:15px;text-align:left}
+.fb.ok{background:var(--good-soft)} .fb.no{background:var(--bad-soft)}
+.fb b{font-family:var(--display)}
+.speak{width:92px;height:92px;border-radius:50%;border:none;background:var(--ink);color:var(--panel);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;margin:6px auto 14px}
+.speak svg{width:40px;height:40px}
+.diff .x{color:var(--bad);text-decoration:line-through}
+.wfd .w{display:inline-block;margin:0 6px 4px 0;padding:1px 6px;border-radius:6px}
+.wfd .w.ok{background:var(--good-soft);color:var(--good)} .wfd .w.no{background:var(--bad-soft);color:var(--bad)}
+.summary{text-align:center}
+.summary .big{font-family:var(--display);font-weight:700;font-size:64px;line-height:1}
+.hidden{display:none!important}
+.err{color:var(--bad);font-size:14px;margin-top:6px}
+.panel{display:flex;flex-direction:column}
+.gnav{order:99;position:sticky;bottom:0;z-index:5;display:flex;gap:8px;margin:18px -20px -20px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:var(--panel);border-top:1px solid var(--line);border-radius:0 0 14px 14px}
+.gnav .btn{flex:1;padding:12px 8px;font-size:15px}
+#nx{display:none}
+.btn.sm{padding:6px 12px;font-size:14px}
+.btn:disabled{opacity:.4;cursor:default}
+.histview .gnav{display:none}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Pattern <span class="t">Lab</span></h1>
+  <div class="stats">
+    <div><b id="stStreak">0</b>streak</div>
+    <div><b id="stToday">0</b>right today</div>
+    <div><b id="stMastered">0</b>mastered</div>
+  </div>
+</header>
+<nav role="tablist" id="nav">
+  <button role="tab" data-tab="learn" aria-selected="true">Learn</button>
+  <button role="tab" data-tab="gap" aria-selected="false">Fill the gap</button>
+  <button role="tab" data-tab="spell" aria-selected="false">Listen and spell</button>
+  <button role="tab" data-tab="wfd" aria-selected="false">Dictation</button>
+  <button role="tab" data-tab="review" aria-selected="false">Mistakes <span id="revCount"></span></button>
+  <button role="tab" data-tab="settings" aria-selected="false">Voice</button>
+</nav>
+<main id="main"></main>
+</div>
+
+<script>
+const S=[
+["Word endings",[
+["-tion","The default 'shun' ending. Use it unless a rule below applies.",["celebra[tion]","informa[tion]","comple[tion]","destina[tion]","posi[tion]","condi[tion]","educa[tion]","popula[tion]","pollu[tion]","competi[tion]","communica[tion]","qualifica[tion]","accommoda[tion]","introduc[tion]","atten[tion]","investiga[tion]"]],
+["-ssion","Verb ends in -ss or -mit → -ssion.",["posse[ssion] (possess)","discu[ssion] (discuss)","impre[ssion] (impress)","expre[ssion] (express)","progre[ssion] (progress)","profe[ssion]","permi[ssion] (permit)","admi[ssion] (admit)","submi[ssion] (submit)","commi[ssion] (commit)","transmi[ssion] (transmit)"]],
+["-sion","Verb ends in -d, -de, -se → -sion. Verb ends in -nd → -nsion.",["provi[sion] (provide)","deci[sion] (decide)","inclu[sion] (include)","conclu[sion] (conclude)","divi[sion] (divide)","explo[sion] (explode)","revi[sion] (revise)","confu[sion] (confuse)","exte[nsion] (extend)","expa[nsion] (expand)","comprehe[nsion] (comprehend)","televi[sion]","occa[sion]","ver[sion]"]],
+["-cian","A person skilled in something ending in -ic or -ics.",["musi[cian] (music)","electri[cian] (electric)","techni[cian]","politi[cian] (politics)","physi[cian] (physics)","magi[cian] (magic)","mathemati[cian]","statisti[cian] (statistics)","opti[cian]"]],
+["-ous","Plain ending when there is no 'shus' or soft g sound. Humour loses its u: humorous.",["danger[ous]","fam[ous]","enorm[ous]","gener[ous]","nerv[ous]","numer[ous]","continu[ous]","marvell[ous]","tremend[ous]","humor[ous]"]],
+["-ious","After a 'shus' or 'ee-us' sound.",["delic[ious]","prev[ious]","var[ious]","obv[ious]","ser[ious]","cur[ious]","anx[ious]","consc[ious]","prec[ious]","suspic[ious]","ambit[ious]","caut[ious]"]],
+["-eous","The e keeps a soft g, or comes from the root word (courtesy). A small set: learn it as a list.",["court[eous]","gorg[eous]","spontan[eous]","simultan[eous]","miscellan[eous]","courag[eous] (courage)","outrag[eous] (outrage)","advantag[eous] (advantage)"]],
+["-al · -tial · -cial","Adjective ending. 'shul' sound: usually -tial after n, -cial after a vowel.",["profession[al]","origin[al]","individu[al]","critic[al]","person[al]","commun[al]","essen[tial]","poten[tial]","residen[tial]","confiden[tial]","substan[tial]","so[cial]","finan[cial]","commer[cial]","offi[cial]","cru[cial]","spe[cial]","artifi[cial]"]],
+["-ure","The 'cher', 'zher' or 'yer' sound at the end is almost always -ure.",["fut[ure]","nat[ure]","cult[ure]","struct[ure]","press[ure]","meas[ure]","proced[ure]","feat[ure]","temperat[ure]","literat[ure]","architect[ure]","depart[ure]","furnit[ure]","signat[ure]"]],
+["-er · -or · -ar","-er is the default. -or often follows -ate, -ct, -it verbs (operate → operator). -ar is a small set: learn it.",["employ[er]","recruit[er]","manag[er]","custom[er]","beginn[er]","instruct[or]","visit[or]","direct[or]","supervis[or]","operat[or]","competit[or]","calend[ar]","gramm[ar]","particul[ar]","famili[ar]","simil[ar]","regul[ar]","popul[ar]"]],
+["-ful · -less · -ness","-ful has ONE l. -ness joins the full word, so open + ness = openness. y → i before -ness.",["care[ful]","success[ful]","beauti[ful]","grate[ful]","use[ful]","wonder[ful]","care[less]","use[less]","aware[ness]","kind[ness]","ill[ness]","open[ness]","sudden[ness]","happi[ness]","busi[ness]"]],
+["-ly","Add -ly to the full word. -le → -ly. -ic → -ically (except publicly). -ful → -fully.",["careful[ly]","regular[ly]","effective[ly]","recent[ly]","complete[ly]","definite[ly]","immediate[ly]","sincere[ly]","unfortunate[ly]","prefer[ably]","possib[ly]","simp[ly]","basic[ally]","dramatic[ally]","eas[ily]","happ[ily]","tru[ly] (exception)"]]
+]],
+["Double letters",[
+["Doubling rule","One syllable, one vowel, one final consonant → double before -ing/-ed. Two syllables: double only if the stress is on the last one.",["si[tt]ing (sit)","ge[tt]ing (get)","ru[nn]ing (run)","sho[pp]ing (shop)","pla[nn]ing (plan)","begi[nn]ing (beGIN)","occu[rr]ed (ocCUR)","prefe[rr]ed (preFER)","commi[tt]ed (comMIT)","forge[tt]ing (forGET)","visi[t]ing (VISit)","ope[n]ing (OPen)","offe[r]ed (OFfer)","benefi[t]ed (BENefit)"]],
+["Prefix doubles","Just add the prefix. A double appears only when the prefix ends with the same letter the word starts with.",["u[nn]ecessary","u[nn]atural","di[ss]atisfied","di[s]appear (one s)","di[s]appoint (one s)","mi[ss]pell","i[mm]ediate","i[mm]ature","i[rr]elevant","i[rr]egular","i[ll]egal","i[ll]ogical"]],
+["tt","Fixed tt words: memorise them.",["a[tt]end","a[tt]ached","a[tt]itude","a[tt]ract","a[tt]empt","ba[tt]ery","bo[tt]le","bo[tt]om","co[mm]i[tt]ee","pa[tt]ern","se[tt]le","be[tt]er","ma[tt]er","le[tt]er"]],
+["ll","Fixed ll words. UK doubles l before -ing/-ed (travelling), US keeps one (traveling).",["insta[ll]ed","co[ll]ect","fo[ll]ow","tro[ll]ey","exce[ll]ent","a[ll]ow","co[ll]aborate","co[ll]apse","co[ll]eague","inte[ll]igent","para[ll]el","sate[ll]ite","i[ll]ustrate","cha[ll]enge","ga[ll]ery","trave[ll]ing (UK)","cance[ll]ed (UK)"]],
+["ss","Long words often hide two pairs. Say them slowly: ne-CESS-ary.",["nece[ss]ary","po[ss]e[ss]ion","a[ss]istant","a[ss]e[ss]ment","a[ss]ume","a[ss]ociate","addre[ss]","pa[ss]ionate","pre[ss]ure","mi[ss]ing","po[ss]ible","profe[ss]ional","acce[ss]","busine[ss]","embarra[ss] (rr + ss)","hara[ss] (one r)"]],
+["cc · mm","Usually after a short o or a at the start of the word.",["su[cc]e[ss]ful","a[cc]ount","a[cc][omm]odation","a[cc]urate","a[cc]ept","a[cc]ident","a[cc]ording","a[cc]ompany","o[cc]asion","o[cc]ur","reco[mm]end (one c)","co[mm]unicate","co[mm]unity","co[mm]ercial","co[mm]itment","i[mm]igration","su[mm]ary"]],
+["pp · rr · ff · nn","Double consonant after a short stressed vowel.",["o[pp]ortunity","su[pp]ort","su[pp]ly","a[pp]ear","a[pp]reciate","a[pp]roach","a[pp]ropriate","o[pp]osite","a[rr]ange","a[rr]ive","ca[rr]ied","co[rr]ect","cu[rr]ent","e[rr]or","co[rr]idor","a[ff]ordable","o[ff]er","e[ff]ective","a[ff]ect","di[ff]erent","di[ff]icult","su[ff]icient","e[ff]icient","tra[ff]ic","a[nn]ual","a[nn]ounce","co[nn]ection","questio[nn]aire"]]
+]],
+["Vowel teams and word changes",[
+["ie · ei","i before e, except after c. Learn the exceptions as a set.",["f[ie]ld","ach[ie]ve","bel[ie]ve","p[ie]ce","br[ie]f","rel[ie]f","ch[ie]f","rec[ei]pt","rec[ei]ve","c[ei]ling","perc[ei]ve","th[ei]r","sc[ie]nce","w[ei]rd","s[ei]ze","n[ei]ther","for[ei]gn","h[ei]ght","w[ei]ght","l[ei]sure","effic[ie]nt","spec[ie]s","soc[ie]ty"]],
+["y → ies · ied","Consonant + y → change y to i. Vowel + y → just add s. Keep y before -ing.",["chari[ties]","quer[ies]","batter[ies]","dut[ies]","activit[ies]","citi[es]","countr[ies]","strateg[ies]","facilit[ies]","stud[ied]","carr[ied]","appl[ied]","trolle[ys]","journe[ys]","surve[ys]","dela[ys]","stud[ying]","carr[ying]"]],
+["silent e","Drop e before -ing and most -able. Keep e before -ment, and after soft c/g before -able/-ous.",["us[ing]","provid[ing]","improv[ing]","encourag[ing]","arriv[ing]","writ[ing]","valu[able]","us[able]","achieve[ment]","require[ment]","replace[ment]","manage[ment]","state[ment]","notice[able]","manage[able]","knowledge[able]","argu[ment] (exception)"]],
+["qu · que","q is always followed by u. -que at the end sounds like k.",["[qu]ality","[qu]antity","[qu]ickly","[qu]estion","[qu]ery","[qu]alify","se[qu]ence","fre[qu]ent","conse[qu]ence","ade[qu]ate","e[qu]ipment","techni[que]","uni[que]","anti[que]","che[que] (UK)"]],
+["ph","The f sound, mostly in words from Greek.",["[ph]oto","[ph]armacist","[ph]one","[ph]rase","[ph]ysical","[ph]ilosophy","gra[ph]","paragra[ph]","al[ph]abet","atmos[ph]ere","em[ph]asis","micro[ph]one","[ph]enomenon","so[ph]isticated"]],
+["gh · ght · ough","gh is silent in -ght. -ough has several sounds: group by sound.",["li[ght]","hei[ght]","wei[ght]","strai[ght]","dau[ght]er","tau[ght]","cau[ght]","thr[ough] (oo)","th[ough] (oh)","alth[ough] (oh)","thor[ough] (uh)","th[ough]t (aw)","br[ough]t (aw)","en[ough] (uff)","t[ough] (uff)","c[ough] (off)"]],
+["silent letters","Written but not heard. Say the 'spelling voice' when studying: rec-ei-P-t.",["recei[p]t","[p]sychology","g[u]arantee","g[u]idance","[sch]edule","bro[ch]ure","buffe[t]","maint[e]nance","We[d]nesday","gover[n]ment","enviro[n]ment","Feb[r]uary","autum[n]","colum[n]","[k]nowledge","[w]rite","[w]rong","ans[w]er","i[s]land","lis[t]en","fas[t]en","de[b]t","dou[b]t","clim[b]","desi[g]n","forei[g]n","[h]our","[h]onest","s[c]ience","mus[c]le"]]
+]],
+["Endings that sound the same",[
+["-ance · -ence","Soft c/g sound before it → -ence (intelligence). Hard c/g → -ance (significance). Otherwise learn as a set.",["mainten[ance]","entr[ance]","guid[ance]","appear[ance]","perform[ance]","attend[ance]","import[ance]","assist[ance]","insur[ance]","bal[ance]","signific[ance]","inconveni[ence]","confid[ence]","experi[ence]","refer[ence]","differ[ence]","evid[ence]","independ[ence]","exist[ence]","influ[ence]","intellig[ence]","occurr[ence]"]],
+["-ant · -ent","Matches the -ance/-ence noun: importance → important, difference → different.",["assist[ant]","signific[ant]","import[ant]","relev[ant]","pleas[ant]","reluct[ant]","eleg[ant]","resid[ent]","suffici[ent]","excell[ent]","pati[ent]","independ[ent]","confid[ent]","differ[ent]","effici[ent]","appar[ent]","perman[ent]","consist[ent]","urg[ent]"]],
+["-able · -ible","Full word in front → usually -able (afford-able). Not a full word → usually -ible (poss-ible).",["avail[able]","afford[able]","comfort[able]","suit[able]","accept[able]","consider[able]","remark[able]","reason[able]","sustain[able]","reli[able] (rely)","respons[ible]","poss[ible]","vis[ible]","flex[ible]","incred[ible]","sens[ible]","terr[ible]","access[ible]","elig[ible]","feas[ible]"]],
+["-ary · -ery · -ory","All sound similar in fast speech. Learn by group.",["tempor[ary]","element[ary]","diet[ary]","vocabul[ary]","necess[ary]","di[ary]","libr[ary]","second[ary]","ordin[ary]","volunt[ary]","sal[ary]","Febru[ary]","station[ery]","bak[ery]","deliv[ery]","discov[ery]","machin[ery]","categ[ory]","laborat[ory]","mandat[ory]","compuls[ory]","satisfact[ory]","territ[ory]"]],
+["sound-alikes","Same sound, different word. Choose by meaning.",["di[ar]y / d[air]y","de[ss]ert / de[s]ert","counc[il] / couns[el]","advi[c]e (noun) / advi[s]e (verb)","practi[c]e (noun) / practi[s]e (UK verb)","[a]ffect (verb) / [e]ffect (noun)","wh[e]ther / w[ea]ther","th[eir] / th[ere] / th[ey're]","princip[al] / princip[le]","station[a]ry (still) / station[e]ry (paper)","compl[e]ment / compl[i]ment","lo[o]se / lo[s]e","qui[te] / qui[et]","[acc]ept / [exc]ept","[its] / [it's]"]],
+["UK · US","Both accepted in PTE. Pick one and never mix them in one answer.",["organi[s]e / organi[z]e","apologi[s]e / apologi[z]e","analy[s]e / analy[z]e","cent[re] / cent[er]","theat[re] / theat[er]","col[ou]r / col[o]r","behavi[ou]r / behavi[o]r","neighb[ou]r / neighb[o]r","trave[ll]ing / trave[l]ing","program[me] / program","catalo[gue] / catalo[g]","defen[c]e / defen[s]e","[gre]y / [gra]y","enro[l] / enro[ll]","ag[e]ing / aging"]]
+]]];
+
+const WFD=[
+"Please confirm which you prefer and how many guests you expect to attend.",
+"I forgot to check my diary and I have to work this weekend.",
+"A link will then be sent to your email.",
+"The work will be completed by the end of August.",
+"Please bring your items to school on Monday and Tuesday next week.",
+"The service is quick and their drinks are good quality.",
+"I would like to share specific examples with you.",
+"I understand you need them for your upcoming project.",
+"The new safety rules are now in place.",
+"We are sorry for any problems this may cause.",
+"We are looking for someone who enjoys working with people.",
+"Our team will carry out the necessary repairs tomorrow.",
+"Store it in the original box to avoid direct light.",
+"Do not throw away any medicines at home.",
+"A receptionist should communicate effectively and have a warm manner.",
+"Ensure the pot has sufficient room for the roots to grow.",
+"A guarantee is provided for all work carried out.",
+"Special workshops will be held giving advice on interview techniques.",
+"Kindly review the attached contract of employment.",
+"Please let us know if there is anything you are unsure about.",
+"It was last seen yesterday in the student cafeteria.",
+"Our speedy photo printing service could not be easier to use.",
+"Failure to follow the regulations will lead to the removal of the items.",
+"Our team of qualified instructors will help you become a safe driver.",
+"All of the recipes have been tried and tested by me.",
+"A buffet lunch will cater for all dietary requirements.",
+"See our website for more information.",
+"Please ask a member of the station staff for help.",
+"We apologise for any inconvenience caused.",
+"Customers with valid tickets will be taken to their destination by replacement buses.",
+"Administrative skills are also required for this role.",
+"The central library will be closed this summer while the roof is replaced."
+];
+
+/* ---------- parsing ---------- */
+const GROUPS=[];
+S.forEach(([sec,cards])=>cards.forEach(([p,rule,ws])=>{
+  const gameable=!/sound-alikes|UK · US/.test(p);
+  const words=ws.map(raw=>{
+    const m=raw.match(/^(.*?)\s*\(([^)]+)\)\s*$/);
+    let base=raw, note='';
+    if(m && !raw.includes(' / ')){base=m[1];note=m[2];}
+    const parts=base.split(/\[([^\]]+)\]/);
+    const word=parts.join('');
+    return {raw,base,note,parts,word,pair:raw.includes(' / ')};
+  });
+  GROUPS.push({id:GROUPS.length,sec,p,rule,words,gameable});
+}));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hl=s=>esc(s).replace(/\[([^\]]+)\]/g,'<span class="hl">$1</span>');
+
+/* ---------- storage ---------- */
+const KEY='pte-pattern-lab-v1';
+let ST={words:{},streak:0,today:{d:'',n:0},voice:'',rate:0.9};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) ST=Object.assign(ST,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST));}catch(e){}}
+function todayStr(){return new Date().toISOString().slice(0,10);}
+function rec(word,ok){
+  const w=ST.words[word]||(ST.words[word]={box:0,seen:0,wrong:0});
+  w.seen++;
+  if(ok){w.box=Math.min(5,w.box+1);ST.streak++;
+    if(ST.today.d!==todayStr()) ST.today={d:todayStr(),n:0}; ST.today.n++;}
+  else {w.box=0;w.wrong++;ST.streak=0;}
+  save(); stats();
+}
+function stats(){
+  if(ST.today.d!==todayStr()) ST.today={d:todayStr(),n:0};
+  document.getElementById('stStreak').textContent=ST.streak;
+  document.getElementById('stToday').textContent=ST.today.n;
+  document.getElementById('stMastered').textContent=Object.values(ST.words).filter(w=>w.box>=4).length;
+  const r=reviewPool().length; document.getElementById('revCount').textContent=r?`(${r})`:'';
+}
+function reviewPool(){
+  const out=[];GROUPS.forEach(g=>{if(!g.gameable)return;g.words.forEach(w=>{const s=ST.words[w.word];if(s&&s.wrong>0&&s.box<3)out.push({g,w});});});
+  return out;
+}
+
+/* ---------- speech ---------- */
+let VOICES=[];
+function loadVoices(){VOICES=(speechSynthesis.getVoices()||[]).filter(v=>/^en/i.test(v.lang));}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=()=>{loadVoices(); if(TAB==='settings')render();};}
+let UTT=null,UNLOCKED=false;
+function unlockSpeech(){
+  if(UNLOCKED||!('speechSynthesis' in window))return;
+  try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u);UNLOCKED=true;}catch(e){}
+}
+document.addEventListener('touchend',unlockSpeech,true);
+document.addEventListener('click',unlockSpeech,true);
+function speak(t,rate){
+  if(!('speechSynthesis' in window))return false;
+  if(!VOICES.length)loadVoices();
+  const go=()=>{
+    const u=new SpeechSynthesisUtterance(t);
+    const v=VOICES.find(v=>v.name===ST.voice)||VOICES.find(v=>/en[-_]GB/i.test(v.lang))||VOICES[0];
+    if(v){u.voice=v;u.lang=v.lang;}else{u.lang='en-GB';}
+    u.rate=rate||ST.rate;u.volume=1;UTT=u;
+    try{speechSynthesis.resume();}catch(e){}
+    speechSynthesis.speak(u);
+  };
+  if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(go,120);}else go();
+  return true;
+}
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
+
+/* ---------- normalising (UK/US accepted) ---------- */
+function norm(s){
+  return s.toLowerCase().replace(/[’']/g,"'").trim()
+   .replace(/izations?$/,m=>m.replace('z','s')).replace(/iz(e|ed|es|ing)$/,'is$1').replace(/yz(e|ed|ing)$/,'ys$1')
+   .replace(/ell(ed|ing|er)$/,'el$1').replace(/(colo|behavio|neighbo|favo|labo|humo|harbo|rumo)ur/,'$1r')
+   .replace(/^(cent|theat|met|lit|fib)re$/,'$1er').replace(/programme$/,'program').replace(/catalogue$/,'catalog')
+   .replace(/^enroll/,'enrol').replace(/^fulfill/,'fulfil').replace(/^gray/,'grey').replace(/defense$/,'defence')
+   .replace(/^check$/,'cheque').replace(/^aging$/,'ageing').replace(/judgment/,'judgement');
+}
+
+/* ---------- distractors ---------- */
+const FAM=[['tion','sion','ssion','cian'],['nsion','ntion','nssion'],['ous','ious','eous','uous'],['ious','eous','ous'],['eous','ious','ous'],
+['ance','ence','anse'],['ant','ent'],['able','ible','eble'],['ible','able'],['ary','ery','ory'],['ery','ary','ory'],['ory','ary','ery'],
+['er','or','ar'],['or','er','our'],['ar','er','or'],['al','el','le'],['tial','cial','sial'],['cial','tial','sial'],['ure','er','ur'],
+['ful','full','fal'],['less','les','lis'],['ness','nes'],['ly','lly','ley'],['ally','ly','aly'],['ily','yly','ely'],['ably','ibly','abley'],
+['ies','ys','yes'],['ties','tys','tyes'],['es','s','ys'],['ys','ies','eys'],['ied','yed','ide'],['ying','ing','ieing'],['ing','eing','ling'],
+['ment','ement','mant'],['ie','ei','ee'],['ei','ie','ee'],['qu','q','kw'],['que','k','ck'],['ph','f','ff'],['ght','gt','te'],
+['ough','uff','ow','ugh'],['sch','sk','sc'],['ch','sh','tch']];
+const DBL={ss:['s','sc','c'],cc:['c','ck','k'],mm:['m','mn'],tt:['t','th'],ll:['l'],pp:['p'],rr:['r'],ff:['f','ph'],nn:['n'],omm:['om','oom']};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function distract(chunk,g){
+  let d=[];
+  if(g.p==='silent letters') d=['',chunk.length===1?chunk+chunk:chunk.slice(1)];
+  else if(DBL[chunk]) d=DBL[chunk].slice();
+  else {const f=FAM.find(f=>f[0]===chunk)||FAM.find(f=>f.includes(chunk)); if(f) d=f.filter(x=>x!==chunk);}
+  if(!d.length){
+    if(/^[bcdfghjklmnpqrstvwxz]$/.test(chunk)) d=[chunk+chunk];
+    else if(/(.)\1/.test(chunk)) d=[chunk.replace(/(.)\1/,'$1')];
+    else d=[chunk.slice(0,-1)||'',chunk+chunk.slice(-1)];
+  }
+  return [...new Set(d)].filter(x=>x!==chunk).slice(0,3);
+}
+
+/* ---------- picking ---------- */
+function poolFor(sel){
+  if(sel==='review') return reviewPool();
+  const gs=sel==='all'?GROUPS.filter(g=>g.gameable):[GROUPS[+sel]];
+  const out=[];gs.forEach(g=>g.words.forEach(w=>{if(!w.pair)out.push({g,w});}));return out;
+}
+function pickRound(sel,n){
+  const pool=poolFor(sel); if(!pool.length) return [];
+  const weighted=pool.map(x=>({x,k:Math.random()*(6-((ST.words[x.w.word]||{}).box||0))})).sort((a,b)=>b.k-a.k);
+  return weighted.slice(0,Math.min(n,pool.length)).map(o=>o.x);
+}
+
+/* ---------- UI ---------- */
+let TAB='learn', SEL='all', G=null, G_MODE='gap';
+const main=document.getElementById('main');
+document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setTab(b.dataset.tab);});
+function setTab(t,sel){TAB=t;if(sel!==undefined)SEL=sel;G=null;resetNav();
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));render();window.scrollTo(0,0);}
+function groupSelect(){
+  let o=`<option value="all">All groups mixed</option>`;
+  let last='';GROUPS.forEach(g=>{if(!g.gameable)return;if(g.sec!==last){if(last)o+='</optgroup>';o+=`<optgroup label="${esc(g.sec)}">`;last=g.sec;}
+    o+=`<option value="${g.id}" ${String(SEL)===String(g.id)?'selected':''}>${esc(g.p)}</option>`;});
+  return `<label class="small" for="gsel">Practise</label> <select id="gsel">${o}</optgroup></select>`;
+}
+function mastery(g){const ws=g.words.filter(w=>!w.pair);if(!ws.length)return 0;return ws.reduce((a,w)=>a+((ST.words[w.word]||{}).box||0),0)/(ws.length*5);}
+
+function render(){
+  stats();
+  if(TAB==='learn') return renderLearn();
+  if(TAB==='settings') return renderSettings();
+  if(TAB==='wfd') return renderWFD();
+  if(TAB==='review'){ if(!reviewPool().length){main.innerHTML=`<div class="panel"><p style="margin:0">No mistakes to review yet. Words you get wrong in Fill the gap or Listen and spell land here until you get them right three times in a row.</p></div>`;return;}
+    return startGame('spell','review'); }
+  return renderSetup();
+}
+
+function renderLearn(){
+  let h='',last='';
+  GROUPS.forEach(g=>{
+    if(g.sec!==last){h+=`<div class="sec">${esc(g.sec)}</div>`;last=g.sec;}
+    const m=Math.round(mastery(g)*100);
+    h+=`<details class="grp"><summary><span class="pt">${esc(g.p)}</span><span class="tiny">${g.words.length} words</span>${g.gameable?`<span class="meter" title="${m}% mastered"><i style="width:${m}%"></i></span>`:''}</summary>
+    <div class="body"><p class="rule">${esc(g.rule)}</p><div class="words">${g.words.map(w=>`<span>${hl(w.base)}${w.note?` <span class="note">${esc(w.note)}</span>`:''}</span>`).join('')}</div>
+    ${g.gameable?`<div class="acts"><button class="btn" data-go="gap" data-g="${g.id}">Fill the gap</button><button class="btn ghost" data-go="spell" data-g="${g.id}">Listen and spell</button></div>`:''}</div></details>`;
+  });
+  main.innerHTML=h;
+  main.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{setTab(b.dataset.go,b.dataset.g);startGame(b.dataset.go,b.dataset.g);});
+}
+
+function renderSetup(){
+  const isGap=TAB==='gap';
+  main.innerHTML=`<div class="panel">
+    <p style="margin-top:0">${isGap?'A word appears with its tricky part missing. Pick the tile that completes it.':'You hear a word. Type it exactly. One wrong letter means the word is wrong, just like in Write From Dictation.'}</p>
+    <div class="row">${groupSelect()}<button class="btn" id="go">Start 10 words</button></div></div>`;
+  document.getElementById('gsel').onchange=e=>SEL=e.target.value;
+  document.getElementById('go').onclick=()=>startGame(TAB,SEL);
+}
+
+function startGame(mode,sel){
+  resetNav();
+  SEL=sel; G_MODE=mode;
+  const items=pickRound(sel,10);
+  if(!items.length){main.innerHTML=`<div class="panel">No words in this group yet.</div>`;return;}
+  G={mode,sel,items,i:0,score:0,missed:[]};
+  nextQ();
+}
+function progressBar(){NAV.liveAnswered=false;return navBar()+`<div class="row" style="justify-content:space-between"><span class="tiny">${G.i+1} of ${G.items.length}${G.mode==='gap'?'':' · '+esc(G.items[G.i].g.p)}</span><span class="tiny">${G.score} right</span></div><div class="progress"><i style="width:${G.i/G.items.length*100}%"></i></div>`;}
+
+function nextQ(){
+  if(G.i>=G.items.length) return summary();
+  const {g,w}=G.items[G.i];
+  G.mode==='gap'?qGap(g,w):qSpell(g,w);
+}
+
+function qGap(g,w){
+  // choose blank
+  let parts=w.parts.slice(), idx;
+  const hiIdx=parts.map((p,i)=>i%2===1?i:-1).filter(i=>i>=0);
+  idx=hiIdx[Math.floor(Math.random()*hiIdx.length)];
+  const chunk=parts[idx];
+  const opts=shuffle([chunk,...distract(chunk,g)]);
+  const before=parts.slice(0,idx).join(''), after=parts.slice(idx+1).join('');
+  main.innerHTML=`<div class="panel">${progressBar()}
+   <div class="q"><div class="word">${esc(before)}<span class="gap" id="gp">?</span>${esc(after)}</div>
+   ${w.note?`<div class="tiny" style="margin-top:6px">${esc(w.note)}</div>`:''}</div>
+   <div class="opts" id="opts">${opts.map(o=>`<button class="tile" data-o="${esc(o)}">${o===''?'∅':esc(o)}</button>`).join('')}</div>
+   <p class="tiny" style="text-align:center;margin:0">${opts.includes('')?'∅ means no letter goes here. ':''}Keys 1 to ${opts.length} work too.</p>
+   <div id="fb"></div></div>`;
+  let done=false;
+  const choose=o=>{
+    if(done)return;done=true;
+    const ok=o===chunk;G.score+=ok;rec(w.word,ok);if(!ok)G.missed.push(w);
+    const gp=document.getElementById('gp');gp.textContent=o===''?'∅':o;gp.classList.add('filled',ok?'ok':'no');
+    document.querySelectorAll('.tile').forEach(t=>{t.disabled=true;if(t.dataset.o===chunk)t.classList.add('right');else if(t.dataset.o!==o)t.classList.add('dim');});
+    showFb(ok,g,w,true);snapshot();
+  };
+  document.querySelectorAll('.tile').forEach(t=>t.onclick=()=>choose(t.dataset.o));
+  keyHandler=e=>{const n=+e.key;if(!done&&n>=1&&n<=opts.length)choose(opts[n-1]);else if(done&&e.key==='Enter')advance();};
+  speak(w.word);
+}
+
+function qSpell(g,w){
+  main.innerHTML=`<div class="panel">${progressBar()}
+   <div class="q"><button class="speak" id="sp" aria-label="Play the word">${SPK}</button><p class="tiny" style="margin:0 0 10px">No sound? Turn the volume up. On iPhone, switch off silent mode.</p>
+   <div class="row" style="justify-content:center;margin-bottom:14px"><button class="btn ghost" id="slow">Play slowly</button><button class="btn ghost" id="hint">Show rule</button></div>
+   <p class="rule hidden" id="rl" style="text-align:left">${esc(g.p)}: ${esc(g.rule)}${w.note?` <br><span class="tiny">clue: ${esc(w.note)}</span>`:''}</p>
+   <input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" autocorrect="off" aria-label="Type the word you hear">
+   <div class="err hidden" id="er">Type the word first.</div>
+   <div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="chk">Check</button></div></div>
+   <div id="fb"></div></div>`;
+  const inp=document.getElementById('ans');
+  document.getElementById('sp').onclick=()=>{speak(w.word);inp.focus();};
+  document.getElementById('slow').onclick=()=>{speak(w.word,0.6);inp.focus();};
+  document.getElementById('hint').onclick=()=>document.getElementById('rl').classList.remove('hidden');
+  inp.oninput=()=>document.getElementById('er').classList.add('hidden');
+  let done=false;
+  const check=()=>{
+    if(done)return advance();
+    const v=inp.value.trim();
+    if(!v){document.getElementById('er').classList.remove('hidden');return;}
+    done=true;
+    const ok=norm(v)===norm(w.word);G.score+=ok;rec(w.word,ok);if(!ok)G.missed.push(w);
+    inp.disabled=true;document.getElementById('chk').textContent='Next';document.getElementById('chk').classList.add('hidden');
+    showFb(ok,g,w,false,v);snapshot();
+  };
+  document.getElementById('chk').onclick=check;
+  keyHandler=e=>{if(e.key==='Enter'){e.preventDefault();check();}};
+  setTimeout(()=>{if(!speak(w.word)){document.getElementById('fb').innerHTML='<div class="fb no">This browser has no speech voice, so Listen and spell cannot play. Try Fill the gap instead.</div>';}inp.focus();},250);
+}
+
+function diffHtml(a,b){ // a = user, b = target; mark user letters not in LCS
+  const m=a.length,n=b.length,dp=Array.from({length:m+1},()=>new Array(n+1).fill(0));
+  for(let i=m-1;i>=0;i--)for(let j=n-1;j>=0;j--)dp[i][j]=a[i].toLowerCase()===b[j].toLowerCase()?dp[i+1][j+1]+1:Math.max(dp[i+1][j],dp[i][j+1]);
+  let i=0,j=0,out='';
+  while(i<m){ if(j<n&&a[i].toLowerCase()===b[j].toLowerCase()){out+=esc(a[i]);i++;j++;} else if(j<n&&dp[i][j+1]>=dp[i+1][j]){j++;} else {out+=`<span class="x">${esc(a[i])}</span>`;i++;} }
+  return out;
+}
+function showFb(ok,g,w,isGap,typed){
+  const fb=document.getElementById('fb');
+  fb.innerHTML=`<div class="fb ${ok?'ok':'no'}">
+    <div style="font-size:22px;margin-bottom:4px">${hl(w.base)}${w.note?` <span class="note">${esc(w.note)}</span>`:''}</div>
+    ${!ok&&!isGap?`<div class="diff">You wrote: ${diffHtml(typed,w.word)}</div>`:''}
+    <div style="margin-top:6px"><b>${esc(g.p)}</b>: ${esc(g.rule)}</div></div>
+    ${isGap?`<div class="row" style="justify-content:center;margin-top:14px"><button class="btn" id="nx">Next</button></div>`:''}`;
+  if(isGap){const nx=document.getElementById('nx');nx.onclick=advance;nx.focus();}
+}
+function advance(){G.i++;nextQ();}
+
+function summary(){
+  keyHandler=null;
+  const pct=Math.round(G.score/G.items.length*100);
+  const msg=pct===100?'Perfect round.':pct>=70?'Solid. The misses below go to your Mistakes tab.':'These patterns need another pass. Open the group in Learn, read the rule, then try again.';
+  NAV.liveAnswered=false;main.innerHTML=`<div class="panel summary">${navBar(true)}<div class="big">${G.score}/${G.items.length}</div><p>${msg}</p>
+   ${G.missed.length?`<div class="words" style="justify-content:center;margin:14px 0">${G.missed.map(w=>`<span>${hl(w.base)}</span>`).join('')}</div>`:''}
+   <div class="row" style="justify-content:center"><button class="btn" id="again">Another 10</button><button class="btn ghost" id="sw">${G.mode==='gap'?'Now spell them by ear':'Try Fill the gap'}</button></div></div>`;
+  const mode=G.mode, sel=G.sel;
+  document.getElementById('again').onclick=()=>startGame(mode,sel);
+  document.getElementById('sw').onclick=()=>{const t=mode==='gap'?'spell':'gap';setTab(t,sel==='review'?'all':sel);startGame(t,sel==='review'?'all':sel);};
+}
+
+/* ---------- WFD ---------- */
+function toks(s){return s.toLowerCase().replace(/[’]/g,"'").replace(/[^a-z' ]/g,' ').split(/\s+/).filter(Boolean);}
+function renderWFD(){
+  const order=shuffle(WFD.map((_,i)=>i));let k=0,total=0,got=0;
+  resetNav();
+  const show=()=>{
+    NAV.liveAnswered=false;
+    const s=WFD[order[k%order.length]];
+    main.innerHTML=`<div class="panel">${navBar()}<div class="row" style="justify-content:space-between"><span class="tiny">Sentence ${k+1} · sentences come from your Read Aloud texts</span><span class="tiny">${got}/${total} words so far</span></div>
+     <div class="q"><button class="speak" id="sp" aria-label="Play the sentence">${SPK}</button><p class="tiny" style="margin:0 0 10px">No sound? Turn the volume up. On iPhone, switch off silent mode.</p>
+     <p class="tiny" style="margin:0 0 12px">In the exam you hear it once. Try to write after one play.</p></div>
+     <textarea id="ta" spellcheck="false" autocapitalize="off" autocorrect="off" aria-label="Type the sentence you hear"></textarea>
+     <div class="err hidden" id="er">Type what you heard first.</div>
+     <div class="row" style="margin-top:12px"><button class="btn" id="chk">Check</button><span class="tiny" id="plays">Played 0 times</span></div><div id="fb"></div></div>`;
+    let plays=0;const ta=document.getElementById('ta');
+    const play=()=>{speak(s,ST.rate*0.95);plays++;document.getElementById('plays').textContent=`Played ${plays} time${plays>1?'s':''}`;ta.focus();};
+    document.getElementById('sp').onclick=play; setTimeout(play,300);
+    ta.oninput=()=>document.getElementById('er').classList.add('hidden');
+    let done=false;
+    const check=()=>{
+      if(done){k++;return show();}
+      if(!ta.value.trim()){document.getElementById('er').classList.remove('hidden');return;}
+      done=true;
+      const user=toks(ta.value).map(norm), target=toks(s);
+      const bag={};user.forEach(t=>bag[t]=(bag[t]||0)+1);
+      let n=0;const marked=target.map(t=>{const nt=norm(t);if(bag[nt]>0){bag[nt]--;n++;return `<span class="w ok">${esc(t)}</span>`;}return `<span class="w no">${esc(t)}</span>`;});
+      total+=target.length;got+=n;
+      const extra=Object.entries(bag).filter(([,c])=>c>0).map(([t])=>t);
+      document.getElementById('fb').innerHTML=`<div class="fb ${n===target.length?'ok':'no'} wfd"><div style="margin-bottom:8px"><b>${n}/${target.length}</b> words correct. Green words score, red words were missing or misspelt.</div>${marked.join(' ')}
+       ${extra.length?`<div class="tiny" style="margin-top:8px">Extra or misspelt words you wrote: ${extra.map(esc).join(', ')}</div>`:''}</div>`;
+      document.getElementById('chk').textContent='Next sentence';document.getElementById('chk').classList.add('hidden');snapshot();
+    };
+    document.getElementById('chk').onclick=check;
+    keyHandler=e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();check();}};
+  };
+  show();
+}
+
+/* ---------- settings ---------- */
+function renderSettings(){
+  if(!('speechSynthesis' in window)){main.innerHTML='<div class="panel">This browser does not support speech. Fill the gap still works without it.</div>';return;}
+  const opts=VOICES.map(v=>`<option value="${esc(v.name)}" ${v.name===ST.voice?'selected':''}>${esc(v.name)} (${esc(v.lang)})</option>`).join('');
+  main.innerHTML=`<div class="panel"><p style="margin-top:0">PTE uses British, American and Australian speakers. Switch voices now and then so your ear gets used to all of them.</p>
+   <div class="row" style="margin-bottom:14px"><label class="small" for="vs">Voice</label><select id="vs"><option value="">Automatic (British if available)</option>${opts}</select></div>
+   <div class="row" style="margin-bottom:14px"><label class="small" for="rt">Speed</label><input type="range" id="rt" min="0.6" max="1.2" step="0.05" value="${ST.rate}" style="flex:1"><span id="rv" class="tiny">${ST.rate}</span></div>
+   <button class="btn" id="test">Test voice</button>
+   <hr style="border:none;border-top:1px solid var(--line);margin:22px 0">
+   <p class="tiny">Your progress is saved in this browser only.</p><button class="btn ghost" id="reset">Reset progress</button></div>`;
+  document.getElementById('vs').onchange=e=>{ST.voice=e.target.value;save();};
+  document.getElementById('rt').oninput=e=>{ST.rate=+e.target.value;document.getElementById('rv').textContent=ST.rate;save();};
+  document.getElementById('test').onclick=()=>speak('Accommodation, necessary, questionnaire.');
+  document.getElementById('reset').onclick=()=>{if(confirm('Clear all progress?')){ST.words={};ST.streak=0;ST.today={d:todayStr(),n:0};save();render();}};
+}
+
+let keyHandler=null;
+/* ---------- home / previous navigation ---------- */
+const NAV={hist:[],live:null,vi:-1,liveAnswered:false,savedKey:null};
+function resetNav(){NAV.hist=[];NAV.live=null;NAV.vi=-1;NAV.liveAnswered=false;}
+function navBar(nextOn){return `<div class="gnav"><button class="btn ghost sm" data-home>⌂ Home</button><button class="btn ghost sm" data-prev ${NAV.hist.length?'':'disabled'}>‹ Previous</button><button class="btn sm" data-gnext ${nextOn?'':'disabled'}>Next ›</button></div>`;}
+function snapshot(){
+  main.querySelectorAll('input[type=text]').forEach(i=>i.setAttribute('value',i.value));
+  main.querySelectorAll('textarea').forEach(t=>t.textContent=t.value);
+  NAV.hist.push(main.innerHTML);NAV.liveAnswered=true;
+  const p=main.querySelector('[data-prev]');if(p)p.disabled=false;
+  const n=main.querySelector('[data-gnext]');if(n)n.disabled=false;
+}
+function lastHist(){return NAV.hist.length-1-(NAV.liveAnswered?1:0);}
+function showPrev(){
+  if(NAV.vi===-1){
+    const start=lastHist();if(start<0)return;
+    NAV.live=document.createDocumentFragment();while(main.firstChild)NAV.live.appendChild(main.firstChild);
+    NAV.savedKey=keyHandler;keyHandler=null;NAV.vi=start;
+  } else NAV.vi=Math.max(0,NAV.vi-1);
+  drawHist();
+}
+function drawHist(){
+  main.innerHTML=`<div class="panel"><p class="tiny" style="margin:0 0 8px">Looking back at answered item ${NAV.vi+1} of ${NAV.hist.length}. <button class="btn ghost sm" data-back>Back to current</button></p><div inert class="histview">${NAV.hist[NAV.vi]}</div>
+  <div class="gnav"><button class="btn ghost sm" data-home>⌂ Home</button><button class="btn ghost sm" data-prev ${NAV.vi>0?'':'disabled'}>‹ Previous</button><button class="btn sm" data-hnext>Next ›</button></div></div>`;
+  window.scrollTo(0,0);
+}
+function histNext(){NAV.vi++;if(NAV.vi>lastHist())backToLive();else drawHist();}
+function backToLive(){
+  if(!NAV.live)return;main.innerHTML='';main.appendChild(NAV.live);NAV.live=null;NAV.vi=-1;keyHandler=NAV.savedKey;
+  const p=main.querySelector('[data-prev]');if(p)p.disabled=lastHist()<0;
+}
+function goHome(){try{speechSynthesis.cancel();}catch(e){}resetNav();setTab('learn');}
+main.addEventListener('click',e=>{
+  if(e.target.closest('[data-home]'))return goHome();
+  if(e.target.closest('[data-prev]'))return showPrev();
+  if(e.target.closest('[data-hnext]'))return histNext();
+  if(e.target.closest('[data-gnext]')){const t=main.querySelector('#nx')||main.querySelector('#again')||main.querySelector('#chk');if(t)t.click();return;}
+  if(e.target.closest('[data-back]'))return backToLive();
+});
+document.addEventListener('keydown',e=>{if(keyHandler&&TAB!=='learn')keyHandler(e);});
+render();
+</script>
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+</body>
+</html>
