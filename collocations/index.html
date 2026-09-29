@@ -112,6 +112,23 @@ body.locked nav,body.locked .stats,body.locked .foot{display:none}
 .lt{font-family:var(--display);font-size:24px;margin:18px 0 8px;color:var(--accent);scroll-margin-top:60px}
 .compact .card{padding:10px 12px}.compact .card .hw{font-size:17px}.compact .pw{font-size:14px;padding:3px 8px;margin:0 4px 5px 0}
 @media (max-width:420px){.auth .two{grid-template-columns:1fr}}
+.scrollx{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px}
+.scrollx::-webkit-scrollbar{display:none}.scrollx .chip{flex:0 0 auto}
+.card .hd{margin-bottom:6px}.pws{display:flex;flex-wrap:wrap;gap:6px}.pws .pw{margin:0}
+.measure{position:absolute;left:-9999px;top:0;visibility:hidden;width:min(764px,calc(100vw - 36px))}
+.lnav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--panel);border-top:1px solid var(--line);box-shadow:0 -4px 14px rgba(17,24,39,.06)}
+.lnav-in{max-width:800px;margin:0 auto;display:flex;gap:8px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px))}
+.lnav-in .btn{flex:1;padding:12px 6px;font-size:15px}
+body.haslnav .wrap{padding-bottom:110px}
+body.haslnav .foot{display:none}
+.lhead{display:flex;align-items:center;gap:12px;margin:2px 0 10px}
+.lbig{font-family:var(--display);font-weight:700;font-size:30px;color:var(--accent);line-height:1}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+.atile{font:inherit;border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:12px 4px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 0 var(--line)}
+.atile span{font-family:var(--display);font-weight:700;font-size:26px;color:var(--ink);line-height:1.1}
+.atile small{font-size:12px;color:var(--ink-3)}
+.atile:active{transform:translateY(1px)}
+@media (max-width:480px){.card{padding:10px 12px}.card .hw{font-size:18px}.pw{font-size:14px;padding:4px 9px}.wrap{padding:14px 12px 60px}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -267,7 +284,7 @@ function phraseHtml(it,blank,fill,cls){
 let TAB='learn',SEL='all',G=null,keyHandler=null;
 const main=document.getElementById('main');
 document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setTab(b.dataset.tab);});
-function setTab(t,sel){TAB=t;if(sel!==undefined)SEL=sel;G=null;keyHandler=null;resetNav();
+function setTab(t,sel){if(typeof clearLnav==='function')clearLnav();TAB=t;if(sel!==undefined)SEL=sel;G=null;keyHandler=null;resetNav();
   document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));render();window.scrollTo(0,0);}
 document.addEventListener('keydown',e=>{if(keyHandler)keyHandler(e);});
 /* ---------- home / previous navigation ---------- */
@@ -320,47 +337,104 @@ function render(){
 }
 
 /* Learn */
-let LQ='',LF='all',LSHOW=40,LALL=false;
+let LQ='',LF='all',LV='list',LL='A',LP=0,LPAGES=[],LCARDS=[];
 function renderLearn(){
   const filters=[['all','All'],...Object.keys(DATA.P).map(p=>['pack:'+p,p]),...Object.entries(TYPES).map(([k,v])=>['type:'+k,v])];
-  main.innerHTML=`<input type="search" id="q" placeholder="Search a word, e.g. evidence, role, significant" value="${esc(LQ)}" aria-label="Search collocations">
-   <div class="chips">${filters.map(([k,v])=>`<button class="chip" data-f="${esc(k)}" aria-pressed="${LF===k}">${esc(v)}</button>`).join('')}</div>
+  main.innerHTML=`<input type="search" id="q" placeholder="Search a word, e.g. evidence, role" value="${esc(LQ)}" aria-label="Search collocations">
+   <div class="chips scrollx">${filters.map(([k,v])=>`<button class="chip" data-f="${esc(k)}" aria-pressed="${LF===k}">${esc(v)}</button>`).join('')}</div>
    <div id="res"></div>`;
   const q=document.getElementById('q');
-  q.oninput=()=>{LQ=q.value;LSHOW=40;LALL=false;drawRes();};
-  main.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{LF=c.dataset.f;LSHOW=40;main.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));drawRes();});
-  drawRes();
+  q.oninput=()=>{LQ=q.value;LP=0;if(LQ.trim())LV='list';drawLearn();};
+  main.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{LF=c.dataset.f;LP=0;LV='list';main.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));drawLearn();});
+  drawLearn();
 }
-function drawRes(){
+function learnGroups(){
   const q=LQ.trim().toLowerCase();
-  let items=poolFor(LF);
-  if(q)items=items.filter(it=>it.h.bare.toLowerCase().includes(q)||it.p.w.toLowerCase().includes(q));
-  // group by head
-  const groups=new Map();
-  items.forEach(it=>{const k=it.h.i;if(!groups.has(k))groups.set(k,[]);groups.get(k).push(it);});
-  // when searching a partner word, show the partner-centred view first
-  let h='';
-  if(q&&PWH[q]){h+=`<div class="card"><div class="hd"><span class="hw">…${esc(q)}</span><span class="tiny">words that go before it</span></div>${[...PWH[q]].sort().map(b=>{const it=BYKEY[b+'|'+q];return it?chipFor(it,'head'):'';}).join('')}</div>`;}
-  const arr=[...groups.values()].sort((a,b)=>a[0].h.bare.localeCompare(b[0].h.bare));
-  const lim=LALL?Infinity:LSHOW;
-  h+=`<p class="tiny" style="margin-bottom:6px">${items.length} collocations${!LALL&&arr.length>LSHOW?`, showing ${LSHOW} of ${arr.length} headwords`:`, ${arr.length} headwords`}. Tap a pair to hear it.</p>`;
-  if(arr.length>1)h+=`<button class="btn ${LALL?'ghost':''}" id="az" style="width:100%;margin-bottom:10px">${LALL?'Show fewer':'Show all A–Z'}</button>`;
-  const letters=[...new Set(arr.map(l=>l[0].h.bare[0].toUpperCase()))];
-  if(LALL&&letters.length>1)h+=`<div class="azbar" aria-label="Jump to letter">${letters.map(l=>`<button data-jump="${l}">${l}</button>`).join('')}</div>`;
-  let lastL='';
-  arr.slice(0,lim).forEach(list=>{
-    const hd=list[0].h;
-    const L=hd.bare[0].toUpperCase();if(LALL&&L!==lastL){h+=`<h3 class="lt" id="L-${L}">${L}</h3>`;lastL=L;}const m=Math.round(list.reduce((a,it)=>a+((ST.items[it.key]||{}).box||0),0)/(list.length*5)*100);
-    h+=`<div class="card"><div class="hd"><span class="hw">${esc(hd.disp)}</span><span class="pos">${hd.pos}</span><span class="meter" title="${m}% mastered"><i style="width:${m}%"></i></span></div>${list.map(it=>chipFor(it,'part')).join('')}</div>`;
-  });
-  if(!LALL&&arr.length>LSHOW)h+=`<button class="btn ghost" id="more" style="width:100%">Show more</button>`;
-  if(!items.length)h+=`<div class="panel">No collocations match "${esc(LQ)}". Try a shorter word.</div>`;
-  const res=document.getElementById('res');res.classList.toggle('compact',LALL);res.innerHTML=h;
-  const az=document.getElementById('az');if(az)az.onclick=()=>{LALL=!LALL;drawRes();if(!LALL)az.scrollIntoView();};
-  res.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>{const t=document.getElementById('L-'+b.dataset.jump);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});});
-  res.querySelectorAll('.pw').forEach(b=>b.onclick=()=>speak(BYKEY[b.dataset.k].say));
-  const more=document.getElementById('more');if(more)more.onclick=()=>{LSHOW+=40;drawRes();};
+  let items=LV==='letter'?ITEMS.filter(it=>it.h.bare[0].toUpperCase()===LL):poolFor(LF);
+  if(q&&LV!=='letter')items=items.filter(it=>it.h.bare.toLowerCase().includes(q)||it.p.w.toLowerCase().includes(q));
+  const g=new Map();items.forEach(it=>{if(!g.has(it.h.i))g.set(it.h.i,[]);g.get(it.h.i).push(it);});
+  return {items,groups:[...g.values()].sort((a,b)=>a[0].h.bare.localeCompare(b[0].h.bare))};
 }
+function cardHtml(list){
+  const hd=list[0].h;
+  return `<div class="card"><div class="hd"><span class="hw">${esc(hd.disp)}</span><span class="pos">${hd.pos}</span></div><div class="pws">${list.map(it=>chipFor(it,'part')).join('')}</div></div>`;
+}
+function drawLearn(){
+  const res=document.getElementById('res');if(!res)return;
+  clearLnav();
+  if(LV==='grid')return drawGrid(res);
+  const {items,groups}=learnGroups();
+  const q=LQ.trim().toLowerCase();
+  LCARDS=[];
+  if(q&&PWH[q]&&LV!=='letter')LCARDS.push(`<div class="card"><div class="hd"><span class="hw">…${esc(q)}</span><span class="tiny">words that go before it</span></div><div class="pws">${[...PWH[q]].sort().map(b=>{const it=BYKEY[b+'|'+q];return it?chipFor(it,'head'):'';}).join('')}</div></div>`);
+  groups.forEach(l=>LCARDS.push(cardHtml(l)));
+  let top='';
+  if(LV==='letter'){
+    top=`<div class="lhead"><button class="btn ghost sm" id="toGrid">‹ All letters</button><span class="lbig">${LL}</span><span class="tiny">${groups.length} headwords · ${items.length} pairs</span></div>`;
+  } else {
+    top=`<p class="tiny" style="margin:0 0 8px">${items.length.toLocaleString()} collocations · ${groups.length} headwords. Tap a pair to hear it.</p>
+     <button class="btn" id="toGrid" style="width:100%;margin-bottom:10px">Show all A–Z</button>`;
+  }
+  if(!items.length){res.innerHTML=top+`<div class="panel">No collocations match "${esc(LQ)}". Try a shorter word.</div>`;wireLearnTop();return;}
+  res.innerHTML=top+`<div id="pageInfo" class="tiny" style="margin:0 0 6px"></div><div id="cards"></div><div id="measure" class="measure" aria-hidden="true"></div>`;
+  wireLearnTop();
+  paginate();
+}
+function wireLearnTop(){const t=document.getElementById('toGrid');if(t)t.onclick=()=>{LV='grid';drawLearn();window.scrollTo(0,0);};}
+function paginate(keepFirst){
+  const meas=document.getElementById('measure');if(!meas)return;
+  meas.innerHTML=LCARDS.join('');
+  const hs=[...meas.children].map(c=>c.offsetHeight+8);
+  meas.innerHTML='';
+  const avail=Math.max(260,window.innerHeight-86-34-12);
+  LPAGES=[];let cur=[],h=0;
+  hs.forEach((ch,i)=>{if(cur.length&&h+ch>avail){LPAGES.push(cur);cur=[];h=0;}cur.push(i);h+=ch;});
+  if(cur.length)LPAGES.push(cur);
+  if(keepFirst!==undefined){const p=LPAGES.findIndex(pg=>pg.includes(keepFirst));LP=p<0?0:p;}
+  if(LP==='last'||LP>=LPAGES.length)LP=LP==='last'?LPAGES.length-1:Math.max(0,LPAGES.length-1);
+  showPage();
+}
+function showPage(){
+  const box=document.getElementById('cards');if(!box)return;
+  box.innerHTML=LPAGES[LP].map(i=>LCARDS[i]).join('');
+  box.querySelectorAll('.pw').forEach(b=>b.onclick=()=>speak(BYKEY[b.dataset.k].say));
+  const label=LV==='letter'?`Letter ${LL} · page ${LP+1} of ${LPAGES.length}`:`Page ${LP+1} of ${LPAGES.length}`;
+  document.getElementById('pageInfo').textContent=label;
+  const L=letterList(),li=L.indexOf(LL);
+  const canPrev=LP>0||(LV==='letter'&&li>0), canNext=LP<LPAGES.length-1||(LV==='letter'&&li<L.length-1);
+  const nextLabel=LP<LPAGES.length-1?'Next ›':(LV==='letter'&&li<L.length-1?`${L[li+1]} ›`:'Next ›');
+  const prevLabel=LP>0?'‹ Previous':(LV==='letter'&&li>0?`‹ ${L[li-1]}`:'‹ Previous');
+  setLnav(`<button class="btn ghost" data-lhome>⌂ Home</button><button class="btn ghost" data-lprev ${canPrev?'':'disabled'}>${prevLabel}</button><button class="btn" data-lnext ${canNext?'':'disabled'}>${nextLabel}</button>`);
+}
+function toCards(){const p=document.getElementById('pageInfo');if(p)p.scrollIntoView({block:'start'});}
+function letterList(){return [...new Set(HEADS.map(h=>h.bare[0].toUpperCase()))].sort();}
+function drawGrid(res){
+  const L=letterList();
+  res.innerHTML=`<div class="lhead"><button class="btn ghost sm" id="back">‹ Back</button><span class="tiny">Pick a letter to see its collocations</span></div>
+   <div class="agrid">${L.map(l=>{const n=HEADS.filter(h=>h.bare[0].toUpperCase()===l).reduce((a,h)=>a+h.ps.length,0);return `<button class="atile" data-l="${l}"><span>${l}</span><small>${n}</small></button>`;}).join('')}</div>`;
+  document.getElementById('back').onclick=()=>{LV='list';drawLearn();};
+  res.querySelectorAll('.atile').forEach(b=>b.onclick=()=>{LV='letter';LL=b.dataset.l;LP=0;drawLearn();toCards();});
+  setLnav(`<button class="btn ghost" data-lhome>⌂ Home</button>`);
+}
+function setLnav(html){let n=document.getElementById('lnav');if(!n){n=document.createElement('div');n.id='lnav';n.className='lnav';document.body.appendChild(n);}n.innerHTML=`<div class="lnav-in">${html}</div>`;document.body.classList.add('haslnav');}
+function clearLnav(){const n=document.getElementById('lnav');if(n)n.remove();document.body.classList.remove('haslnav');}
+document.addEventListener('click',e=>{
+  if(TAB!=='learn'||!document.getElementById('lnav'))return;
+  if(e.target.closest('[data-lhome]')){LQ='';LF='all';LV='list';LP=0;renderLearn();window.scrollTo(0,0);return;}
+  const L=letterList(),li=L.indexOf(LL);
+  if(e.target.closest('[data-lprev]')){
+    if(LP>0){LP--;showPage();}
+    else if(LV==='letter'&&li>0){LL=L[li-1];LP='last';drawLearn();}
+    toCards();return;
+  }
+  if(e.target.closest('[data-lnext]')){
+    if(LP<LPAGES.length-1){LP++;showPage();}
+    else if(LV==='letter'&&li<L.length-1){LL=L[li+1];LP=0;drawLearn();}
+    toCards();return;
+  }
+});
+let rsT=null;addEventListener('resize',()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(TAB==='learn'&&LV!=='grid'&&LPAGES.length){const first=LPAGES[LP]&&LPAGES[LP][0];paginate(first);}},250);});
+
 function chipFor(it,show){
   const m=(ST.items[it.key]||{}).box>=4?' m':'';
   const label=show==='head'?`${esc(it.h.disp)} <b>${esc(it.p.w)}</b>`:`${esc(it.p.w)}`;
@@ -524,7 +598,7 @@ function authErr(e){
    'auth/network-request-failed':'No internet connection. Connect and try again.',
    'auth/unauthorized-domain':'This website isn\'t allowed to sign in yet. Add it under Firebase, Authentication, Settings, Authorized domains.'}[c])||('Something went wrong. Try again. ('+(c||e.message||'error')+')');
 }
-function lock(on){document.body.classList.toggle('locked',on);}
+function lock(on){document.body.classList.toggle('locked',on);if(on&&typeof clearLnav==='function')clearLnav();}
 function authShell(inner){lock(true);main.innerHTML=`<div class="panel auth">${inner}</div>`;window.scrollTo(0,0);}
 function field(id,label,type,extra){return `<label class="fl" for="${id}">${label}</label><input class="fi" id="${id}" type="${type}" ${extra||''}>`;}
 function pwField(id,label,auto){return `<label class="fl" for="${id}">${label}</label><div class="pwrap"><input class="fi" id="${id}" type="password" autocomplete="${auto}"><button type="button" class="eye" data-eye="${id}" aria-label="Show password">Show</button></div>`;}
