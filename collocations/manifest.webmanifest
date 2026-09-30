@@ -1,6 +1,6 @@
 {
- "name": "PTE Official Collocation",
- "short_name": "PTE Collocation",
+ "name": "PTE Official Collocations",
+ "short_name": "PTE Collocations",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",

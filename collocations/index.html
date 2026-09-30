@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#4338CA">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>PTE Official Collocation</title>
+<title>PTE Official Collocations</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" rel="stylesheet">
@@ -162,7 +162,7 @@ a.btn.buy{display:block;text-align:center;text-decoration:none;font-size:18px;pa
 <body>
 <div class="wrap">
 <header>
-  <h1><span class="a">PTE</span><span class="b">Official Collocation</span></h1>
+  <h1><span class="a">PTE</span><span class="b">Official Collocations</span></h1>
   <button class="avatar" id="avatarBtn" aria-label="Open or close your profile"></button>
 </header>
 <nav id="nav" role="tablist">
@@ -174,7 +174,7 @@ a.btn.buy{display:block;text-align:center;text-decoration:none;font-size:18px;pa
   <button role="tab" data-tab="settings" aria-selected="false">Voice</button>
 </nav>
 <main id="main"></main>
-<p class="tiny foot" style="margin-top:28px">PTE Official Collocation is an independent study app based on Pearson's Academic Collocation List (version 2/2025); it is not made by Pearson. Wrong options in the quizzes are words that are not paired in the list, so always pick the partner the list gives. <a href="privacy.html">Privacy policy</a> · <a href="delete-account.html">Delete your account</a></p>
+<p class="tiny foot" style="margin-top:28px">PTE Official Collocations is an independent study app based on Pearson's Academic Collocation List (version 2/2025); it is not made by Pearson. Wrong options in the quizzes are words that are not paired in the list, so always pick the partner the list gives. <a href="privacy.html">Privacy policy</a> · <a href="delete-account.html">Delete your account</a></p>
 </div>
 <script src="firebase-config.js" onerror="void 0"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@12.19.0/firebase-app-compat.js"></script>
@@ -635,7 +635,7 @@ function busy(btn,on,label){btn.disabled=on;if(label)btn.textContent=label;}
 const val=id=>document.getElementById(id).value.trim();
 
 function showLogin(note){
-  authShell(`<h2>Log in</h2><p class="muted">Welcome to PTE Official Collocation. Log in to keep your progress on every device.</p>
+  authShell(`<h2>Log in</h2><p class="muted">Welcome to PTE Official Collocations. Log in to keep your progress on every device.</p>
    ${!FB_CFG?`<div class="amsg">Accounts aren't connected yet, so you can't log in on this copy of the app. You can still use everything without an account.</div><button class="btn" id="guest" style="width:100%;margin-top:10px">Continue without an account</button>`:''}
    ${field('lid','User ID (your email)','email','autocomplete="username" inputmode="email"')}
    ${pwField('lpw','Password','current-password')}
