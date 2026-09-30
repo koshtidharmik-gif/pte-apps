@@ -806,20 +806,28 @@ async function afterLogin(u){
       try{localStorage.setItem(KEY,JSON.stringify(ST));}catch(e){}}}}catch(e){}
   enterApp();
 }
-function cloudSave(){
-  if(!USER||!DB)return;clearTimeout(cloudTimer);
-  cloudTimer=setTimeout(()=>{DB.collection('users').doc(USER.uid).set({progress:{items:ST.items,streak:ST.streak,today:ST.today,log:(ST.log||[]).slice(-3500)},progressUpdated:new Date().toISOString()},{merge:true}).catch(()=>{});},2500);
-}
+function cloudWrite(){if(!USER||!DB)return Promise.resolve();return DB.collection('users').doc(USER.uid).set({progress:{items:ST.items,streak:ST.streak,today:ST.today,log:(ST.log||[]).slice(-3500)},progressUpdated:new Date().toISOString()},{merge:true}).catch(()=>{});}
+function cloudSave(){if(!USER||!DB)return;clearTimeout(cloudTimer);cloudTimer=setTimeout(cloudWrite,2500);}
 function enterApp(){lock(false);updateAvatar();if(USER&&/[?&]paid=1/.test(location.search)&&!isPremium()){openPlans();return;}if(USER&&maybeShowMistakes())return;TAB='learn';LV=(LQ.trim()||LF!=='all')?'list':'grid';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='learn'));render();}
 function firstName(){return (PROFILE&&PROFILE.firstName)||(USER&&USER.displayName||'').split(' ')[0]||'';}
-async function logOut(){if(AUTH){clearTimeout(cloudTimer);await AUTH.signOut();}USER=null;PROFILE=null;try{sessionStorage.removeItem('pwMistakesShown');}catch(e){}updateAvatar();showLogin('You have signed out.');}
+async function logOut(note){if(AUTH){if(cloudTimer){clearTimeout(cloudTimer);cloudTimer=null;try{await cloudWrite();}catch(e){}}await AUTH.signOut();}USER=null;PROFILE=null;try{sessionStorage.removeItem('pwMistakesShown');localStorage.removeItem('pwLastActive');}catch(e){}if(typeof clearLnav==='function')clearLnav();updateAvatar();showLogin(typeof note==='string'?note:'You have signed out.');}
+/* auto log-out after 1 hour without use */
+const IDLE_LIMIT=60*60*1000,IDLE_NOTE='For your security, you were logged out after 1 hour without using the app. Log in again to continue.';
+function lastActive(){try{return +localStorage.getItem('pwLastActive')||0;}catch(e){return 0;}}
+let laWrite=0;function markActive(){const n=Date.now();if(n-laWrite<30000)return;laWrite=n;try{localStorage.setItem('pwLastActive',String(n));}catch(e){}}
+['pointerdown','keydown','touchstart','scroll','wheel'].forEach(ev=>addEventListener(ev,()=>{if(USER)markActive();},{passive:true}));
+function idleExpired(){const t=lastActive();return !!t&&Date.now()-t>IDLE_LIMIT;}
+function checkIdle(){if(USER&&idleExpired())logOut(IDLE_NOTE);}
+setInterval(checkIdle,60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkIdle();});
+addEventListener('pageshow',checkIdle);
 function bootAuth(){
   if(!FB_CFG||!window.firebase){showLogin();return;}
   try{firebase.initializeApp(FB_CFG);AUTH=firebase.auth();DB=firebase.firestore();}catch(e){showLogin();return;}
   main.innerHTML='<div class="panel">Loading…</div>';lock(true);
   let first=true;
   AUTH.onAuthStateChanged(async u=>{
-    if(u&&u.emailVerified){if(first||!USER)await afterLogin(u);}
+    if(u&&u.emailVerified){if(first&&idleExpired()){first=false;try{localStorage.removeItem('pwLastActive');}catch(e){}await AUTH.signOut();showLogin(IDLE_NOTE);return;}if(first||!USER){laWrite=0;markActive();await afterLogin(u);}}
     else if(u&&!u.emailVerified){showVerify(u.email);}
     else if(first){showLogin();}
     first=false;
