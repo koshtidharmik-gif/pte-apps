@@ -148,6 +148,14 @@ h1{flex-wrap:nowrap;white-space:nowrap;font-size:clamp(18px,5.3vw,40px);min-widt
 .mcard .hd{flex-wrap:wrap}.mtag{font-size:12px;font-weight:700;color:var(--bad);background:var(--bad-soft);border-radius:999px;padding:2px 9px}
 .phototool{display:flex;align-items:center;gap:14px;margin:6px 0 4px}
 .auth .phototool .bigav{width:72px;height:72px;font-size:24px}
+.upsell{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#FFF7E6;border:1px solid #F2D49B;border-radius:12px;padding:10px 12px;margin:0 0 12px;font-size:14px;color:#6B4A00}
+.upsell .btn{background:#B7791F;white-space:nowrap}
+.card.locked .hw{color:var(--ink-2)}.lk{margin-left:auto}
+.pws.blur .pw{filter:blur(3px);color:transparent;cursor:default;user-select:none}
+.plan .pbadge{align-self:flex-start;display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13px;border-radius:999px;padding:3px 10px;margin-bottom:8px}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:4px 0 12px}.price b{font-family:var(--display);font-size:40px;color:var(--ink)}.price span{color:var(--ink-2);font-size:15px}
+.feat{list-style:none;padding:0;margin:0 0 16px}.feat li{padding:7px 0 7px 28px;position:relative;border-bottom:1px solid var(--line)}.feat li:before{content:"✓";position:absolute;left:4px;color:var(--good);font-weight:700}
+a.btn.buy{display:block;text-align:center;text-decoration:none;font-size:18px;padding:14px}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -155,7 +163,7 @@ h1{flex-wrap:nowrap;white-space:nowrap;font-size:clamp(18px,5.3vw,40px);min-widt
 <div class="wrap">
 <header>
   <h1><span class="a">PTE</span><span class="b">Official Collocation</span></h1>
-  <button class="avatar" id="avatarBtn" aria-label="Your profile"></button>
+  <button class="avatar" id="avatarBtn" aria-label="Open or close your profile"></button>
 </header>
 <nav id="nav" role="tablist">
   <button role="tab" data-tab="learn" aria-selected="true">Learn</button>
@@ -166,7 +174,7 @@ h1{flex-wrap:nowrap;white-space:nowrap;font-size:clamp(18px,5.3vw,40px);min-widt
   <button role="tab" data-tab="settings" aria-selected="false">Voice</button>
 </nav>
 <main id="main"></main>
-<p class="tiny foot" style="margin-top:28px">PTE Official Collocation is an independent study app based on Pearson's Academic Collocation List (version 2/2025); it is not made by Pearson. Wrong options in the quizzes are words that are not paired in the list, so always pick the partner the list gives.</p>
+<p class="tiny foot" style="margin-top:28px">PTE Official Collocation is an independent study app based on Pearson's Academic Collocation List (version 2/2025); it is not made by Pearson. Wrong options in the quizzes are words that are not paired in the list, so always pick the partner the list gives. <a href="privacy.html">Privacy policy</a> · <a href="delete-account.html">Delete your account</a></p>
 </div>
 <script src="firebase-config.js" onerror="void 0"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@12.19.0/firebase-app-compat.js"></script>
@@ -349,6 +357,8 @@ function render(){
   if(TAB==='learn')return renderLearn();
   if(TAB==='settings')return renderSettings();
   if(TAB==='profile')return renderProfile();
+  if(TAB==='plans')return renderPlans();
+  if(TAB==='review'&&!isPremium()){openPlans();return;}
   if(TAB==='review'){if(!reviewItems().length){main.innerHTML='<div class="panel">No mistakes to review yet. Collocations you miss in any game land here until you get them right three times in a row.</div>';return;}
     return startGame('pick','review');}
   renderSetup();
@@ -375,6 +385,7 @@ function learnGroups(){
 }
 function cardHtml(list){
   const hd=list[0].h;
+  if(typeof isPremium==='function'&&!isPremium()&&!FREE_HEAD.has(hd.i))return lockedCard(list);
   return `<div class="card"><div class="hd"><span class="hw">${esc(hd.disp)}</span><span class="pos">${hd.pos}</span></div><div class="pws">${list.map(it=>chipFor(it,'part')).join('')}</div></div>`;
 }
 function drawLearn(){
@@ -393,7 +404,7 @@ function drawLearn(){
     top=`<div class="lhead"><button class="btn ghost sm" id="toGrid">‹ All letters</button><span class="tiny">${items.length.toLocaleString()} collocations · ${groups.length} headwords. Tap a pair to hear it.</span></div>`;
   }
   if(!items.length){res.innerHTML=top+`<div class="panel">No collocations match "${esc(LQ)}". Try a shorter word.</div>`;wireLearnTop();return;}
-  res.innerHTML=top+`<div id="pageInfo" class="tiny" style="margin:0 0 6px"></div><div id="cards"></div><div id="measure" class="measure" aria-hidden="true"></div>`;
+  res.innerHTML=top+(typeof freeNote==='function'?freeNote():'')+`<div id="pageInfo" class="tiny" style="margin:0 0 6px"></div><div id="cards"></div><div id="measure" class="measure" aria-hidden="true"></div>`;
   wireLearnTop();
   paginate();
 }
@@ -428,7 +439,7 @@ function letterList(){return [...new Set(HEADS.map(h=>h.bare[0].toUpperCase()))]
 function drawGrid(res){
   const L=letterList();
   res.innerHTML=`<p class="tiny" style="margin:0 0 10px">${ITEMS.length.toLocaleString()} collocations · ${HEADS.length} headwords. Pick a letter to see its collocations, or search above.</p>
-   <div class="agrid">${L.map(l=>{const n=HEADS.filter(h=>h.bare[0].toUpperCase()===l).reduce((a,h)=>a+h.ps.length,0);return `<button class="atile" data-l="${l}"><span>${l}</span><small>${n}</small></button>`;}).join('')}</div>`;
+   ${typeof freeNote==='function'?freeNote():''}<div class="agrid">${L.map(l=>{const n=HEADS.filter(h=>h.bare[0].toUpperCase()===l).reduce((a,h)=>a+h.ps.length,0);return `<button class="atile" data-l="${l}"><span>${l}</span><small>${n}</small></button>`;}).join('')}</div>`;
   res.querySelectorAll('.atile').forEach(b=>b.onclick=()=>{LV='letter';LL=b.dataset.l;LP=0;drawLearn();toCards();});
   setLnav(`<button class="btn ghost" data-lhome>⌂ Home</button>`);
 }
@@ -463,7 +474,7 @@ function renderSetup(){
     match:'Five words on the left, five partners on the right. Tap a word, then its partner. Clear the board as fast as you can.',
     type:'You hear a collocation and one word is missing. Type it. This trains your ear and spelling for Write From Dictation and Repeat Sentence.'}[TAB];
   main.innerHTML=`<div class="panel"><p style="margin-top:0">${d}</p><div class="row">${poolSelect()}<button class="btn" id="go">${TAB==='match'?'Start':'Start 10'}</button></div>
-  <p class="tiny" style="margin-bottom:0">Start with a topic pack. Describe Image and Essay collocations are the ones you can reuse in your own speaking and writing.</p></div>`;
+  ${freeNote()}<p class="tiny" style="margin-bottom:0">Start with a topic pack. Describe Image and Essay collocations are the ones you can reuse in your own speaking and writing.</p></div>`;
   document.getElementById('psel').onchange=e=>SEL=e.target.value;
   document.getElementById('go').onclick=()=>startGame(TAB,SEL);
 }
@@ -474,8 +485,8 @@ function pickItems(pool,n,filter){
 function startGame(mode,sel){
   SEL=sel;resetNav();
   if(mode==='match')return startMatch(sel);
-  const items=pickItems(poolFor(sel),10,it=>it.canHead||it.canPart);
-  if(!items.length){main.innerHTML='<div class="panel">No collocations in this set.</div>';return;}
+  const items=pickItems(sel==='review'?poolFor(sel):gamePool(sel),10,it=>it.canHead||it.canPart);
+  if(!items.length){main.innerHTML=`<div class="panel">${isPremium()?'No collocations in this set.':'The free version has no collocations in this set. Unlock the full app to practise all of them.'}</div>${freeNote()}`;return;}
   G={mode,sel,items,i:0,score:0,missed:[]};nextQ();
 }
 function bar(){NAV.liveAnswered=false;return navBar()+`<div class="row" style="justify-content:space-between"><span class="tiny">${G.i+1} of ${G.items.length}</span><span class="tiny">${G.score} right</span></div><div class="progress"><i style="width:${G.i/G.items.length*100}%"></i></div>`;}
@@ -539,7 +550,7 @@ function qType(it){
 
 /* Match */
 function startMatch(sel){
-  const pool=shuffle(poolFor(sel).filter(it=>!it.merged).slice());
+  const pool=shuffle(gamePool(sel).filter(it=>!it.merged).slice());
   let set=[];
   for(const it of pool){
     if(set.length===5)break;
@@ -741,7 +752,7 @@ function cloudSave(){
   if(!USER||!DB)return;clearTimeout(cloudTimer);
   cloudTimer=setTimeout(()=>{DB.collection('users').doc(USER.uid).set({progress:{items:ST.items,streak:ST.streak,today:ST.today,log:(ST.log||[]).slice(-3500)},progressUpdated:new Date().toISOString()},{merge:true}).catch(()=>{});},2500);
 }
-function enterApp(){lock(false);updateAvatar();if(USER&&maybeShowMistakes())return;TAB='learn';LV=(LQ.trim()||LF!=='all')?'list':'grid';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='learn'));render();}
+function enterApp(){lock(false);updateAvatar();if(USER&&/[?&]paid=1/.test(location.search)&&!isPremium()){openPlans();return;}if(USER&&maybeShowMistakes())return;TAB='learn';LV=(LQ.trim()||LF!=='all')?'list':'grid';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='learn'));render();}
 function firstName(){return (PROFILE&&PROFILE.firstName)||(USER&&USER.displayName||'').split(' ')[0]||'';}
 async function logOut(){if(AUTH){clearTimeout(cloudTimer);await AUTH.signOut();}USER=null;PROFILE=null;try{sessionStorage.removeItem('pwMistakesShown');}catch(e){}updateAvatar();showLogin('You have signed out.');}
 function bootAuth(){
@@ -820,7 +831,8 @@ function maybeShowMistakes(){
   lock(true);
   main.innerHTML=`<div class="panel"><h2 style="font-family:var(--display);margin:0 0 4px">Welcome back${firstName()?', '+esc(firstName()):''}</h2>
    <p class="muted" style="margin-top:0">Before you start, read your last ${ms.length} mistake${ms.length>1?'s':''} and why they happened. Reading them once is the fastest way to stop repeating them.</p>
-   ${ms.map(mistakeCard).join('')}
+   ${(isPremium()?ms:ms.slice(0,3)).map(mistakeCard).join('')}
+   ${!isPremium()&&ms.length>3?`<div class="upsell"><span>🔒 ${ms.length-3} more mistakes are explained in the full app.</span><button class="btn sm" data-plans>Unlock all · ${PRICE}</button></div>`:''}
    <button class="btn" id="readMs" style="width:100%;margin-top:8px">I read my mistakes</button></div>`;
   window.scrollTo(0,0);
   document.getElementById('readMs').onclick=()=>{lock(false);goLearnHome();};
@@ -855,6 +867,8 @@ function avatarHtml(size){
   return `<svg viewBox="0 0 24 24" width="${Math.round(size*0.6)}" height="${Math.round(size*0.6)}" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>`;
 }
 function updateAvatar(){const b=document.getElementById('avatarBtn');if(b)b.innerHTML=avatarHtml(44);}
+let PREV_TAB='learn';
+function toggleProfile(){if(TAB==='profile'){if(PREV_TAB==='learn')goLearnHome();else setTab(PREV_TAB);return;}PREV_TAB=(TAB==='plans'||TAB==='profile')?'learn':TAB;openProfile();}
 function openProfile(){clearLnav();TAB='profile';PV='menu';G=null;keyHandler=null;document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected','false'));renderProfile();window.scrollTo(0,0);}
 function renderProfile(){
   const back=`<button class="btn ghost sm" id="pback" style="margin-bottom:12px">‹ Back to profile</button>`;
@@ -865,11 +879,15 @@ function renderProfile(){
       ${USER?`<button data-pv="info"><span>👤</span>Profile information<i>›</i></button>`:''}
       <button data-pv="today"><span>📈</span>Today's performance<i>›</i></button>
       <button data-pv="month"><span>🗓️</span>Monthly report<i>›</i></button>
-      <button data-pv="mist"><span>⚠️</span>Mistakes, last 7 days<i>›</i></button>
-      ${USER?`<button id="signout" class="danger"><span>↩</span>Sign out<i></i></button>`:(FB_CFG?`<button id="signin"><span>🔑</span>Log in or create an account<i>›</i></button>`:'')}
+      <button data-pv="mist"><span>⚠️</span>Mistakes, last 7 days<i>${isPremium()?'›':'🔒'}</i></button>
+      <button data-plans><span>⭐</span>${isPremium()?'Full access: lifetime':'Unlock full app · '+PRICE}<i>›</i></button>
+      <button id="privacy"><span>🔒</span>Privacy policy<i>›</i></button>
+      ${USER?`<button id="delacc"><span>🗑️</span>Delete my account<i>›</i></button><button id="signout" class="danger"><span>↩</span>Sign out<i></i></button>`:(FB_CFG?`<button id="signin"><span>🔑</span>Log in or create an account<i>›</i></button>`:'')}
      </div>`;
-    main.querySelectorAll('[data-pv]').forEach(b=>b.onclick=()=>{PV=b.dataset.pv;renderProfile();window.scrollTo(0,0);});
+    main.querySelectorAll('[data-pv]').forEach(b=>b.onclick=()=>{if(b.dataset.pv==='mist'&&!isPremium())return openPlans();PV=b.dataset.pv;renderProfile();window.scrollTo(0,0);});
     const so=document.getElementById('signout');if(so)so.onclick=logOut;
+    document.getElementById('privacy').onclick=()=>{location.href='privacy.html';};
+    const da=document.getElementById('delacc');if(da)da.onclick=()=>{PV='delete';renderProfile();window.scrollTo(0,0);};
     const si=document.getElementById('signin');if(si)si.onclick=()=>showLogin();
     return;
   }
@@ -909,6 +927,29 @@ function renderProfile(){
     const pm=document.getElementById('practiseMs');if(pm)pm.onclick=()=>setTab('review');
   }
   if(PV==='info')return renderInfo(back);
+  if(PV==='delete'){
+    main.innerHTML=back+`<div class="panel auth"><h2 class="ptitle">Delete my account</h2>
+     <p>This permanently deletes your account, profile, photo and all your progress and reports. It can't be undone.</p>
+     ${isPremium()?'<p><b>You have lifetime full access.</b> Deleting your account also removes it, and it can\'t be restored.</p>':''}
+     ${pwField('dpw','Enter your password to confirm','current-password')}
+     <label class="fl" for="dtx">Type DELETE to confirm</label><input class="fi" id="dtx" type="text" autocomplete="off" autocapitalize="characters">
+     <div id="dm" class="amsg hidden"></div>
+     <button class="btn" id="dgo" style="width:100%;margin-top:14px;background:var(--bad)">Delete my account permanently</button></div>`;
+    wireEyes();document.getElementById('pback').onclick=()=>{PV='menu';renderProfile();};
+    document.getElementById('dgo').onclick=async()=>{
+      const pw=document.getElementById('dpw').value;if(!pw)return msg('dm','Enter your password.');
+      if(val('dtx').toUpperCase()!=='DELETE')return msg('dm','Type DELETE in the box to confirm.');
+      const b=document.getElementById('dgo');busy(b,true,'Deleting…');
+      try{await USER.reauthenticateWithCredential(firebase.auth.EmailAuthProvider.credential(USER.email,pw));
+        try{await DB.collection('users').doc(USER.uid).delete();}catch(e){}
+        clearTimeout(cloudTimer);await USER.delete();
+        USER=null;PROFILE=null;try{localStorage.removeItem(KEY);sessionStorage.clear();}catch(e){}
+        ST={items:{},streak:0,today:{d:'',n:0},voice:'',rate:0.9,log:[]};updateAvatar();
+        showLogin('Your account and all its data have been deleted.');
+      }catch(err){msg('dm',authErr(err));busy(b,false,'Delete my account permanently');}
+    };
+    return;
+  }
   const pb=document.getElementById('pback');if(pb)pb.onclick=()=>{PV='menu';renderProfile();};
 }
 function renderInfo(back){
@@ -957,7 +998,59 @@ function renderInfo(back){
 function shrinkPhoto(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const S=160,c=document.createElement('canvas');c.width=c.height=S;const s=Math.min(img.width,img.height);
   c.getContext('2d').drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,S,S);res(c.toDataURL('image/jpeg',0.82));};img.onerror=rej;img.src=r.result;};r.onerror=rej;r.readAsDataURL(file);});}
 
-document.getElementById('avatarBtn').onclick=openProfile;
+/* ---------- free tier & full access ---------- */
+const FREE_HEAD=new Set(HEADS.filter((h,i)=>i%5===0).map(h=>h.i));
+function isPremium(){return !!(PROFILE&&PROFILE.premium);}
+function isFreeItem(it){return isPremium()||FREE_HEAD.has(it.h.i);}
+function gamePool(sel){const p=poolFor(sel);return isPremium()?p:p.filter(isFreeItem);}
+const PRICE='CA$25';
+const IN_PLAY_APP=(()=>{try{if(document.referrer.startsWith('android-app://')||/[?&]source=play/.test(location.search))sessionStorage.setItem('pwPlay','1');return sessionStorage.getItem('pwPlay')==='1';}catch(e){return document.referrer.startsWith('android-app://');}})();
+function payLink(){return (window.PAYMENT_LINK||'').trim();}
+function freeNote(){return isPremium()?'':`<div class="upsell"><span>🔓 You're using the free version: 20% of every set.</span><button class="btn sm" data-plans>Unlock all · ${PRICE}</button></div>`;}
+function openPlans(){clearLnav();TAB='plans';G=null;keyHandler=null;document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected','false'));renderPlans();window.scrollTo(0,0);}
+function renderPlans(){
+  if(isPremium()){
+    main.innerHTML=`<div class="panel plan"><div class="pbadge">✓ Full access</div><h2 class="ptitle">You have lifetime access</h2>
+     <p class="muted">Every collocation, every game, your mistakes and all future updates are unlocked on this account.</p>
+     <button class="btn" data-home2 style="width:100%">Go to Home</button></div>`;
+    main.querySelector('[data-home2]').onclick=goLearnHome;return;
+  }
+  const link=IN_PLAY_APP?'':payLink();
+  const paid=/[?&]paid=1/.test(location.search);
+  main.innerHTML=`<div class="panel plan">
+   <div class="pbadge">Lifetime access</div>
+   <h2 class="ptitle">Unlock the full app</h2>
+   <div class="price"><b>${PRICE}</b><span>one-time payment · no subscription</span></div>
+   <ul class="feat">
+    <li>All <b>2,468</b> collocations in Learn, not just 20%</li>
+    <li>Every game with the full list: Pick the partner, Match up, Listen and type</li>
+    <li><b>Mistakes</b> practice and the 7-day mistakes report with explanations</li>
+    <li>Your last 10 mistakes explained each time you log in</li>
+    <li>All future updates included, for life</li>
+   </ul>
+   ${paid?`<div class="amsg ok">Thank you for your payment! Your access is being switched on. This can take a little while. Tap <b>Check my access</b> below to refresh.</div>`:''}
+   ${!USER?`<p class="muted">Create a free account or log in first, so your purchase is saved to your account on every device.</p>
+      ${FB_CFG?`<button class="btn" id="plLogin" style="width:100%">Log in or create an account</button>`:''}`
+    :link?`<a class="btn buy" href="${esc(link)}${link.includes('?')?'&':'?'}client_reference_id=${encodeURIComponent(USER.uid)}&prefilled_email=${encodeURIComponent(USER.email)}" rel="noopener">Buy lifetime access · ${PRICE}</a>
+      <p class="tiny" style="text-align:center">Secure card payment. You pay once, in Canadian dollars.</p>`
+    :`<button class="btn" disabled style="width:100%">${IN_PLAY_APP?'In-app purchase is coming soon':'Payments are coming soon'}</button>`}
+   ${USER?`<div id="plm" class="amsg hidden"></div><button class="btn ghost" id="plCheck" style="width:100%;margin-top:10px">Already paid? Check my access</button>`:''}
+   <button class="lnk" id="plBack" style="margin-top:14px;align-self:center">Maybe later</button></div>`;
+  const lg=document.getElementById('plLogin');if(lg)lg.onclick=()=>showLogin();
+  document.getElementById('plBack').onclick=goLearnHome;
+  const ck=document.getElementById('plCheck');if(ck)ck.onclick=async()=>{busy(ck,true,'Checking…');await refreshProfile();
+    if(isPremium()){renderPlans();}else{msg('plm','Your full access isn\'t active yet. If you just paid, wait a little and check again.');busy(ck,false,'Already paid? Check my access');}};
+}
+async function refreshProfile(){if(!USER||!DB)return;try{const d=await DB.collection('users').doc(USER.uid).get();if(d.exists)PROFILE=Object.assign(PROFILE||{},d.data());}catch(e){}updateAvatar();}
+function lockedCard(list){
+  const hd=list[0].h;
+  return `<div class="card locked"><div class="hd"><span class="hw">${esc(hd.disp)}</span><span class="pos">${hd.pos}</span><span class="lk">🔒</span></div>
+   <div class="pws blur" aria-hidden="true">${list.map(()=>'<span class="pw">•••••</span>').join('')}</div>
+   <button class="btn ghost sm" data-plans style="margin-top:8px">Unlock ${list.length} collocation${list.length>1?'s':''}</button></div>`;
+}
+document.addEventListener('click',e=>{if(e.target.closest('[data-plans]')){e.preventDefault();openPlans();}});
+
+document.getElementById('avatarBtn').onclick=toggleProfile;
 updateAvatar();
 bootAuth();
 </script>

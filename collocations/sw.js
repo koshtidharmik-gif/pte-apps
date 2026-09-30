@@ -1,4 +1,4 @@
-const C='collocations-v5';const CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png'];
+const C='collocations-v7';const CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png'];
 const CACHEABLE=u=>u.origin===location.origin||/fonts\.(googleapis|gstatic)\.com$|cdn\.jsdelivr\.net$/.test(u.hostname);
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(CORE)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim();});
