@@ -1,4 +1,4 @@
-// Firebase web app config for PTE Official Collocations (project: pte-collocation)
+// Firebase web app config for PTE Collocations Coach (project: pte-collocation)
 window.FIREBASE_CONFIG = {
   apiKey: "AIzaSyDjY85ThTE3EJJfAaQffX4-qM4YTw9CocM",
   authDomain: "pte-collocation.firebaseapp.com",
