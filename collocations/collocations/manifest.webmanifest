@@ -1,0 +1,25 @@
+{
+ "name": "PTE Official Collocation",
+ "short_name": "PTE Collocation",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#F6F7FB",
+ "theme_color": "#4338CA",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ],
+ "description": "Learn the Academic Collocation List for PTE with games, audio and progress saved to your account."
+}
