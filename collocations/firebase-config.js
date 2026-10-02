@@ -11,4 +11,4 @@ window.FIREBASE_CONFIG = {
 
 // Stripe Payment Link for lifetime access (CA$25). Paste your link between the quotes, e.g. "https://buy.stripe.com/abc123".
 // Leave it empty to show "Payments are coming soon".
-window.PAYMENT_LINK = "";
+window.VERIFY_URL = "https://pte-purchase-checker.koshtidharmik.workers.dev/";
