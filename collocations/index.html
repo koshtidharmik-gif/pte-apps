@@ -808,7 +808,7 @@ async function afterLogin(u){
 }
 function cloudWrite(){if(!USER||!DB)return Promise.resolve();return DB.collection('users').doc(USER.uid).set({progress:{items:ST.items,streak:ST.streak,today:ST.today,log:(ST.log||[]).slice(-3500)},progressUpdated:new Date().toISOString()},{merge:true}).catch(()=>{});}
 function cloudSave(){if(!USER||!DB)return;clearTimeout(cloudTimer);cloudTimer=setTimeout(cloudWrite,2500);}
-function enterApp(){lock(false);updateAvatar();if(USER&&/[?&]paid=1/.test(location.search)&&!isPremium()){openPlans();return;}if(USER&&maybeShowMistakes())return;TAB='learn';LV=(LQ.trim()||LF!=='all')?'list':'grid';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='learn'));render();}
+function enterApp(){lock(false);updateAvatar();if(typeof autoRestore==='function')autoRestore();if(USER&&/[?&]paid=1/.test(location.search)&&!isPremium()){openPlans();return;}if(USER&&maybeShowMistakes())return;TAB='learn';LV=(LQ.trim()||LF!=='all')?'list':'grid';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab==='learn'));render();}
 function firstName(){return (PROFILE&&PROFILE.firstName)||(USER&&USER.displayName||'').split(' ')[0]||'';}
 async function logOut(note){if(AUTH){if(cloudTimer){clearTimeout(cloudTimer);cloudTimer=null;try{await cloudWrite();}catch(e){}}await AUTH.signOut();}USER=null;PROFILE=null;try{sessionStorage.removeItem('pwMistakesShown');localStorage.removeItem('pwLastActive');}catch(e){}if(typeof clearLnav==='function')clearLnav();updateAvatar();showLogin(typeof note==='string'?note:'You have signed out.');}
 /* auto log-out after 1 hour without use */
@@ -1073,6 +1073,29 @@ function isPremium(){return !!(PROFILE&&PROFILE.premium);}
 function isFreeItem(it){return isPremium()||FREE_HEAD.has(it.h.i);}
 function gamePool(sel){const p=poolFor(sel);return isPremium()?p:p.filter(isFreeItem);}
 const PRICE='CA$25';
+/* ---------- Google Play Billing (in the Play Store app) ---------- */
+const PLAY_SKU='lifetime_access';
+const PLAY_LISTING='https://play.google.com/store/apps/details?id=io.github.koshtidharmik.ptecollocation';
+function verifyUrl(){return (window.VERIFY_URL||'').trim();}
+function playReady(){return IN_PLAY_APP&&!!verifyUrl()&&('getDigitalGoodsService' in window)&&('PaymentRequest' in window);}
+async function playService(){if(!IN_PLAY_APP||!('getDigitalGoodsService' in window))return null;try{return await window.getDigitalGoodsService('https://play.google.com/billing');}catch(e){return null;}}
+async function playPrice(){const s=await playService();if(!s)return null;try{const d=(await s.getDetails([PLAY_SKU]))[0];if(!d)return null;return new Intl.NumberFormat(undefined,{style:'currency',currency:d.price.currency}).format(+d.price.value);}catch(e){return null;}}
+async function verifyPurchase(token){
+  const idt=await USER.getIdToken(true);
+  const r=await fetch(verifyUrl(),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({idToken:idt,purchaseToken:token,productId:PLAY_SKU})});
+  let j={};try{j=await r.json();}catch(e){}
+  if(!r.ok||!j.premium)throw new Error(j.error||'We could not confirm the purchase yet. Tap Restore purchase in a minute.');
+  await refreshProfile();
+}
+async function buyWithPlay(){
+  const req=new PaymentRequest([{supportedMethods:'https://play.google.com/billing',data:{sku:PLAY_SKU}}],{total:{label:'Total',amount:{currency:'CAD',value:'0'}}});
+  const res=await req.show();
+  try{await verifyPurchase(res.details.purchaseToken);await res.complete('success');}
+  catch(e){try{await res.complete('fail');}catch(_){}throw e;}
+}
+async function restorePlay(){const s=await playService();if(!s)return false;const list=await s.listPurchases();const p=(list||[]).find(x=>x.itemId===PLAY_SKU);if(!p)return false;await verifyPurchase(p.purchaseToken);return true;}
+function autoRestore(){if(USER&&!isPremium()&&playReady())restorePlay().then(ok=>{if(ok){updateAvatar();if(TAB==='plans')renderPlans();}}).catch(()=>{});}
+
 const IN_PLAY_APP=(()=>{try{if(document.referrer.startsWith('android-app://')||/[?&]source=play/.test(location.search))sessionStorage.setItem('pwPlay','1');return sessionStorage.getItem('pwPlay')==='1';}catch(e){return document.referrer.startsWith('android-app://');}})();
 function payLink(){return (window.PAYMENT_LINK||'').trim();}
 function freeNote(){return isPremium()?'':`<div class="upsell"><span>🔓 You're using the free version: 20% of every set.</span><button class="btn sm" data-plans>Unlock all · ${PRICE}</button></div>`;}
@@ -1100,15 +1123,26 @@ function renderPlans(){
    ${paid?`<div class="amsg ok">Thank you for your payment! Your access is being switched on. This can take a little while. Tap <b>Check my access</b> below to refresh.</div>`:''}
    ${!USER?`<p class="muted">Create a free account or log in first, so your purchase is saved to your account on every device.</p>
       ${FB_CFG?`<button class="btn" id="plLogin" style="width:100%">Log in or create an account</button>`:''}`
+    :IN_PLAY_APP?(playReady()?`<button class="btn buy" id="playBuy" style="width:100%">Buy lifetime access · <span id="pp">${PRICE}</span></button>
+      <p class="tiny" style="text-align:center">Secure payment through Google Play. You pay once.</p>`
+      :`<button class="btn" disabled style="width:100%">In-app purchase is coming soon</button>`)
     :link?`<a class="btn buy" href="${esc(link)}${link.includes('?')?'&':'?'}client_reference_id=${encodeURIComponent(USER.uid)}&prefilled_email=${encodeURIComponent(USER.email)}" rel="noopener">Buy lifetime access · ${PRICE}</a>
       <p class="tiny" style="text-align:center">Secure card payment. You pay once, in Canadian dollars.</p>`
-    :`<button class="btn" disabled style="width:100%">${IN_PLAY_APP?'In-app purchase is coming soon':'Payments are coming soon'}</button>`}
-   ${USER?`<div id="plm" class="amsg hidden"></div><button class="btn ghost" id="plCheck" style="width:100%;margin-top:10px">Already paid? Check my access</button>`:''}
+    :`<a class="btn buy" href="${PLAY_LISTING}" rel="noopener">Get it on Google Play</a>
+      <p class="tiny" style="text-align:center">Full access is sold in the Android app. Buy once there and it unlocks this account everywhere, including this website.</p>`}
+   ${USER?`<div id="plm" class="amsg hidden"></div><button class="btn ghost" id="plCheck" style="width:100%;margin-top:10px">${IN_PLAY_APP?'Restore purchase':'Already paid? Check my access'}</button>`:''}
    <button class="lnk" id="plBack" style="margin-top:14px;align-self:center">Maybe later</button></div>`;
   const lg=document.getElementById('plLogin');if(lg)lg.onclick=()=>showLogin();
   document.getElementById('plBack').onclick=goLearnHome;
+  const ckLabel=IN_PLAY_APP?'Restore purchase':'Already paid? Check my access';
   const ck=document.getElementById('plCheck');if(ck)ck.onclick=async()=>{busy(ck,true,'Checking…');await refreshProfile();
-    if(isPremium()){renderPlans();}else{msg('plm','Your full access isn\'t active yet. If you just paid, wait a little and check again.');busy(ck,false,'Already paid? Check my access');}};
+    if(!isPremium()&&playReady()){try{await restorePlay();}catch(e){msg('plm',e.message);busy(ck,false,ckLabel);return;}}
+    if(isPremium()){renderPlans();}else{msg('plm',IN_PLAY_APP?'No purchase found on this Google account. If you just bought it, wait a minute and tap Restore purchase again.':'Your full access isn\'t active yet. If you just paid, wait a little and check again.');busy(ck,false,ckLabel);}};
+  const pb=document.getElementById('playBuy');
+  if(pb){playPrice().then(p=>{const el=document.getElementById('pp');if(p&&el)el.textContent=p;});
+    pb.onclick=async()=>{busy(pb,true,'Opening Google Play…');
+      try{await buyWithPlay();if(typeof buddyReact==='function')buddyReact('right');renderPlans();}
+      catch(e){const cancelled=e&&(e.name==='AbortError'||/cancel/i.test(e.message||''));msg('plm',cancelled?'Purchase cancelled. You have not been charged.':(e.message||'Something went wrong. Please try again.'));pb.disabled=false;pb.innerHTML=`Buy lifetime access · <span id="pp">${PRICE}</span>`;}};}
 }
 async function refreshProfile(){if(!USER||!DB)return;try{const d=await DB.collection('users').doc(USER.uid).get();if(d.exists)PROFILE=Object.assign(PROFILE||{},d.data());}catch(e){}updateAvatar();}
 function lockedCard(list){
